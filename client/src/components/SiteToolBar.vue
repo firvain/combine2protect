@@ -6,7 +6,9 @@
       height="60"
       alt="COMBINE2PROTECT logo"
     />
-    <v-toolbar-title>COMBINE2PROTECT</v-toolbar-title>
+    <v-toolbar-title @click="$router.push('/')" class="hoverTitle"
+      >COMBINE2PROTECT</v-toolbar-title
+    >
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn
@@ -24,27 +26,19 @@
 <script>
 export default {
   name: "toolbar",
-  props: {},
+  props: {
+    pages: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
-    return {
-      pages: [
-        { title: "Home", route: "home" },
-        {
-          title: "Species Habitats Ecosystems",
-          route: "specieshabitalsecosystems"
-        },
-        {
-          title: "Conservation Biodiversity Ecosystems",
-          route: "consvbio"
-        },
-        { title: "Protection and Monitoring", route: "promon" },
-        { title: "Gis Platform", route: "webgis" },
-        { title: "Branding and Awards", route: "branding" },
-        { title: "Capacity Building", route: "capacity" },
-        { title: "News", route: "news" }
-      ]
-    };
+    return {};
   }
 };
 </script>
-<style lang="sass" scoped></style>
+<style lang="scss" scoped>
+.hoverTitle {
+  cursor: pointer;
+}
+</style>

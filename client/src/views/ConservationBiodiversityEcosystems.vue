@@ -1,6 +1,5 @@
 <template>
   <div>
-    <SiteToolBar></SiteToolBar>
     <v-navigation-drawer
       fixed
       app
@@ -20,9 +19,13 @@
               >
             </v-list-tile>
           </template>
-          <v-list-tile v-for="(page, i) in pages" :key="i" :to="page.route">
+          <v-list-tile
+            v-for="(subpage, i) in subPages"
+            :key="i"
+            :to="subpage.route"
+          >
             <v-list-tile-content>
-              <v-list-tile-title v-text="page.title"></v-list-tile-title>
+              <v-list-tile-title v-text="subpage.title"></v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
@@ -31,34 +34,25 @@
     <v-content>
       <router-view></router-view>
     </v-content>
-    <TheFooter> </TheFooter>
   </div>
 </template>
 <script>
-import SiteToolBar from "@/components/SiteToolBar.vue";
-import TheFooter from "@/components/TheFooter.vue";
 export default {
   name: "ConservationBiodiversity",
-  components: {
-    SiteToolBar,
-    TheFooter
+  props: {
+    pages: { type: Array, required: true }
   },
+  components: {},
   data() {
-    return {
-      pages: [
-        { title: "Wetland", route: "conservation" },
-        {
-          title: "The South East Panning Region",
-          route: "biodiversity"
-        },
-        { title: "The common Conservation Network", route: "ecosystems" }
-      ]
-    };
+    return {};
   },
   computed: {
     showNav() {
       if (this.$route.path !== "/consvbio") return false;
       return true;
+    },
+    subPages() {
+      return this.pages[2].subpages;
     }
   }
 };

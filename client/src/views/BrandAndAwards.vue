@@ -1,6 +1,5 @@
 <template>
   <div>
-    <SiteToolBar></SiteToolBar>
     <v-navigation-drawer
       fixed
       app
@@ -20,9 +19,13 @@
               >
             </v-list-tile>
           </template>
-          <v-list-tile v-for="(page, i) in pages" :key="i" :to="page.route">
+          <v-list-tile
+            v-for="(subPage, i) in subPages"
+            :key="i"
+            :to="subPage.route"
+          >
             <v-list-tile-content>
-              <v-list-tile-title v-text="page.title"></v-list-tile-title>
+              <v-list-tile-title v-text="subPage.title"></v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
@@ -31,35 +34,25 @@
     <v-content>
       <router-view></router-view>
     </v-content>
-    <TheFooter> </TheFooter>
   </div>
 </template>
 <script>
-import SiteToolBar from "@/components/SiteToolBar.vue";
-import TheFooter from "@/components/TheFooter.vue";
 export default {
   name: "BrandingAndAwards",
-  components: {
-    SiteToolBar,
-    TheFooter
+  components: {},
+  props: {
+    pages: { type: Array, required: true }
   },
   data() {
-    return {
-      pages: [
-        { title: "Branding Sheme Products", route: "bsp" },
-        {
-          title: "Branding Sheme Services",
-          route: "bss"
-        },
-        { title: "Destination of Exellence Award", route: "dea" },
-        { title: "The Green Network", route: "tgn" }
-      ]
-    };
+    return {};
   },
   computed: {
     showNav() {
       if (this.$route.path !== "/branding") return false;
       return true;
+    },
+    subPages() {
+      return this.pages[5].subpages;
     }
   }
 };
