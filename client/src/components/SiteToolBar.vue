@@ -6,7 +6,9 @@
       height="60"
       alt="COMBINE2PROTECT logo"
     />
-    <v-toolbar-title>COMBINE2PROTECT</v-toolbar-title>
+    <v-toolbar-title @click="$router.push('/')" class="hoverTitle"
+      >COMBINE2PROTECT</v-toolbar-title
+    >
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn
@@ -35,4 +37,8 @@ export default {
   }
 };
 </script>
-<style lang="sass" scoped></style>
+<style lang="scss" scoped>
+.hoverTitle {
+  cursor: pointer;
+}
+</style>

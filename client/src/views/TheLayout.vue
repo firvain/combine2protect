@@ -1,8 +1,8 @@
 <template>
   <div>
-    <SiteToolBar :pages="pages"></SiteToolBar>
+    <SiteToolBar :pages="pages" v-if="$route.path !== '/'"></SiteToolBar>
     <router-view :pages="pages"></router-view>
-    <TheFooter></TheFooter>
+    <TheFooter v-if="$route.path !== '/'"></TheFooter>
   </div>
 </template>
 <script>

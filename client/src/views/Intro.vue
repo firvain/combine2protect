@@ -29,7 +29,7 @@ import BottomNav from "@/components/BottomNav.vue";
 // Since v. 1.6.0, you need to include Vueper Slides CSS file for default styles.
 import "vueperslides/dist/vueperslides.css";
 export default {
-  name: "Home",
+  name: "Intro",
   components: {
     BottomNav
   },
