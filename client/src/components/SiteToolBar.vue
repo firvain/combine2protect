@@ -24,26 +24,14 @@
 <script>
 export default {
   name: "toolbar",
-  props: {},
+  props: {
+    pages: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
-    return {
-      pages: [
-        { title: "Home", route: "home" },
-        {
-          title: "Species Habitats Ecosystems",
-          route: "specieshabitalsecosystems"
-        },
-        {
-          title: "Conservation Biodiversity Ecosystems",
-          route: "consvbio"
-        },
-        { title: "Protection and Monitoring", route: "promon" },
-        { title: "Gis Platform", route: "webgis" },
-        { title: "Branding and Awards", route: "branding" },
-        { title: "Capacity Building", route: "capacity" },
-        { title: "News", route: "news" }
-      ]
-    };
+    return {};
   }
 };
 </script>

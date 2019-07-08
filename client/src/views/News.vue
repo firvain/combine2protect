@@ -1,82 +1,71 @@
 <template>
-  <div>
-    <SiteToolBar></SiteToolBar>
-    <v-content>
-      <v-container grid-list-lg fluid>
-        <v-layout row wrap align-start justify-center>
-          <v-flex d-flex xs8>
-            <v-layout row wrap>
-              <v-flex d-flex xs12>
-                <v-layout row wrap>
-                  <v-card>
-                    <v-card-title
-                      primary-title
-                      class="primary white--text title "
-                    >
-                      {{ news[page - 1].title }}
-                    </v-card-title>
-                    <v-card-title
-                      primary-title
-                      class="subtitle font-weight-medium "
-                    >
-                      {{ news[page - 1].date }}
-                    </v-card-title>
-                    <v-card-text>
-                      <div class="full">
-                        {{ news[page - 1].text }}
-                      </div>
-                    </v-card-text>
-                  </v-card>
-                </v-layout>
-              </v-flex>
-              <v-flex d-flex xs12>
-                <div class="text-xs-center">
-                  <v-pagination
-                    v-model="page"
-                    :length="news.length"
-                  ></v-pagination>
-                </div>
-              </v-flex>
-            </v-layout>
-          </v-flex>
-          <v-flex d-flex xs4 pt-0>
-            <v-card>
-              <v-toolbar color="cyan" dark>
-                <v-toolbar-title>Latest News</v-toolbar-title>
-                <v-spacer></v-spacer>
-              </v-toolbar>
+  <v-content>
+    <v-container grid-list-lg fluid>
+      <v-layout row wrap align-start justify-center>
+        <v-flex d-flex xs8>
+          <v-layout row wrap>
+            <v-flex d-flex xs12>
+              <v-layout row wrap>
+                <v-card>
+                  <v-card-title
+                    primary-title
+                    class="primary white--text title "
+                  >
+                    {{ news[page - 1].title }}
+                  </v-card-title>
+                  <v-card-title
+                    primary-title
+                    class="subtitle font-weight-medium "
+                  >
+                    {{ news[page - 1].date }}
+                  </v-card-title>
+                  <v-card-text>
+                    <div class="full">
+                      {{ news[page - 1].text }}
+                    </div>
+                  </v-card-text>
+                </v-card>
+              </v-layout>
+            </v-flex>
+            <v-flex d-flex xs12>
+              <div class="text-xs-center">
+                <v-pagination
+                  v-model="page"
+                  :length="news.length"
+                ></v-pagination>
+              </div>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex d-flex xs4 pt-0>
+          <v-card>
+            <v-toolbar color="cyan" dark>
+              <v-toolbar-title>Latest News</v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
 
-              <v-list>
-                <template v-for="(item, index) in latest">
-                  <v-list-tile :key="index">
-                    <v-list-tile-avatar>
-                      <img :src="item.img" />
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                      <v-list-tile-title
-                        v-html="item.title"
-                      ></v-list-tile-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                </template>
-              </v-list>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
-    <TheFooter> </TheFooter>
-  </div>
+            <v-list>
+              <template v-for="(item, index) in latest">
+                <v-list-tile :key="index">
+                  <v-list-tile-avatar>
+                    <img :src="item.img" />
+                  </v-list-tile-avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </template>
+            </v-list>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-content>
 </template>
 <script>
-import SiteToolBar from "@/components/SiteToolBar.vue";
-import TheFooter from "@/components/TheFooter.vue";
 export default {
   name: "news",
-  components: {
-    SiteToolBar,
-    TheFooter
-  },
+  components: {},
   data() {
     return {
       page: 1,

@@ -1,59 +1,49 @@
 <template>
-  <div>
-    <SiteToolBar></SiteToolBar>
-    <v-content>
-      <v-container grid-list-xl fluid>
-        <v-layout row wrap jalign-center justify-center fill-height>
-          <v-flex d-flex xs12>
-            <v-card>
-              <v-card-text>
-                <read-more
-                  more-str="read more"
-                  :text="lorem"
-                  link="#"
-                  less-str="read less"
-                  :max-chars="1200"
-                  class="full"
-                ></read-more>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-          <v-flex d-flex v-for="msg in msgs" :key="msg.title" xs12>
-            <v-layout row wrap>
-              <v-flex d-flex xs12 class="text-xs-center accent ">
-                <div class="title font-weight-medium white--text">
-                  {{ msg.title }}
-                </div>
-              </v-flex>
-              <v-flex d-flex xs12>
-                <read-more
-                  more-str="read more"
-                  :text="msg.text"
-                  link="#"
-                  less-str="read less"
-                  :max-chars="800"
-                  class="full"
-                ></read-more>
-              </v-flex>
-              <v-flex d-flex xs12><v-divider></v-divider> </v-flex>
-            </v-layout>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
-    <TheFooter> </TheFooter>
-  </div>
+  <v-content>
+    <v-container grid-list-xl fluid>
+      <v-layout row wrap jalign-center justify-center fill-height>
+        <v-flex d-flex xs12>
+          <v-card>
+            <v-card-text>
+              <read-more
+                more-str="read more"
+                :text="lorem"
+                link="#"
+                less-str="read less"
+                :max-chars="1200"
+                class="full"
+              ></read-more>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+        <v-flex d-flex v-for="msg in msgs" :key="msg.title" xs12>
+          <v-layout row wrap>
+            <v-flex d-flex xs12 class="text-xs-center accent ">
+              <div class="title font-weight-medium white--text">
+                {{ msg.title }}
+              </div>
+            </v-flex>
+            <v-flex d-flex xs12>
+              <read-more
+                more-str="read more"
+                :text="msg.text"
+                link="#"
+                less-str="read less"
+                :max-chars="800"
+                class="full"
+              ></read-more>
+            </v-flex>
+            <v-flex d-flex xs12><v-divider></v-divider> </v-flex>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-content>
 </template>
 <script>
-import SiteToolBar from "@/components/SiteToolBar.vue";
-import TheFooter from "@/components/TheFooter.vue";
-
 export default {
   name: "protectionmonitoring",
-  components: {
-    SiteToolBar,
-    TheFooter
-  },
+  components: {},
   data() {
     return {
       lorem: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Facilisi cras fermentum odio eu feugiat. Adipiscing at in tellus integer. Magna sit amet purus gravida quis blandit turpis cursus. Sit amet facilisis magna etiam tempor. Lacus viverra vitae congue eu consequat. Egestas dui id ornare arcu odio ut sem nulla. Id eu nisl nunc mi. Varius quam quisque id diam vel quam elementum pulvinar etiam. Egestas sed sed risus pretium quam. Vitae elementum curabitur vitae nunc. Sed arcu non odio euismod lacinia at quis risus.
