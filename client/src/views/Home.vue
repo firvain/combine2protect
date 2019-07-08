@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-navigation-drawer value="true" fixed app clipped stateless>
-      <v-list>
+      <v-list class="pt-0">
         <v-list-group prepend-icon="mdi-home" value="true" no-action>
           <template v-slot:activator>
             <v-list-tile>
@@ -40,11 +40,11 @@
     <SiteToolBar></SiteToolBar>
 
     <v-content>
-      <v-container fluid>
+      <v-container fluid grid-list-lg>
         <v-layout row wrap align-start justify-center fill-height>
           <v-flex xs10>
             <v-flex xs12 class="text-xs-center">
-              <div class="display-2">Project Information</div>
+              <div class="headline font-weight-medium">Project Information</div>
             </v-flex>
             <v-flex xs12 class="full">
               <read-more
@@ -57,7 +57,7 @@
             </v-flex>
 
             <v-flex xs12 class="text-xs-center full">
-              <div class="display-2">Objectives</div></v-flex
+              <div class="headline font-weight-medium">Objectives</div></v-flex
             >
             <v-flex xs12 class="full">
               <read-more
@@ -69,7 +69,7 @@
               ></read-more>
             </v-flex>
             <v-flex xs12 class="text-xs-center full">
-              <div class="display-2">Partnership</div></v-flex
+              <div class="headline font-weight-medium">Partnership</div></v-flex
             >
             <v-flex xs12 class="full">
               <read-more
@@ -104,7 +104,10 @@ export default {
   data() {
     return {
       pages: [
-        { title: "Species Habitats Ecosystems", route: "specieshabitals" },
+        {
+          title: "Species Habitats Ecosystems",
+          route: "specieshabitalsecosystems"
+        },
         {
           title: "Conservation Biodiversity Ecosystems",
           route: "consvbio"
@@ -120,11 +123,7 @@ export default {
       msg2: "Lorem ipsum dolor sit amet"
     };
   },
-  methods: {
-    navigateToPage(e) {
-      alert(e);
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss" scoped>

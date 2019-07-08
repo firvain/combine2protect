@@ -21,16 +21,15 @@ export default new Router({
         import(/* webpackChunkName: "HomeContent" */ "./views/Home.vue")
     },
     {
-      path: "/specieshabitals",
+      path: "/specieshabitalsecosystems",
       name: "specieshabitals",
       component: () =>
         import(
-          /* webpackChunkName: "SpeciesHabitats" */ "./views/SpeciesHabitats.vue"
+          /* webpackChunkName: "SpeciesHabitatsEcosystems" */ "./views/SpeciesHabitatsEcosystems.vue"
         )
     },
     {
       path: "/consvbio",
-      name: "consvbio",
       component: () =>
         import(
           /* webpackChunkName: "ConservationBiodiversityEcosystems" */ "./views/ConservationBiodiversityEcosystems.vue"
@@ -87,7 +86,6 @@ export default new Router({
     },
     {
       path: "/branding",
-      name: "branding",
       component: () =>
         import(/* webpackChunkName: "branding" */ "./views/BrandAndAwards.vue"),
       children: [
@@ -132,6 +130,18 @@ export default new Router({
             )
         }
       ]
+    },
+    {
+      path: "/capacity",
+      name: "capacity",
+      component: () =>
+        import(/* webpackChunkName: "capacity" */ "./views/Capacity.vue")
+    },
+    {
+      path: "/news",
+      name: "news",
+      component: () =>
+        import(/* webpackChunkName: "capacity" */ "./views/News.vue")
     }
   ]
 });

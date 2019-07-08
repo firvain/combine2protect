@@ -3,9 +3,9 @@
     <v-layout row wrap align-start justify-center>
       <v-flex xs12>
         <v-card elevetion="0">
-          <v-card-title primary-title>
+          <v-card-text primary-title>
             <div class="full">{{ cardText }}</div>
-          </v-card-title>
+          </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12>
@@ -75,3 +75,9 @@ Id consectetur purus ut faucibus. Sed odio morbi quis commodo odio. Ipsum dolor 
   }
 };
 </script>
+<style lang="scss" scoped>
+.full {
+  text-align: justify;
+  text-justify: inter-word;
+}
+</style>

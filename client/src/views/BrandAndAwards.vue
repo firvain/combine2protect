@@ -9,7 +9,7 @@
       width="400"
       :value="showNav"
     >
-      <v-list>
+      <v-list class="pt-0">
         <v-list-group value="true" no-action>
           <template v-slot:activator>
             <v-list-tile>

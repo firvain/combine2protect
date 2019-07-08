@@ -9,7 +9,13 @@
     <v-toolbar-title>COMBINE2PROTECT</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <v-btn flat v-for="page in pages" :key="page.title" :to="page.route">
+      <v-btn
+        flat
+        small
+        v-for="page in pages"
+        :key="page.title"
+        :to="page.route"
+      >
         {{ page.title }}
       </v-btn>
     </v-toolbar-items>
@@ -23,7 +29,10 @@ export default {
     return {
       pages: [
         { title: "Home", route: "home" },
-        { title: "Species Habitats Ecosystems", route: "specieshabitals" },
+        {
+          title: "Species Habitats Ecosystems",
+          route: "specieshabitalsecosystems"
+        },
         {
           title: "Conservation Biodiversity Ecosystems",
           route: "consvbio"
