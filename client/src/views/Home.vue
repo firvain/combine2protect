@@ -20,20 +20,19 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
-
-        <v-list-tile>
+        <v-list-tile href="#">
           <v-list-tile-content>
             <v-list-tile-title>Project Information</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile>
+        <v-list-tile href="#objectives">
           <v-list-tile-content>
             <v-list-tile-title>Objectives</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile>
+        <v-list-tile href="#partnership">
           <v-list-tile-content>
             <v-list-tile-title>Partnership</v-list-tile-title>
           </v-list-tile-content>
@@ -45,7 +44,7 @@
       <v-container fluid grid-list-lg>
         <v-layout row wrap align-start justify-center fill-height>
           <v-flex xs10>
-            <v-flex xs12 class="text-xs-center">
+            <v-flex xs12 class="text-xs-center" id="projectInfo">
               <div class="headline font-weight-medium">Project Information</div>
             </v-flex>
             <v-flex xs12 class="full">
@@ -58,7 +57,7 @@
               ></read-more>
             </v-flex>
 
-            <v-flex xs12 class="text-xs-center full">
+            <v-flex xs12 class="text-xs-center full" id="objectives">
               <div class="headline font-weight-medium">Objectives</div></v-flex
             >
             <v-flex xs12 class="full">
@@ -70,7 +69,7 @@
                 :max-chars="400"
               ></read-more>
             </v-flex>
-            <v-flex xs12 class="text-xs-center full">
+            <v-flex xs12 class="text-xs-center full" id="partnership">
               <div class="headline font-weight-medium">Partnership</div></v-flex
             >
             <v-flex xs12 class="full">
