@@ -10,49 +10,61 @@
       </v-flex>
       <v-flex xs12>
         <v-container fluid
-          ><v-layout wrow wrap align-start justify-center fill-height>
-            <v-flex xs3>
-              <v-card>
+          ><v-layout row wrap align-center justify-center>
+            <v-flex xs12 md3>
+              <v-card height="300">
                 <v-img
                   src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                  aspect-ratio="2.75"
+                  height="250px"
                 ></v-img>
-                <v-card-title primary-title>
-                  <div>Branding Sheme Products</div>
-                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat to="/BSP"
+                    >Branding Sheme Products</v-btn
+                  >
+                </v-card-actions>
               </v-card>
             </v-flex>
-            <v-flex xs3>
-              <v-card>
+            <v-flex xs12 md3>
+              <v-card height="300">
                 <v-img
                   src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                  aspect-ratio="2.75"
+                  height="250px"
                 ></v-img>
-                <v-card-title primary-title>
-                  <div>Branding Sheme Services</div>
-                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat to="/BSS"
+                    >Branding Sheme Services</v-btn
+                  >
+                </v-card-actions>
               </v-card>
             </v-flex>
-            <v-flex xs3>
-              <v-card>
+            <v-flex xs12 md3>
+              <v-card height="300">
                 <v-img
                   src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                  aspect-ratio="2.75"
+                  height="250px"
                 ></v-img>
-                <v-card-title primary-title>
-                  <div>Destination of Exellence Award</div>
-                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat to="/DEA"
+                    >Destination of Exellence Award</v-btn
+                  >
+                </v-card-actions>
               </v-card>
             </v-flex>
-            <v-flex xs3>
-              <v-card>
+            <v-flex xs12 md3>
+              <v-card height="300">
                 <v-img
                   src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                  aspect-ratio="2.75"
+                  height="250px"
                 ></v-img>
-                <v-card-title primary-title>
-                  <div>The Green Network</div>
-                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat to="/TGN"
+                    >The Green Network</v-btn
+                  >
+                </v-card-actions>
               </v-card>
             </v-flex>
           </v-layout>

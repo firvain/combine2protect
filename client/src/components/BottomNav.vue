@@ -35,17 +35,6 @@
       </v-layout>
     </v-footer>
   </v-card>
-  <!-- <v-toolbar color="primary" dark fixed app v-show="show">
-   <v-toolbar-side-icon
-      @click.stop="closeSidebar"
-      v-show="showSideBarBtn"
-    ></v-toolbar-side-icon>
-        <img
-      src="https://via.placeholder.com/60"
-      width="60"
-      height="60"
-      alt="COMBINE2PROTECT logo" -->
-  <!-- /> -->
 </template>
 <script>
 export default {

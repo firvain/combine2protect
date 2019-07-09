@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer value="true" fixed app clipped stateless>
+    <v-navigation-drawer value="true" fixed app clipped stateless width="400">
       <v-list class="pt-0">
         <v-list-group prepend-icon="mdi-home" value="true" no-action>
           <template v-slot:activator>

@@ -11,37 +11,44 @@
       <v-flex xs12>
         <v-container fluid
           ><v-layout wrow wrap align-start justify-center fill-height>
-            <v-flex xs4>
-              <v-card>
+            <v-flex xs12 md4>
+              <v-card height="300px">
                 <v-img
                   src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                  aspect-ratio="2.75"
+                  height="250px"
                 ></v-img>
-                <v-card-title primary-title>
-                  <div>Wetland</div>
-                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat to="/conservation">Wetland</v-btn>
+                </v-card-actions>
               </v-card>
             </v-flex>
-            <v-flex xs4>
-              <v-card>
+            <v-flex xs12 md4>
+              <v-card height="300">
                 <v-img
                   src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                  aspect-ratio="2.75"
+                  height="250px"
                 ></v-img>
-                <v-card-title primary-title>
-                  <div>The South East Panning Region</div>
-                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat to="/biodiversity"
+                    >The South East Panning Region</v-btn
+                  >
+                </v-card-actions>
               </v-card>
             </v-flex>
-            <v-flex xs4>
+            <v-flex xs12 md4>
               <v-card>
                 <v-img
                   src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                  aspect-ratio="2.75"
+                  height="250px"
                 ></v-img>
-                <v-card-title primary-title>
-                  <div>The common Conservation Network</div>
-                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat to="/ecosystems"
+                    >The common Conservation Network</v-btn
+                  >
+                </v-card-actions>
               </v-card>
             </v-flex>
           </v-layout></v-container

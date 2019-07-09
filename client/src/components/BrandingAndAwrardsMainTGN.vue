@@ -1,52 +1,65 @@
 <template>
-  <v-container grid-list-xl>
+  <v-container grid-list-xl fill-height>
     <v-layout row wrap align-center justify-center fill-height>
-      <v-flex xs12>
-        <v-card>
-          <v-img
-            :height="cardHeight"
-            src="https://via.placeholder.com/600/?text=The Green Network"
-          ></v-img>
+      <v-flex d-flex xs12 text-xs-center headline>
+        Green Check Quiz
+      </v-flex>
+      <v-flex d-flex xs12> <v-divider></v-divider></v-flex>
+      <v-flex xs8 d-flex>
+        <v-card flat>
+          <v-form
+            @submit.prevent="checkAnswers"
+            id="check-answers-form"
+            ref="myForm"
+          >
+            <v-flex
+              d-flex
+              xs12
+              v-for="(question, idx) in questions"
+              :key="idx"
+              pa-0
+            >
+              <v-layout row wrap align-center>
+                <v-flex x12 md4 title text-xs-center pa-0>
+                  {{ question.text }}
+                </v-flex>
+                <v-flex xs12 md8 pa-0>
+                  <v-radio-group
+                    row
+                    v-model="question.choosen"
+                    :disabled="disableSubmit"
+                  >
+                    <v-radio
+                      v-for="n in 10"
+                      :key="n"
+                      :value="n"
+                      :label="n.toString()"
+                    ></v-radio>
+                  </v-radio-group>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-form>
+          <v-card-title
+            primary-title
+            class="title white--text"
+            :class="[{ success: score === 1 }, 'error']"
+            v-show="showresults"
+          >
+            <v-spacer></v-spacer>
+            Score: {{ (score / 10) * 100 }} %</v-card-title
+          >
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn flat @click="makeVisibleReports">Show more</v-btn>
+            <v-btn
+              type="submit"
+              color="primary"
+              form="check-answers-form"
+              :disabled="disableSubmit"
+              >Submit</v-btn
+            >
           </v-card-actions>
         </v-card>
-      </v-flex>
-      <v-flex xs12 v-show="showReports">
-        <v-container fluid>
-          <v-layout row wrap>
-            <v-flex xs6>
-              <v-container fluid pa-0>
-                <v-layout row wrap fill-height>
-                  <v-flex xs12>
-                    <div class="full">
-                      {{ text }}
-                    </div>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-btn
-                      v-for="(link, idx) in links"
-                      :key="idx"
-                      color="primary"
-                      :href="link.ref"
-                      target="_blank"
-                      flat
-                      >{{ link.name }}</v-btn
-                    >
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </v-flex>
-            <v-flex xs6>
-              <v-card>
-                <v-img
-                  src="https://via.placeholder.com/240x180/0000FF/808080/?text=BannerGreenCheck"
-                />
-              </v-card>
-            </v-flex>
-          </v-layout>
-        </v-container>
       </v-flex>
     </v-layout>
   </v-container>
@@ -56,35 +69,61 @@ export default {
   name: "TGN",
   data() {
     return {
-      showReports: false,
-      text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dolor morbi non arcu risus. Etiam tempor orci eu lobortis elementum nibh tellus. Amet nulla facilisi morbi tempus iaculis urna id volutpat. Quam adipiscing vitae proin sagittis nisl. Amet volutpat consequat mauris nunc congue nisi vitae. Duis ultricies lacus sed turpis tincidunt id aliquet risus feugiat. Ligula ullamcorper malesuada proin libero nunc consequat. Consequat ac felis donec et odio pellentesque diam volutpat commodo. Congue eu consequat ac felis. Amet facilisis magna etiam tempor orci eu. Et netus et malesuada fames ac. Euismod lacinia at quis risus sed vulputate odio ut enim. In cursus turpis massa tincidunt dui ut ornare lectus. A pellentesque sit amet porttitor eget dolor. Senectus et netus et malesuada fames. Sapien faucibus et molestie ac feugiat sed lectus vestibulum. Sed elementum tempus egestas sed sed. Mauris pharetra et ultrices neque ornare aenean euismod. Consequat interdum varius sit amet mattis vulputate. Cursus turpis massa tincidunt dui. Sollicitudin aliquam ultrices sagittis orci a scelerisque purus semper eget. Scelerisque in dictum non consectetur a erat nam. Pharetra pharetra massa massa ultricies mi. Massa tincidunt nunc pulvinar sapien et ligula ullamcorper. Morbi blandit cursus risus at. Id faucibus nisl tincidunt eget. Mi quis hendrerit dolor magna. Eget arcu dictum varius duis. Aliquam eleifend mi in nulla. Cursus turpis massa tincidunt dui ut ornare lectus sit amet. Vitae tempus quam pellentesque nec nam aliquam. Placerat duis ultricies lacus sed turpis tincidunt. Condimentum mattis pellentesque id nibh. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc sed. Viverra suspendisse potenti nullam ac tortor vitae. Mattis nunc sed blandit libero volutpat sed cras ornare. Malesuada fames ac turpis egestas. Et ultrices neque ornare aenean euismod elementum nisi. Egestas sed sed risus pretium quam vulputate. Eget nunc scelerisque viverra mauris. Nisi vitae suscipit tellus mauris. Sagittis nisl rhoncus mattis rhoncus urna neque viverra. A diam sollicitudin tempor id eu nisl nunc. Nisl nisi scelerisque eu ultrices vitae auctor eu augue ut. Felis bibendum ut tristique et egestas quis ipsum. Magna eget est lorem ipsum dolor sit amet. Feugiat pretium nibh ipsum consequat nisl vel. Faucibus pulvinar elementum integer enim neque volutpat ac. Sit amet dictum sit amet justo donec enim diam.`,
-      links: [
+      score: 0,
+      questions: [
         {
-          name: "A Link",
-          ref:
-            "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
+          text: "Question 1",
+          answer: 8,
+          choosen: 1
         },
         {
-          name: "A Link",
-          ref:
-            "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
+          text: "Question 2",
+          answer: 8,
+          choosen: 1
         },
         {
-          name: "A Link",
-          ref:
-            "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
+          text: "Question 3",
+          answer: 8,
+          choosen: 1
         },
         {
-          name: "A Link",
-          ref:
-            "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
+          text: "Question 4",
+          answer: 8,
+          choosen: 1
         },
         {
-          name: "A Link",
-          ref:
-            "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
+          text: "Question 5",
+          answer: 8,
+          choosen: 1
+        },
+        {
+          text: "Question 6",
+          answer: 8,
+          choosen: 1
+        },
+        {
+          text: "Question 7",
+          answer: 8,
+          choosen: 1
+        },
+        {
+          text: "Question 8",
+          answer: 8,
+          choosen: 1
+        },
+        {
+          text: "Question 9",
+          answer: 8,
+          choosen: 1
+        },
+        {
+          text: "Question 10",
+          answer: 8,
+          choosen: 1
         }
-      ]
+      ],
+      showresults: false,
+      disableSubmit: false
     };
   },
   computed: {
@@ -93,9 +132,14 @@ export default {
     }
   },
   methods: {
-    makeVisibleReports() {
-      this.showReports = true;
-      this.$vuetify.goTo(window.innerHeight);
+    checkAnswers() {
+      // const result = this.questions.every(e => e.choosen === e.answer);
+      // this.getScore();
+      this.questions.forEach(e => {
+        if (e.choosen === e.answer) ++this.score;
+      });
+      this.showresults = true;
+      this.disableSubmit = true;
     }
   }
 };
