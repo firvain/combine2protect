@@ -1,7 +1,7 @@
 <template>
   <v-content>
-    <v-container grid-list-xl fluid>
-      <v-layout row wrap align-center justify-center fill-height>
+    <v-container grid-list-xl fluid fill-height>
+      <v-layout row wrap align-center justify-center>
         <v-flex d-flex xs12>
           <v-card>
             <v-card-text>
@@ -16,125 +16,133 @@
             </v-card-text>
           </v-card>
         </v-flex>
-        <v-flex xs12 d-flex class="text-xs-center display-2">
-          <div>Workshops</div>
-        </v-flex>
-        <v-flex d-flex xs12 v-for="workshop in workshops" :key="workshop.title">
-          <v-layout row wrap>
-            <v-flex d-flex xs12>
-              <v-layout row wrap>
-                <v-flex d-flex xs12 class="text-xs-center headline accent">
-                  <div class="white--text">{{ workshop.title }}</div>
-                </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-flex d-flex xs4 class="full">
-              <div>{{ workshop.text }}</div>
-            </v-flex>
-            <v-flex d-flex xs4>
-              <v-img height="120" width="120" contain :src="workshop.img">
-              </v-img>
-            </v-flex>
-            <v-flex d-flex xs4>
-              <v-layout row wrap>
-                <v-flex xs4 v-for="i in 5" :key="i">
-                  <v-btn
-                    color="primary"
-                    flat
-                    :href="workshop.link"
-                    target="_blank"
-                    >Link</v-btn
-                  >
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-        </v-flex>
+        <v-layout row wrap>
+          <v-flex
+            xs12
+            d-flex
+            class="text-xs-center headline font-weight-medium"
+          >
+            <div>Workshops</div>
+          </v-flex>
+          <v-flex
+            d-flex
+            xs12
+            v-for="workshop in workshops"
+            :key="workshop.title"
+          >
+            <v-layout row wrap>
+              <v-flex d-flex xs12 class="text-xs-center title">
+                <div>{{ workshop.title }}</div>
+              </v-flex>
+              <v-flex d-flex xs12 md4 class="full">
+                <div>{{ workshop.text }}</div>
+              </v-flex>
+              <v-flex d-flex xs12 md4>
+                <v-img max-height="250" contain :src="workshop.img"> </v-img>
+              </v-flex>
+              <v-flex d-flex xs12 md4>
+                <v-layout row wrap>
+                  <v-flex xs4 v-for="i in 6" :key="i">
+                    <v-btn
+                      color="primary"
+                      flat
+                      :href="workshop.link"
+                      target="_blank"
+                      >Link</v-btn
+                    >
+                  </v-flex>
+                </v-layout>
+              </v-flex>
+              <v-flex xs12 d-flex>
+                <b class="hr"></b>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+        </v-layout>
+
         <v-flex xs12 d-flex>
           <v-divider></v-divider>
-        </v-flex>
-        <v-flex xs12 d-flex class="text-xs-center display-2"
-          ><div>Training Seminars</div>
         </v-flex>
 
-        <v-flex
-          d-flex
-          xs12
-          v-for="(seminar, idx) in trainingSeminars"
-          :key="idx"
-        >
-          <v-layout row wrap>
-            <v-flex d-flex xs12>
-              <v-layout row wrap>
-                <v-flex d-flex xs12 class="text-xs-center headline accent">
-                  <div class="white--text">{{ seminar.title }}</div>
-                </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-flex d-flex xs4 class="full">
-              <div>{{ seminar.text }}</div>
-            </v-flex>
-            <v-flex d-flex xs4>
-              <v-img height="120" width="120" contain :src="seminar.img">
-              </v-img>
-            </v-flex>
-            <v-flex d-flex xs4>
-              <v-layout row wrap>
-                <v-flex xs4 v-for="i in 5" :key="i">
-                  <v-btn
-                    color="primary"
-                    flat
-                    :href="seminar.link"
-                    target="_blank"
-                    >Link</v-btn
-                  >
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-        </v-flex>
+        <v-layout row wrap>
+          <v-flex
+            xs12
+            d-flex
+            class="text-xs-center headline font-weight-medium"
+          >
+            <div>Seminars</div>
+          </v-flex>
+          <v-flex d-flex xs12 v-for="seminar in seminars" :key="seminar.title">
+            <v-layout row wrap>
+              <v-flex d-flex xs12 class="text-xs-center title">
+                <div>{{ seminar.title }}</div>
+              </v-flex>
+              <v-flex d-flex xs12 md4 class="full">
+                <div>{{ seminar.text }}</div>
+              </v-flex>
+              <v-flex d-flex xs12 md4>
+                <v-img max-height="250" contain :src="seminar.img"> </v-img>
+              </v-flex>
+              <v-flex d-flex xs12 md4>
+                <v-layout row wrap>
+                  <v-flex xs4 v-for="i in 6" :key="i">
+                    <v-btn
+                      color="primary"
+                      flat
+                      :href="seminar.link"
+                      target="_blank"
+                      >Link</v-btn
+                    >
+                  </v-flex>
+                </v-layout>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+        </v-layout>
+
         <v-flex xs12 d-flex>
           <v-divider></v-divider>
         </v-flex>
-        <v-flex xs12 d-flex class="text-xs-center display-2"
-          ><div>Experience Exchange</div>
-        </v-flex>
-        <v-flex
-          d-flex
-          xs12
-          v-for="experience in experiences"
-          :key="experience.title"
-        >
-          <v-layout row wrap>
-            <v-flex d-flex xs12>
-              <v-layout row wrap>
-                <v-flex d-flex xs12 class="text-xs-center headline accent">
-                  <div class="white--text">{{ experience.title }}</div>
-                </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-flex d-flex xs4 class="full">
-              <div>{{ experience.text }}</div>
-            </v-flex>
-            <v-flex d-flex xs4>
-              <v-img height="120" width="120" contain :src="experience.img">
-              </v-img>
-            </v-flex>
-            <v-flex d-flex xs4>
-              <v-layout row wrap>
-                <v-flex xs4 v-for="i in 5" :key="i">
-                  <v-btn
-                    color="primary"
-                    flat
-                    :href="experience.link"
-                    target="_blank"
-                    >Link</v-btn
-                  >
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-        </v-flex>
+        <v-layout row wrap>
+          <v-flex
+            xs12
+            d-flex
+            class="text-xs-center headline font-weight-medium"
+          >
+            <div>Experience Exchange</div>
+          </v-flex>
+          <v-flex
+            d-flex
+            xs12
+            v-for="experience in experiences"
+            :key="experience.title"
+          >
+            <v-layout row wrap>
+              <v-flex d-flex xs12 class="text-xs-center title">
+                <div>{{ experience.title }}</div>
+              </v-flex>
+              <v-flex d-flex xs12 md4 class="full">
+                <div>{{ experience.text }}</div>
+              </v-flex>
+              <v-flex d-flex xs12 md4>
+                <v-img max-height="250" contain :src="experience.img"> </v-img>
+              </v-flex>
+              <v-flex d-flex xs12 md4>
+                <v-layout row wrap>
+                  <v-flex xs4 v-for="i in 6" :key="i">
+                    <v-btn
+                      color="primary"
+                      flat
+                      :href="experience.link"
+                      target="_blank"
+                      >Link</v-btn
+                    >
+                  </v-flex>
+                </v-layout>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+        </v-layout>
       </v-layout>
     </v-container>
   </v-content>
@@ -176,7 +184,7 @@ Non consectetur a erat nam at lectus urna duis convallis. Tincidunt tortor aliqu
             "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
         }
       ],
-      trainingSeminars: [
+      seminars: [
         {
           title: "Training Seminar 1",
           text: `quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci sagittis eu volutpat odio facilisis mauris sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec et`,
@@ -204,7 +212,7 @@ Non consectetur a erat nam at lectus urna duis convallis. Tincidunt tortor aliqu
       ],
       experiences: [
         {
-          title: "Training Seminar 1",
+          title: "Experience 1",
           text: `quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci sagittis eu volutpat odio facilisis mauris sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec et`,
           img:
             "https://res.cloudinary.com/firvain/image/upload/c_thumb,w_200,g_face/v1562350962/combine2protect/placeimg_640_480_nature2.jpg",
@@ -212,7 +220,7 @@ Non consectetur a erat nam at lectus urna duis convallis. Tincidunt tortor aliqu
             "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
         },
         {
-          title: "Training Seminar 2",
+          title: "Experience 2",
           text: `quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci sagittis eu volutpat odio facilisis mauris sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec et`,
           img:
             "https://res.cloudinary.com/firvain/image/upload/c_thumb,w_200,g_face/v1562350962/combine2protect/placeimg_640_480_nature2.jpg",
@@ -220,7 +228,7 @@ Non consectetur a erat nam at lectus urna duis convallis. Tincidunt tortor aliqu
             "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
         },
         {
-          title: "Training Seminar 3",
+          title: "Experience 3",
           text: `quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci sagittis eu volutpat odio facilisis mauris sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec et`,
           img:
             "https://res.cloudinary.com/firvain/image/upload/c_thumb,w_200,g_face/v1562350962/combine2protect/placeimg_640_480_nature2.jpg",
@@ -233,6 +241,8 @@ Non consectetur a erat nam at lectus urna duis convallis. Tincidunt tortor aliqu
 };
 </script>
 <style lang="scss" scoped>
+$bg: #10111f;
+$barsize: 15px;
 .full {
   text-align: justify;
   text-justify: inter-word;

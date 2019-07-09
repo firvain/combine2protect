@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xl>
+  <v-container grid-list-lg>
     <v-layout row wrap align-center justify-center fill-height>
       <v-flex xs12>
         <v-card>
@@ -26,7 +26,7 @@
                 {{ report.title }}
               </div>
             </v-flex>
-            <v-flex xs8 v-if="report.summary">
+            <v-flex xs12 md8 v-if="report.summary">
               <read-more
                 more-str="read more"
                 :text="report.summary"
@@ -35,10 +35,10 @@
                 :max-chars="200"
               ></read-more>
             </v-flex>
-            <v-flex xs2 v-if="report.image">
+            <v-flex xs12 md2 v-if="report.image">
               <v-img :src="report.image" contain> </v-img>
             </v-flex>
-            <v-flex xs2 v-if="report.link" class="text-xs-center">
+            <v-flex xs12 md2 v-if="report.link" class="text-xs-center">
               <v-btn color="primary" :href="report.link" target="_blank"
                 >Link</v-btn
               >

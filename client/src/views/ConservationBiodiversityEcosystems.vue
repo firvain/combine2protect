@@ -57,9 +57,4 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.full {
-  text-align: justify;
-  text-justify: inter-word;
-}
-</style>
+<style lang="scss" scoped></style>

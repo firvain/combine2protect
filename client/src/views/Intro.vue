@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <v-container fluid pa-0>
+    <v-container fluid pa-0 fill-height>
       <v-layout row wrap justify-center align-center fill-height pa-0>
         <v-flex xs12 class="mycarousel">
           <v-carousel height="700" hide-delimiters>

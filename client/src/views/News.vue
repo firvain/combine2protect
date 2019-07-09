@@ -1,11 +1,11 @@
 <template>
   <v-content>
-    <v-container grid-list-lg fluid>
-      <v-layout row wrap align-start justify-center>
-        <v-flex d-flex xs8>
-          <v-layout row wrap>
+    <v-container grid-list-lg fluid fill-height>
+      <v-layout row wrap align-start justify-start>
+        <v-flex d-flex xs12 md8 order-xs2 order-md1>
+          <v-layout row wrap pa-2>
             <v-flex d-flex xs12>
-              <v-layout row wrap>
+              <v-layout row wrap fill-height>
                 <v-card>
                   <v-card-title
                     primary-title
@@ -37,7 +37,14 @@
             </v-flex>
           </v-layout>
         </v-flex>
-        <v-flex d-flex xs4 pt-0>
+        <v-flex
+          d-flex
+          xs12
+          md4
+          order-xs1
+          order-md2
+          :class="{ fullheight: this.$vuetify.breakpoint.smAndUp }"
+        >
           <v-card>
             <v-toolbar color="cyan" dark>
               <v-toolbar-title>Latest News</v-toolbar-title>
@@ -124,5 +131,8 @@ export default {
 .full {
   text-align: justify;
   text-justify: inter-word;
+}
+.fullheight {
+  height: 100%;
 }
 </style>

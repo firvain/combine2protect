@@ -1,17 +1,17 @@
 <template>
   <v-content>
-    <v-container fluid grid-list-lg>
-      <v-layout row wrap justify-start align-start fill-height>
-        <v-flex d-flex xs12>
-          <v-layout row wrap justify-center align-start fill-height>
-            <v-flex d-flex xs10>
+    <v-container fluid grid-list-lg fill-height>
+      <v-layout column>
+        <v-flex>
+          <v-layout row wrap align-content-start>
+            <v-flex d-flex xs12 md10>
               <v-card height="300">
                 <v-card-title primary-title>
                   <div class="full">{{ cardText }}</div>
                 </v-card-title>
               </v-card>
             </v-flex>
-            <v-flex d-flex xs2>
+            <v-flex d-flex xs12 md2>
               <v-img
                 height="300"
                 class="hoverImage"
@@ -21,62 +21,71 @@
             </v-flex>
           </v-layout>
         </v-flex>
-        <v-flex d-flex xs4 v-if="hasInfo === 0 || hasInfo === 1">
-          <v-card>
-            <v-img
-              height="400"
-              src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-              aspect-ratio="2.75"
-            ></v-img>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="accent" flat @click="showInfoSpecies"
-                >Species</v-btn
-              >
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-        <v-flex d-flex xs4 v-if="hasInfo === 0 || hasInfo === 2">
-          <v-card>
-            <v-img
-              height="400"
-              src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-              aspect-ratio="2.75"
-            ></v-img>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="accent" flat @click="showInfoHabitats"
-                >Habitats</v-btn
-              >
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-        <v-flex d-flex xs4 v-if="hasInfo === 0 || hasInfo === 3">
-          <v-card>
-            <v-img
-              height="400"
-              src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-              aspect-ratio="2.75"
-            ></v-img>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="accent" flat @click="showInfoEcosystems"
-                >Ecosystems</v-btn
-              >
-            </v-card-actions>
-          </v-card></v-flex
-        >
-        <v-flex d-flex xs8 v-if="hasInfo > 0">
-          <v-card min-height="452">
-            <v-card-text>
-              {{ info }}
-            </v-card-text>
 
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn flat @click="goBack">Back</v-btn>
-            </v-card-actions>
-          </v-card>
+        <v-flex>
+          <v-layout column fill-height>
+            <v-flex>
+              <v-layout row wrap align-content-start fill-height>
+                <v-flex d-flex xs12 md4 v-if="hasInfo === 0 || hasInfo === 1">
+                  <v-card>
+                    <v-img
+                      src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
+                    ></v-img>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="accent" flat @click="showInfoSpecies"
+                        >Species</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-flex>
+                <v-flex d-flex xs12 md4 v-if="hasInfo === 0 || hasInfo === 2">
+                  <v-card>
+                    <v-img
+                      src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
+                    ></v-img>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="accent" flat @click="showInfoHabitats"
+                        >Habitats</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-flex>
+                <v-flex d-flex xs12 md4 v-if="hasInfo === 0 || hasInfo === 3">
+                  <v-card>
+                    <v-img
+                      src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
+                    ></v-img>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="accent" flat @click="showInfoEcosystems"
+                        >Ecosystems</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card></v-flex
+                >
+
+                <v-flex d-flex xs12 md8 v-if="hasInfo > 0">
+                  <v-card>
+                    <v-layout column fill-height pa-0>
+                      <v-flex d-flex>
+                        <v-card-text>
+                          {{ info }}
+                        </v-card-text>
+                      </v-flex>
+                      <v-flex d-flex align-end>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn flat @click="goBack">Back</v-btn>
+                        </v-card-actions>
+                      </v-flex></v-layout
+                    >
+                  </v-card>
+                </v-flex></v-layout
+              >
+            </v-flex>
+          </v-layout>
         </v-flex>
       </v-layout>
     </v-container>

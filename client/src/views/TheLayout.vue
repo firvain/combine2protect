@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mine">
     <SiteToolBar :pages="pages" v-if="$route.path !== '/'"></SiteToolBar>
     <router-view :pages="pages"></router-view>
     <TheFooter v-if="$route.path !== '/'"></TheFooter>
@@ -23,4 +23,8 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.mine {
+  height: 100%;
+}
+</style>

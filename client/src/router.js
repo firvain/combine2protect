@@ -129,6 +129,14 @@ export default new Router({
                 )
             },
             {
+              path: "/quiz",
+              name: "quiz",
+              component: () =>
+                import(
+                  /* webpackChunkName: "tgn" */ "./components//BrandingAndAwrardsMainQUIZ.vue"
+                )
+            },
+            {
               path: "/tgn",
               name: "tgn",
               component: () =>

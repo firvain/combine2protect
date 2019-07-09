@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <v-container>
+    <v-container gid-list-lg fluid fill-height>
       <v-layout>
         <v-flex xs12>
           Soon...

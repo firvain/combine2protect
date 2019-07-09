@@ -1,9 +1,9 @@
 <template>
   <v-content>
-    <v-container grid-list-xl fluid>
+    <v-container grid-list-lg fluid fill-height>
       <v-layout row wrap jalign-center justify-center fill-height>
         <v-flex d-flex xs12>
-          <v-card>
+          <v-card elevation-24>
             <v-card-text>
               <read-more
                 more-str="read more"
@@ -17,13 +17,15 @@
           </v-card>
         </v-flex>
         <v-flex d-flex v-for="msg in msgs" :key="msg.title" xs12>
-          <v-layout row wrap>
-            <v-flex d-flex xs12 class="text-xs-center accent ">
-              <div class="title font-weight-medium white--text">
-                {{ msg.title }}
-              </div>
-            </v-flex>
-            <v-flex d-flex xs12>
+          <v-card flat>
+            <v-card-title
+              primary-title
+              class="justify-center title font-weight-medium"
+            >
+              {{ msg.title }}
+            </v-card-title>
+            <v-flex d-flex xs12><v-divider></v-divider> </v-flex>
+            <v-card-text>
               <read-more
                 more-str="read more"
                 :text="msg.text"
@@ -32,9 +34,15 @@
                 :max-chars="800"
                 class="full"
               ></read-more>
+            </v-card-text>
+          </v-card>
+          <!-- <v-flex d-flex xs12 class="text-xs-center accent ">
+              <div class="title font-weight-medium white--text">
+                {{ msg.title }}
+              </div>
             </v-flex>
-            <v-flex d-flex xs12><v-divider></v-divider> </v-flex>
-          </v-layout>
+            <v-flex d-flex xs12> </v-flex> -->
+          <!-- <v-flex d-flex xs12><v-divider></v-divider> </v-flex> -->
         </v-flex>
       </v-layout>
     </v-container>

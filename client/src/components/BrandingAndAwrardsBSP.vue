@@ -1,7 +1,7 @@
 <template>
-  <v-container grid-list-xl>
+  <v-container grid-list-lg fluid pa-0 fill-height>
     <v-layout row wrap align-center justify-center fill-height>
-      <v-flex xs12>
+      <v-flex d-flex xs12>
         <v-card>
           <v-img
             :height="cardHeight"
@@ -13,12 +13,12 @@
           </v-card-actions>
         </v-card>
       </v-flex>
-      <v-flex xs12 v-show="showReports">
-        <v-container fluid>
-          <v-layout row wrap>
-            <v-flex xs6>
-              <v-container fluid pa-0>
-                <v-layout row wrap fill-height>
+      <v-flex d-flex xs12 v-show="showReports">
+        <v-layout row wrap pa-2>
+          <v-flex d-flex xs12>
+            <v-layout row wrap fill-height>
+              <v-flex d-flex xs12 md8>
+                <v-layout row wrap>
                   <v-flex xs12>
                     <div class="full">
                       {{ text }}
@@ -36,17 +36,19 @@
                     >
                   </v-flex>
                 </v-layout>
-              </v-container>
-            </v-flex>
-            <v-flex xs6>
-              <v-card>
-                <v-img
-                  src="https://via.placeholder.com/240x180/0000FF/808080/?text=BannerGreenCheck"
-                />
-              </v-card>
-            </v-flex>
-          </v-layout>
-        </v-container>
+              </v-flex>
+              <v-flex d- flex xs12 md4>
+                <v-card>
+                  <v-img
+                    src="https://via.placeholder.com/240x180/0000FF/808080/?text=BannerGreenCheck"
+                    class="hoverImage"
+                    @click="$router.push('/quiz')"
+                  />
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+        </v-layout>
       </v-flex>
     </v-layout>
   </v-container>
@@ -104,5 +106,8 @@ export default {
 .full {
   text-align: justify;
   text-justify: inter-word;
+}
+.hoverImage {
+  cursor: pointer;
 }
 </style>

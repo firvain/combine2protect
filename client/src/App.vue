@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <!-- <ToolBar :show="showToolbar"></ToolBar> -->
+
     <router-view></router-view>
   </v-app>
 </template>
@@ -18,5 +19,6 @@ export default {
 <style lang="scss">
 #app {
   height: 100vh;
+  background-color: transparent;
 }
 </style>

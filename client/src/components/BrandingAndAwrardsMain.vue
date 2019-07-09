@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid grid-list-md>
+  <v-container fluid grid-list-lg fill-height>
     <v-layout row wrap align-start justify-center>
       <v-flex xs12>
         <v-card elevetion="0">

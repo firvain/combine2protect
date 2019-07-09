@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid grid-list-md>
+  <v-container fluid grid-list-lg fill-height>
     <v-layout row wrap align-start justify-center>
       <v-flex xs12>
         <v-card elevetion="0">
@@ -71,3 +71,9 @@ Id consectetur purus ut faucibus. Sed odio morbi quis commodo odio. Ipsum dolor 
   }
 };
 </script>
+<style lang="scss" scoped>
+.full {
+  text-align: justify;
+  text-justify: inter-word;
+}
+</style>
