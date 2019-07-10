@@ -14,6 +14,7 @@ export default new Router({
       component: Intro,
       children: []
     },
+
     {
       path: "/thelayout",
       name: "layout",

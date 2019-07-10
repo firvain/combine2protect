@@ -13,9 +13,9 @@
           <template v-slot:activator>
             <v-list-tile>
               <v-list-tile-content>
-                <v-list-tile-title
-                  >Branding and Awards</v-list-tile-title
-                ></v-list-tile-content
+                <v-list-tile-title>{{
+                  $t("pages[5].title").toUpperCase()
+                }}</v-list-tile-title></v-list-tile-content
               >
             </v-list-tile>
           </template>
@@ -25,7 +25,9 @@
             :to="subPage.route"
           >
             <v-list-tile-content>
-              <v-list-tile-title v-text="subPage.title"></v-list-tile-title>
+              <v-list-tile-title>{{
+                $t(`pages[5].subpages[${i}].title`)
+              }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>

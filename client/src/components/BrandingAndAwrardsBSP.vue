@@ -9,11 +9,13 @@
           ></v-img>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn flat @click="makeVisibleReports">Show more</v-btn>
+            <v-btn flat @click="makeVisibleReports">
+              {{ $t(`comps.readmore.more`).toUpperCase() }}</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-flex>
-      <v-flex d-flex xs12 v-show="showReports">
+      <v-flex xs12 v-if="showReports">
         <v-layout row wrap pa-2>
           <v-flex d-flex xs12>
             <v-layout row wrap fill-height>

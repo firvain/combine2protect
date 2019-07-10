@@ -19,7 +19,13 @@
                 ></v-img>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" flat to="/conservation">Wetland</v-btn>
+                  <v-btn
+                    color="primary"
+                    flat
+                    to="/conservation"
+                    class="text-none"
+                    >{{ $t("pages[2].subpages[0].title") }}</v-btn
+                  >
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -31,8 +37,13 @@
                 ></v-img>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" flat to="/biodiversity"
-                    >The South East Panning Region</v-btn
+                  <v-btn
+                    color="primary"
+                    flat
+                    to="/biodiversity"
+                    class="text-none"
+                  >
+                    {{ $t("pages[2].subpages[1].title") }}</v-btn
                   >
                 </v-card-actions>
               </v-card>
@@ -45,8 +56,13 @@
                 ></v-img>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" flat to="/ecosystems"
-                    >The common Conservation Network</v-btn
+                  <v-btn
+                    color="primary"
+                    flat
+                    to="/ecosystems"
+                    class="text-none"
+                  >
+                    {{ $t("pages[2].subpages[2].title") }}</v-btn
                   >
                 </v-card-actions>
               </v-card>

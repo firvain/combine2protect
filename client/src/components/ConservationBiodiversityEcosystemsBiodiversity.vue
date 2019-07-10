@@ -28,10 +28,10 @@
             </v-flex>
             <v-flex xs12 md8 v-if="report.summary">
               <read-more
-                more-str="read more"
+                :more-str="$t(`comps.readmore.more`)"
                 :text="report.summary"
                 link="#"
-                less-str="read less"
+                :less-str="$t('comps.readmore.less')"
                 :max-chars="200"
               ></read-more>
             </v-flex>

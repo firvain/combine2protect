@@ -6,10 +6,10 @@
           <v-card>
             <v-card-text>
               <read-more
-                more-str="read more"
+                :more-str="$t(`comps.readmore.more`)"
                 :text="lorem"
                 link="#"
-                less-str="read less"
+                :less-str="$t('comps.readmore.less')"
                 :max-chars="1200"
                 class="full"
               ></read-more>

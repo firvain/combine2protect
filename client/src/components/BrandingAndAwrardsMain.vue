@@ -19,9 +19,9 @@
                 ></v-img>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" flat to="/BSP"
-                    >Branding Sheme Products</v-btn
-                  >
+                  <v-btn color="primary" flat to="/BSP" class="text-none">
+                    {{ $t(`pages[5].subpages[0].title`) }}
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -33,9 +33,9 @@
                 ></v-img>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" flat to="/BSS"
-                    >Branding Sheme Services</v-btn
-                  >
+                  <v-btn color="primary" flat to="/BSS" class="text-none">
+                    {{ $t(`pages[5].subpages[1].title`) }}
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -47,9 +47,9 @@
                 ></v-img>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" flat to="/DEA"
-                    >Destination of Exellence Award</v-btn
-                  >
+                  <v-btn color="primary" flat to="/DEA" class="text-none">
+                    {{ $t(`pages[5].subpages[2].title`) }}
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -61,9 +61,9 @@
                 ></v-img>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" flat to="/TGN"
-                    >The Green Network</v-btn
-                  >
+                  <v-btn color="primary" flat to="/TGN" class="text-none">
+                    {{ $t(`pages[5].subpages[3].title`) }}
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>

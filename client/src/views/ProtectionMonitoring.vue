@@ -6,10 +6,10 @@
           <v-card elevation-24>
             <v-card-text>
               <read-more
-                more-str="read more"
+                :more-str="$t(`comps.readmore.more`)"
                 :text="lorem"
                 link="#"
-                less-str="read less"
+                :less-str="$t('comps.readmore.less')"
                 :max-chars="1200"
                 class="full"
               ></read-more>
@@ -27,10 +27,10 @@
             <v-flex d-flex xs12><v-divider></v-divider> </v-flex>
             <v-card-text>
               <read-more
-                more-str="read more"
+                :more-str="$t(`comps.readmore.more`)"
                 :text="msg.text"
                 link="#"
-                less-str="read less"
+                :less-str="$t('comps.readmore.less')"
                 :max-chars="800"
                 class="full"
               ></read-more>

@@ -6,7 +6,9 @@
           <template v-slot:activator>
             <v-list-tile>
               <v-list-tile-content>
-                <v-list-tile-title>Home</v-list-tile-title></v-list-tile-content
+                <v-list-tile-title>{{
+                  $t("pages[0].title").toUpperCase()
+                }}</v-list-tile-title></v-list-tile-content
               >
             </v-list-tile>
           </template>
@@ -16,25 +18,33 @@
             :to="subPage.route"
           >
             <v-list-tile-content>
-              <v-list-tile-title v-text="subPage.title"></v-list-tile-title>
+              <v-list-tile-title>
+                {{ $t(`pages[${i + 1}].title`) }}
+              </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
         <v-list-tile href="#">
           <v-list-tile-content>
-            <v-list-tile-title>Project Information</v-list-tile-title>
+            <v-list-tile-title>
+              {{ $t(`pages[0].content[0].title`) }}</v-list-tile-title
+            >
           </v-list-tile-content>
         </v-list-tile>
 
         <v-list-tile href="#objectives">
           <v-list-tile-content>
-            <v-list-tile-title>Objectives</v-list-tile-title>
+            <v-list-tile-title>
+              {{ $t(`pages[0].content[1].title`) }}</v-list-tile-title
+            >
           </v-list-tile-content>
         </v-list-tile>
 
         <v-list-tile href="#partnership">
           <v-list-tile-content>
-            <v-list-tile-title>Partnership</v-list-tile-title>
+            <v-list-tile-title>
+              {{ $t(`pages[0].content[2].title`) }}</v-list-tile-title
+            >
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -49,15 +59,15 @@
                 <v-card flat id="partnership">
                   <v-card-title primary-title class="justify-center">
                     <div class="headline font-weight-medium">
-                      Project Information
+                      {{ $t(`pages[0].content[0].title`) }}
                     </div>
                   </v-card-title>
                   <v-card-text class="full">
                     <read-more
-                      more-str="read more"
+                      :more-str="$t(`comps.readmore.more`)"
                       :text="msg"
                       link="#"
-                      less-str="read less"
+                      :less-str="$t('comps.readmore.less')"
                       :max-chars="maxChars"
                     ></read-more>
                   </v-card-text>
@@ -67,14 +77,16 @@
               <v-flex d-flex xs12>
                 <v-card flat id="partnership">
                   <v-card-title primary-title class="justify-center">
-                    <div class="headline font-weight-medium">Objectives</div>
+                    <div class="headline font-weight-medium">
+                      {{ $t(`pages[0].content[1].title`) }}
+                    </div>
                   </v-card-title>
                   <v-card-text class="full">
                     <read-more
-                      more-str="read more"
+                      :more-str="$t(`comps.readmore.more`)"
                       :text="msg"
                       link="#"
-                      less-str="read less"
+                      :less-str="$t('comps.readmore.less')"
                       :max-chars="maxChars"
                     ></read-more>
                   </v-card-text>
@@ -83,14 +95,16 @@
               <v-flex d-flex xs12>
                 <v-card flat id="partnership">
                   <v-card-title primary-title class="justify-center">
-                    <div class="headline font-weight-medium">Partnership</div>
+                    <div class="headline font-weight-medium">
+                      {{ $t(`pages[0].content[2].title`) }}
+                    </div>
                   </v-card-title>
                   <v-card-text class="full">
                     <read-more
-                      more-str="read more"
+                      :more-str="$t(`comps.readmore.more`)"
                       :text="msg"
                       link="#"
-                      less-str="read less"
+                      :less-str="$t('comps.readmore.less')"
                       :max-chars="maxChars"
                     ></read-more>
                   </v-card-text>

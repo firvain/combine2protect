@@ -2,7 +2,7 @@
   <v-layout row wrap justify-start align-start fill-height>
     <v-flex d-flex xs12>
       <v-img
-        src="https://via.placeholder.com/120x200/0000FF/808080/?text=NEWS"
+        src="https://via.placeholder.com/120x150/0000FF/808080/?text=NEWS"
         class="hoverImage"
         @click="$router.push('news')"
       />

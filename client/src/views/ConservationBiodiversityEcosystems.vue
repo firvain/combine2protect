@@ -13,9 +13,9 @@
           <template v-slot:activator>
             <v-list-tile>
               <v-list-tile-content>
-                <v-list-tile-title
-                  >Conservation Biodiversity & Ecosystems</v-list-tile-title
-                ></v-list-tile-content
+                <v-list-tile-title>{{
+                  $t("pages[2].title")
+                }}</v-list-tile-title></v-list-tile-content
               >
             </v-list-tile>
           </template>
@@ -25,7 +25,9 @@
             :to="subpage.route"
           >
             <v-list-tile-content>
-              <v-list-tile-title v-text="subpage.title"></v-list-tile-title>
+              <v-list-tile-title>{{
+                $t(`pages[2].subpages[${i}].title`)
+              }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>

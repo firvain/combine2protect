@@ -33,8 +33,13 @@
                     ></v-img>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="accent" flat @click="showInfoSpecies"
-                        >Species</v-btn
+                      <v-btn
+                        flat
+                        color="primary"
+                        @click="showInfoSpecies"
+                        class="text-none"
+                      >
+                        {{ $t(`pages[1].subpages[0].title`) }}</v-btn
                       >
                     </v-card-actions>
                   </v-card>
@@ -46,8 +51,13 @@
                     ></v-img>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="accent" flat @click="showInfoHabitats"
-                        >Habitats</v-btn
+                      <v-btn
+                        flat
+                        color="primary"
+                        @click="showInfoHabitats"
+                        class="text-none"
+                      >
+                        {{ $t(`pages[1].subpages[1].title`) }}</v-btn
                       >
                     </v-card-actions>
                   </v-card>
@@ -59,8 +69,13 @@
                     ></v-img>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="accent" flat @click="showInfoEcosystems"
-                        >Ecosystems</v-btn
+                      <v-btn
+                        flat
+                        color="primary"
+                        @click="showInfoEcosystems"
+                        class="text-none"
+                      >
+                        {{ $t(`pages[1].subpages[2].title`) }}</v-btn
                       >
                     </v-card-actions>
                   </v-card></v-flex
@@ -77,7 +92,14 @@
                       <v-flex d-flex align-end>
                         <v-card-actions>
                           <v-spacer></v-spacer>
-                          <v-btn flat @click="goBack">Back</v-btn>
+                          <v-btn
+                            flat
+                            color="primary"
+                            @click="goBack"
+                            class="text-none"
+                          >
+                            {{ $t("comps.back").toUpperCase() }}</v-btn
+                          >
                         </v-card-actions>
                       </v-flex></v-layout
                     >
@@ -93,7 +115,7 @@
 </template>
 <script>
 export default {
-  name: "habitats",
+  name: "specieshabitatsecosystems",
   components: {},
   data() {
     return {
