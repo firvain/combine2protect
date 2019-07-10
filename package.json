@@ -35,7 +35,7 @@
   },
   "cacheDirectories": [
     "client/node_modules",
-    "api/node_modules",
+    "server/node_modules",
     "node_modules"
   ],
   "engines": {
