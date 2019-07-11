@@ -8,9 +8,7 @@ import i18n from "./plugins/i18n";
 import FlagIcon from "vue-flag-icon";
 Vue.use(FlagIcon);
 Vue.use(ReadMore);
-
 Vue.config.productionTip = false;
-
 new Vue({
   router,
   store,

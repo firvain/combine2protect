@@ -1,81 +1,22 @@
 import { mapGettersFromStates } from "../../helpers";
 import i18n from "../../../plugins/i18n";
 console.log(i18n.t("pages[2].subpages[0].title"));
-import { SET_LANGUAGE } from "../../mutation-types";
+import { SET_LANGUAGE, SET_LOADING, SET_PAGES } from "../../mutation-types";
+import axios from "axios";
+
+let url;
+if (process.env.NODE_ENV === "development") {
+  url = "http://localhost:3000/api";
+} else {
+  url = process.env.VUE_APP_API_URL;
+}
+axios.defaults.baseURL = url;
+
+import { getPages } from "../../../services/api.js";
 
 const state = {
-  pages: [
-    {
-      title: i18n.t("pages[0].title"),
-      route: "home",
-      subpages: []
-    },
-    {
-      title: i18n.t("pages[1].title"),
-      route: "specieshabitalsecosystems",
-      subpages: []
-    },
-    {
-      title: i18n.t("pages[2].title"),
-      route: "consvbio",
-      subpages: [
-        {
-          title: i18n.t("pages[2].subpages[0].title"),
-          route: "conservation"
-        },
-        {
-          title: i18n.t("pages[2].subpages[1].title"),
-          route: "biodiversity"
-        },
-        {
-          title: i18n.t("pages[2].subpages[2].title"),
-          route: "ecosystems"
-        }
-      ]
-    },
-    {
-      title: i18n.t("pages[3].title"),
-      route: "promon",
-      subpages: []
-    },
-    {
-      title: i18n.t("pages[4].title"),
-      route: "webgis",
-      subpages: []
-    },
-    {
-      title: i18n.t("pages[5].title"),
-      route: "branding",
-      subpages: [
-        {
-          title: i18n.t("pages[5].subpages[0].title"),
-          route: "bsp"
-        },
-        {
-          title: i18n.t("pages[5].subpages[1].title"),
-          route: "bss"
-        },
-        {
-          title: i18n.t("pages[5].subpages[2].title"),
-          route: "dea"
-        },
-        {
-          title: i18n.t("pages[5].subpages[3].title"),
-          route: "tgn"
-        }
-      ]
-    },
-    {
-      title: i18n.t("pages[6].title"),
-      route: "capacity",
-      subpages: []
-    },
-    {
-      title: i18n.t("pages[7].title"),
-      route: "news",
-      subpages: []
-    }
-  ]
+  pages: [],
+  loading: false
 };
 
 const getters = {
@@ -87,10 +28,32 @@ const getters = {
 const mutations = {
   [SET_LANGUAGE]: (state, payload) => {
     state.value = payload;
+  },
+  [SET_LOADING]: (state, payload) => {
+    state.loading = payload;
+  },
+  [SET_PAGES]: (state, payload) => {
+    state.pages = payload;
   }
 };
 
 const actions = {
+  async fetchPages({ commit }) {
+    try {
+      commit("SET_LOADING", true);
+      const pages = await getPages();
+      // const response = await axios.get("/pages");
+      // console.log(response.data);
+      commit("SET_PAGES", pages);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      commit("SET_LOADING", false);
+    }
+  },
+  updateLoading({ commit }, payload) {
+    commit("SET_LOADING", payload);
+  },
   updateActionLanguage({ commit }, payload) {
     commit("SET_LANGUAGE", payload);
   }

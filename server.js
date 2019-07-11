@@ -1,19 +1,35 @@
-const { resolve } = require("path");
+"use strict";
+
+// const { resolve } = require("path");
+const path = require("path");
+const serveStatic = require("serve-static");
 const history = require("connect-history-api-fallback");
 const express = require("express");
 const app = express();
-
+const compression = require("compression");
+const morgan = require("morgan");
+const cors = require("cors");
 const { PORT = 3000 } = process.env;
 
+app.use(morgan("dev"));
+app.use(cors());
+app.use(compression());
+
 // API
-// configureAPI(app);
+const api = require("./server/");
+app.use("/api", api);
 
 // UI
-const publicPath = resolve(__dirname, "./client/dist");
-const staticConf = { maxAge: "1y", etag: false };
+// app.use(serveStatic(path.join(__dirname, "./client/dist")));
+app.use(
+  history({
+    disableDotRule: true,
+    verbose: true,
+    rewrites: [{ from: /\/api/, to: "/api" }]
+  })
+);
 
-app.use(express.static(publicPath, staticConf));
-app.use("/", history());
+// app.use(serveStatic(path.join(__dirname, "./client/dist")));
 
 // Go
 app.listen(PORT, () => console.log(`App running on port ${PORT}!`));
