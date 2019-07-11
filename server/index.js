@@ -12,7 +12,9 @@ const config = {
   application_name: process.env.APPLICATION_NAME,
   ssl: true
 };
-router.route("/api").get((res, req, next) => res.send(config));
+router.route("/").get(function(res, req, next) {
+  res.send(config);
+});
 // router.route("/pages").get(async (req, res, next) => {
 //   try {
 //     const data = await db.pages.all();
