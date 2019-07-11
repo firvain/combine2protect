@@ -5,12 +5,12 @@ const router = express.Router();
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 const config = {
-  host: process.env.HOST,
-  port: process.env.PORT,
-  database: process.env.DATABASE,
+  host: process.env.DBHOST,
+  port: process.env.DBPORT,
+  database: process.env.DBDATABASE,
   user: process.env.DBUSER,
-  password: process.env.PASSWORD,
-  application_name: process.env.APPLICATION_NAME,
+  password: process.env.DBPASSWORD,
+  application_name: process.env.DBAPPLICATION_NAME,
   ssl: true
 };
 router.route("/").get(function(req, res, next) {
