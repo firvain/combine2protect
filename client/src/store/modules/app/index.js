@@ -2,15 +2,6 @@ import { mapGettersFromStates } from "../../helpers";
 import i18n from "../../../plugins/i18n";
 console.log(i18n.t("pages[2].subpages[0].title"));
 import { SET_LANGUAGE, SET_LOADING, SET_PAGES } from "../../mutation-types";
-import axios from "axios";
-
-let url;
-if (process.env.NODE_ENV === "development") {
-  url = "http://localhost:3000/api";
-} else {
-  url = process.env.VUE_APP_API_URL;
-}
-axios.defaults.baseURL = url;
 
 import { getPages } from "../../../services/api.js";
 
@@ -42,8 +33,6 @@ const actions = {
     try {
       commit("SET_LOADING", true);
       const pages = await getPages();
-      // const response = await axios.get("/pages");
-      // console.log(response.data);
       commit("SET_PAGES", pages);
     } catch (error) {
       console.log(error);
