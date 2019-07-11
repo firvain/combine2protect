@@ -16,8 +16,8 @@ app.use(cors());
 app.use(compression());
 
 // API
-const api = require("./server/");
-app.use("/api", api);
+// const api = require("./server/");
+// app.use("/api", api);
 
 // UI
 // app.use(serveStatic(path.join(__dirname, "./client/dist")));
@@ -29,7 +29,7 @@ app.use("/api", api);
 //   })
 // );
 
-// app.use(serveStatic(path.join(__dirname, "./client/dist")));
+app.use(serveStatic(path.join(__dirname, "./client/dist")));
 
 // Go
 app.listen(PORT, () => console.log(`App running on port ${PORT}!`));

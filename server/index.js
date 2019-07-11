@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
-
+router.route("/api").get((res, req, next) => res.send("api"));
 router.route("/pages").get(async (req, res, next) => {
   try {
     const data = await db.pages.all();
