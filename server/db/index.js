@@ -2,11 +2,12 @@
 require("dotenv-flow").config({});
 const repos = require("./repos"); // loading all repositories
 console.log(repos);
+console.log(process.env);
 const config = {
   host: process.env.HOST,
   port: process.env.PORT,
   database: process.env.DATABASE,
-  user: process.env.USER,
+  user: process.env.DBUSER,
   password: process.env.PASSWORD,
   application_name: process.env.APPLICATION_NAME,
   ssl: true
