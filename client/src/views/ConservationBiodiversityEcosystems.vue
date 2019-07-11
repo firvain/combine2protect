@@ -50,7 +50,9 @@ export default {
   },
   computed: {
     showNav() {
-      if (this.$route.path !== "/consvbio") return false;
+      if (this.$vuetify.breakpoint.mdAndUp && this.$route.path !== "/consvbio")
+        return false;
+      if (this.$vuetify.breakpoint.mdAndDown) return false;
       return true;
     },
     subPages() {
