@@ -21,13 +21,13 @@ app.use("/api", api);
 
 // UI
 // app.use(serveStatic(path.join(__dirname, "./client/dist")));
-app.use(
-  history({
-    disableDotRule: true,
-    verbose: true,
-    rewrites: [{ from: /\/api/, to: "/api" }]
-  })
-);
+// app.use(
+//   history({
+//     disableDotRule: true,
+//     verbose: true,
+//     rewrites: [{ from: /\/api/, to: "/api" }]
+//   })
+// );
 
 // app.use(serveStatic(path.join(__dirname, "./client/dist")));
 
