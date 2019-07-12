@@ -9,6 +9,10 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: "*",
+      component: () => import(/* webpackChunkName: "404" */ "./views/404.vue")
+    },
+    {
       path: "/",
       name: "intro",
       component: Intro,

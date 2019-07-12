@@ -1,18 +1,32 @@
 <template>
   <v-app>
     <!-- <ToolBar :show="showToolbar"></ToolBar> -->
-
+    <TheLoader v-if="loading"></TheLoader>
     <router-view></router-view>
   </v-app>
 </template>
 <script>
+import TheLoader from "@/components/TheLoader.vue";
+import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
+
 export default {
   name: "app",
-  components: {},
+  components: {
+    TheLoader
+  },
   data() {
     return {};
   },
-  methods: {}
+  computed: {
+    ...mapGetters("app", ["loading"])
+  },
+  methods: {
+    ...mapActions("app", ["fetchPages"])
+  },
+  created() {
+    this.fetchPages();
+  }
 };
 </script>
 

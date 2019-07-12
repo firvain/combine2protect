@@ -8,11 +8,6 @@
       @click="$router.push('/')"
       class="hoverTitle"
     />
-    <!-- <v-toolbar-title
-      @click="$router.push('/')"
-      class="hoverTitle hidden-md-and-down"
-      >COMBINE2PROTECT</v-toolbar-title
-    > -->
     <v-spacer></v-spacer>
     <div class="search">
       <v-text-field
@@ -149,16 +144,6 @@
         >
           {{ $t("pages[7].title") }}
         </v-btn>
-
-        <!-- <v-btn
-        flat
-        small
-        v-for="page in pages"
-        :key="page.title"
-        :to="page.route"
-      >
-        {{ page.title }}
-      </v-btn> -->
       </v-toolbar-items>
     </template>
   </v-toolbar>
