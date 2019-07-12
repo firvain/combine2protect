@@ -20,16 +20,16 @@ const api = require("./server/");
 app.use("/api", api);
 
 // UI
-// app.use(serveStatic(path.join(__dirname, "./client/dist")));
-// app.use(
-//   history({
-//     disableDotRule: true,
-//     verbose: true,
-//     rewrites: [{ from: /\/api/, to: "/api" }]
-//   })
-// );
+app.use(serveStatic(path.join(__dirname, "./client/dist")));
+app.use(
+  history({
+    disableDotRule: true,
+    verbose: true,
+    rewrites: [{ from: /\/api/, to: "/api" }]
+  })
+);
 
-// app.use(serveStatic(path.join(__dirname, "./client/dist")));
+app.use(serveStatic(path.join(__dirname, "./client/dist")));
 
 // Go
 app.listen(PORT, () => console.log(`App running on port ${PORT}!`));

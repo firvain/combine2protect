@@ -1,8 +1,6 @@
 "use strict";
 require("dotenv-flow").config({});
 const repos = require("./repos"); // loading all repositories
-console.log(repos);
-console.log(process.env);
 const config = {
   host: process.env.DBHOST,
   port: process.env.DBPORT,
