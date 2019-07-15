@@ -1,5 +1,5 @@
 "use strict";
-require("dotenv-flow").config({});
+
 const repos = require("./repos"); // loading all repositories
 const config = {
   host: process.env.DBHOST,
@@ -10,6 +10,7 @@ const config = {
   application_name: process.env.DBAPPLICATION_NAME,
   ssl: true
 };
+console.log(config);
 // pg-promise initialization options:
 const initOptions = {
   // Use a custom promise library, instead of the default ES6 Promise:
