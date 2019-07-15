@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <v-container gid-list-lg fluid fill-height pa-0>
+    <v-container fluid fill-height pa-0 ma-0>
       <v-layout column>
         <v-flex d-flex class="webgis">
           <v-layout row wrap>
@@ -11,7 +11,6 @@
               align-center
               justify-center
               white--text
-              title
             >
               layerstree
             </v-flex>
@@ -22,6 +21,10 @@
                 column
                 fill-height
                 align-items-start
+                pt-1
+                pl-1
+                pr-1
+                pb-0
               >
                 <v-flex
                   d-flex
@@ -29,9 +32,9 @@
                   align-center
                   justify-center
                   white--text
-                  title
+                  pa-1
                 >
-                  maptools
+                  <MapTools></MapTools>
                 </v-flex>
                 <v-flex
                   d-flex
@@ -39,9 +42,11 @@
                   align-center
                   justify-center
                   white--text
-                  title
                 >
-                  map
+                  <VueMap
+                    :baseLayers="baseLayers"
+                    :vectorLayers="vectorLayers"
+                  ></VueMap>
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -53,19 +58,78 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import MapTools from "@/components/WebGISMaptools.vue";
+import VueMap from "@/components/WebGisVueMap.vue";
+import { loadingBBox } from "vuelayers/lib/ol-ext";
 export default {
   name: "webGIS",
-  components: {},
+  components: {
+    MapTools,
+    VueMap
+  },
   data() {
-    return {};
+    return {
+      baseLayers: [
+        {
+          id: 100,
+          name: "osm",
+          title: "OpenStreetMap",
+          visible: true,
+          crossOrigin: "anonymous",
+          preload: Infinity
+        },
+        {
+          id: 100,
+          name: "bingmaps",
+          title: "Bing Maps",
+          apiKey:
+            "Ap3sskZ5BccP6TvBr0FoLc9orA4_R1uh-8UjpOKYciXL1hNMtAJr_BdxMjTJNkpv",
+          imagerySet: "AerialWithLabelsOnDemand",
+          visible: false,
+          crossOrigin: "anonymous",
+          preload: Infinity
+        }
+      ],
+      vectorLayers: [
+        {
+          id: 201,
+          title: "Bird Directive Sites [EN]",
+          cmp: "vl-layer-vector",
+          visible: true,
+          renderMode: "image",
+          source: {
+            cmp: "vl-source-vector",
+            features: [],
+            url(extent, resolution, projection) {
+              return (
+                "https://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/EUNIS_Website_Dyna_WM/MapServer/7/query?" +
+                "&geometryType=esriGeometryEnvelope" +
+                "&geometry=" +
+                extent.join(",") +
+                "&spatialRel=esriSpatialRelEnvelopeIntersects" +
+                "&inSR=" +
+                projection.split(":")[1] +
+                "&outFields=*&f=geojson"
+              );
+            },
+            strategyFactory() {
+              return loadingBBox;
+            }
+          }
+        }
+      ]
+    };
+  },
+  computed: {
+    ...mapGetters("webgis", ["mapStatus"])
   }
 };
 </script>
 <style lang="scss" scoped>
 .webgis {
   min-height: calc(100vh - 165px);
-  margin: 0;
-  padding: 0;
+  background-color: #da7033;
 }
 .layerstree {
   background-color: red;
