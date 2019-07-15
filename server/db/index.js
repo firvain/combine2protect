@@ -10,7 +10,6 @@ const config = {
   application_name: process.env.DBAPPLICATION_NAME,
   ssl: true
 };
-console.log(config);
 // pg-promise initialization options:
 const initOptions = {
   // Use a custom promise library, instead of the default ES6 Promise:
