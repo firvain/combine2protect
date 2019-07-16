@@ -128,9 +128,9 @@ export default {
             cmp: "vl-source-vector",
             features: [],
             url(extent, resolution, projection) {
-              console.log(extent);
               return (
-                "http://localhost:3000/api/layers/WDPA_cleaning/" +
+                process.env.VUE_APP_API_URL +
+                "/layers/WDPA_cleaning/" +
                 extent[0] +
                 "/" +
                 extent[1] +
