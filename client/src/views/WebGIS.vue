@@ -96,7 +96,7 @@ export default {
           id: 201,
           title: "Bird Directive Sites [EN]",
           cmp: "vl-layer-vector",
-          visible: true,
+          visible: false,
           renderMode: "image",
           source: {
             cmp: "vl-source-vector",
@@ -111,6 +111,33 @@ export default {
                 "&inSR=" +
                 projection.split(":")[1] +
                 "&outFields=*&f=geojson"
+              );
+            },
+            strategyFactory() {
+              return loadingBBox;
+            }
+          }
+        },
+        {
+          id: 202,
+          title: "Bird Directive Sites [EN]",
+          cmp: "vl-layer-vector",
+          visible: true,
+          renderMode: "image",
+          source: {
+            cmp: "vl-source-vector",
+            features: [],
+            url(extent, resolution, projection) {
+              console.log(extent);
+              return (
+                "http://localhost:3000/api/layers/WDPA_cleaning/" +
+                extent[0] +
+                "/" +
+                extent[1] +
+                "/" +
+                extent[2] +
+                "/" +
+                extent[3]
               );
             },
             strategyFactory() {

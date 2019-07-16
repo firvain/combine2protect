@@ -23,6 +23,7 @@ const initOptions = {
     // Do not use 'require()' here, because this event occurs for every task
     // and transaction being executed, which should be as fast as possible.
     obj.pages = new repos.Pages(obj, pgp);
+    obj.layers = new repos.Layers(obj, pgp);
   }
 };
 // Load and initialize pg-promise:
