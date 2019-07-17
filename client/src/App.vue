@@ -2,7 +2,7 @@
   <v-app>
     <!-- <ToolBar :show="showToolbar"></ToolBar> -->
     <TheLoader></TheLoader>
-    <router-view></router-view>
+    <router-view :pages="pages"></router-view>
   </v-app>
 </template>
 <script>
@@ -19,13 +19,13 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters("app", ["loading"])
+    ...mapGetters("app", ["loading", "pages"])
   },
   methods: {
     ...mapActions("app", ["fetchPages"])
   },
-  created() {
-    this.fetchPages();
+  async created() {
+    await this.fetchPages();
   }
 };
 </script>

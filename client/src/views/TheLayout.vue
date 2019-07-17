@@ -1,12 +1,12 @@
 <template>
   <div class="mine">
-    <SiteToolBar :pages="pages" v-if="$route.path !== '/'"></SiteToolBar>
+    <SiteToolBar :pages="pages" v-if="showBars"></SiteToolBar>
     <router-view :pages="pages"></router-view>
-    <TheFooter v-if="$route.path !== '/'"></TheFooter>
+    <TheFooter v-if="showBars"></TheFooter>
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 import SiteToolBar from "@/components/SiteToolBar.vue";
 import TheFooter from "@/components/TheFooter.vue";
 export default {
@@ -15,11 +15,19 @@ export default {
     SiteToolBar,
     TheFooter
   },
+  props: {
+    pages: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {};
   },
   computed: {
-    ...mapGetters("app", ["pages"])
+    showBars() {
+      return !!(this.$route.path !== "/" && this.pages.length > 0);
+    }
   }
 };
 </script>
