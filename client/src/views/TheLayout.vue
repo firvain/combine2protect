@@ -10,7 +10,7 @@ import { mapGetters } from "vuex";
 import SiteToolBar from "@/components/SiteToolBar.vue";
 import TheFooter from "@/components/TheFooter.vue";
 export default {
-  name: "thelayout",
+  name: "TheLayout",
   components: {
     SiteToolBar,
     TheFooter

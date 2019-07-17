@@ -86,7 +86,7 @@ import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 
 export default {
-  name: "map",
+  name: "VueMap",
   props: {
     baseLayers: {
       type: Array,

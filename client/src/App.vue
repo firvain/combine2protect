@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <!-- <ToolBar :show="showToolbar"></ToolBar> -->
-    <TheLoader v-if="loading"></TheLoader>
+    <TheLoader></TheLoader>
     <router-view></router-view>
   </v-app>
 </template>

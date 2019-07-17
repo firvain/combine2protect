@@ -62,6 +62,8 @@ import { mapGetters } from "vuex";
 import MapTools from "@/components/WebGISMaptools.vue";
 import VueMap from "@/components/WebGisVueMap.vue";
 import { loadingBBox } from "vuelayers/lib/ol-ext";
+import { loaderFactory } from "../services/api.js";
+
 export default {
   name: "webGIS",
   components: {
@@ -127,22 +129,11 @@ export default {
           source: {
             cmp: "vl-source-vector",
             features: [],
-            url(extent, resolution, projection) {
-              return (
-                process.env.VUE_APP_API_URL +
-                "/layers/WDPA_cleaning/" +
-                extent[0] +
-                "/" +
-                extent[1] +
-                "/" +
-                extent[2] +
-                "/" +
-                extent[3]
-              );
-            },
+            url() {},
             strategyFactory() {
               return loadingBBox;
-            }
+            },
+            loaderFactory
           }
         }
       ]
@@ -150,7 +141,8 @@ export default {
   },
   computed: {
     ...mapGetters("webgis", ["mapStatus"])
-  }
+  },
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>
