@@ -33,7 +33,7 @@ export const getPages = async () => {
 };
 
 export const loaderFactory = vm => {
-  return async (extent, resolution, projection) => {
+  return async extent => {
     // let url = vm.$source.getUrl();
     const url =
       process.env.VUE_APP_API_URL +

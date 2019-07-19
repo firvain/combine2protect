@@ -29,6 +29,9 @@ const mutations = {
 const actions = {
   updateMapStatus({ commit }, payload) {
     commit("SET_MAP_STATUS", payload);
+  },
+  updateMeasureType({ commit }, payload) {
+    commit("SET_MEASURE_TYPE", payload);
   }
 };
 export default {

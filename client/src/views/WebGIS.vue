@@ -46,6 +46,11 @@
                   <VueMap
                     :baseLayers="baseLayers"
                     :vectorLayers="vectorLayers"
+                    :utilityLayers="utilityLayers"
+                    :mapStatus="mapStatus"
+                    :drawType="drawType"
+                    :measureType="measureType"
+                    @export:pdf="exportPDF"
                   ></VueMap>
                 </v-flex>
               </v-layout>
@@ -59,11 +64,12 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import MapTools from "@/components/WebGISMaptools.vue";
 import VueMap from "@/components/WebGisVueMap.vue";
 import { loadingBBox } from "vuelayers/lib/ol-ext";
 import { loaderFactory } from "../services/api.js";
-
+import * as jsPDF from "jspdf";
 export default {
   name: "webGIS",
   components: {
@@ -98,7 +104,7 @@ export default {
           id: 201,
           title: "Bird Directive Sites [EN]",
           cmp: "vl-layer-vector",
-          visible: false,
+          visible: true,
           renderMode: "image",
           source: {
             cmp: "vl-source-vector",
@@ -118,7 +124,21 @@ export default {
             strategyFactory() {
               return loadingBBox;
             }
-          }
+          },
+          style: [
+            {
+              cmp: "vl-style-box",
+              styles: {
+                "vl-style-fill": {
+                  color: [255, 255, 255, 0.5]
+                },
+                "vl-style-stroke": {
+                  color: "#8f209b",
+                  width: 2
+                }
+              }
+            }
+          ]
         },
         {
           id: 202,
@@ -134,13 +154,99 @@ export default {
               return loadingBBox;
             },
             loaderFactory
+          },
+          style: [
+            {
+              cmp: "vl-style-box",
+              styles: {
+                "vl-style-fill": {
+                  color: [255, 255, 255, 0.5]
+                },
+                "vl-style-stroke": {
+                  color: "#219e46",
+                  width: 2
+                }
+              }
+            }
+          ]
+        }
+      ],
+      utilityLayers: [
+        {
+          id: 1000,
+          target: "draw-target",
+          ref: "draw",
+          title: "Draw",
+          cmp: "vl-layer-vector",
+          visible: true,
+          source: {
+            cmp: "vl-source-vector"
           }
         }
-      ]
+      ],
+      pdfOptions: {
+        fontSize: 6,
+        textColor: "#FFFFFF",
+        fillCollor: "#3f51b5",
+        text: "powered by Terrarum"
+      },
+      date: {
+        year: null,
+        month: null,
+        day: null,
+        hour: null,
+        minute: null
+      }
     };
   },
   computed: {
-    ...mapGetters("webgis", ["mapStatus"])
+    ...mapGetters("webgis", ["mapStatus", "drawType", "measureType"]),
+    currentDate: {
+      get() {
+        return this.date;
+      },
+      set(date) {
+        this.date = {
+          year: date.getFullYear(),
+          month: date.getMonth() + 1,
+          day: date.getDate(),
+          hour: date.getHours(),
+          minutes: date.getMinutes()
+        };
+      }
+    }
+  },
+  methods: {
+    ...mapActions("webgis", ["updateMapStatus"]),
+    async exportPDF(data) {
+      const myPromise = new Promise((resolve, reject) => {
+        if (data) resolve(data);
+        reject();
+      });
+
+      try {
+        const { data } = await myPromise;
+        const pdf = new jsPDF("landscape", "mm", "a4");
+        pdf.addImage(data, "JPEG", 0, 0, 297, 210);
+        pdf.setFontSize(this.pdfOptions.fontSize);
+        pdf.setFillColor(this.pdfOptions.fillCollor);
+        pdf.rect(0, 0, 25, 6, "F");
+        pdf.setTextColor(this.pdfOptions.textColor);
+        pdf.text(this.pdfOptions.text, 2, 4);
+        this.currentDate = new Date();
+        const { year, month, day, hour, minutes } = this.date;
+        await pdf.save(
+          `export_${year}-${month}-${day}_${hour}\u02D0${minutes}.pdf`,
+          {
+            returnPromise: true
+          }
+        );
+        this.updateMapStatus("display");
+      } catch (error) {
+        console.log(error);
+        this.updateMapStatus("display");
+      }
+    }
   },
   mounted() {}
 };
