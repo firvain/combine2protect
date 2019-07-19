@@ -11,9 +11,8 @@
               align-center
               justify-center
               white--text
+              >layerstree</v-flex
             >
-              layerstree
-            </v-flex>
             <v-flex xs9 d-flex class="mapview">
               <v-layout
                 align-center
@@ -22,7 +21,7 @@
                 fill-height
                 align-items-start
                 pt-1
-                pl-1
+                pl-1P
                 pr-1
                 pb-0
               >
@@ -144,7 +143,7 @@ export default {
           id: 202,
           title: "Bird Directive Sites [EN]",
           cmp: "vl-layer-vector",
-          visible: true,
+          visible: false,
           renderMode: "image",
           source: {
             cmp: "vl-source-vector",

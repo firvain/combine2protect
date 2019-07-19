@@ -11,7 +11,6 @@ const compression = require("compression");
 const morgan = require("morgan");
 const cors = require("cors");
 const { PORT = 3000 } = process.env;
-
 app.use(morgan("dev"));
 app.use(cors());
 app.use(compression());
