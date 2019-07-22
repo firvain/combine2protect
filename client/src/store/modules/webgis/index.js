@@ -1,23 +1,38 @@
 import { mapGettersFromStates } from "../../helpers";
-
-const state = {};
-
+import {
+  SET_MAP_STATUS,
+  SET_DRAW_TYPE,
+  SET_MEASURE_TYPE
+} from "../../mutation-types";
+const state = {
+  mapStatus: "display",
+  drawType: "Point",
+  measureType: "LineString"
+};
 const getters = {
   ...mapGettersFromStates({
     states: state
   })
 };
-
 const mutations = {
-  // updateValue: (state, payload) => {
-  //   state.value = payload;
-  // }
+  [SET_MAP_STATUS]: (state, payload) => {
+    state.mapStatus = payload;
+  },
+  [SET_DRAW_TYPE]: (state, payload) => {
+    state.drawType = payload;
+  },
+  [SET_MEASURE_TYPE]: (state, payload) => {
+    state.measureType = payload;
+  }
 };
 
 const actions = {
-  // updateActionValue({ commit }) {
-  //   commit("updateValue", payload);
-  // }
+  updateMapStatus({ commit }, payload) {
+    commit("SET_MAP_STATUS", payload);
+  },
+  updateMeasureType({ commit }, payload) {
+    commit("SET_MEASURE_TYPE", payload);
+  }
 };
 export default {
   namespaced: true,

@@ -1,5 +1,5 @@
 "use strict";
-require("dotenv-flow").config({});
+
 const repos = require("./repos"); // loading all repositories
 const config = {
   host: process.env.DBHOST,
@@ -23,6 +23,7 @@ const initOptions = {
     // Do not use 'require()' here, because this event occurs for every task
     // and transaction being executed, which should be as fast as possible.
     obj.pages = new repos.Pages(obj, pgp);
+    obj.layers = new repos.Layers(obj, pgp);
   }
 };
 // Load and initialize pg-promise:

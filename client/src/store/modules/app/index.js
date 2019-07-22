@@ -31,13 +31,10 @@ const mutations = {
 const actions = {
   async fetchPages({ commit }) {
     try {
-      commit("SET_LOADING", true);
       const pages = await getPages();
       commit("SET_PAGES", pages);
     } catch (error) {
       console.log(error);
-    } finally {
-      commit("SET_LOADING", false);
     }
   },
   updateLoading({ commit }, payload) {
