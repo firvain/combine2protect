@@ -3,5 +3,6 @@
 // Renaming and exporting all repository classes:
 
 module.exports = {
-  Pages: require("./pages")
+  Pages: require("./pages"),
+  Layers: require("./layers")
 };
