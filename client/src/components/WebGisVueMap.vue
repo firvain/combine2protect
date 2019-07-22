@@ -38,37 +38,22 @@
           :key="layer.id"
           :id="layer.id"
           v-bind="layer"
+          :z-index="layer.zIndex"
         >
           <!-- add vl-source-* -->
-          <component :is="layer.source.cmp" v-bind="layer.source"> </component>
+          <component :is="layer.source.cmp" v-bind="layer.source"></component>
           <!--// vl-source-* -->
 
           <!-- add style components if provided -->
           <!-- create vl-style-box or vl-style-func -->
           <div v-if="layer.style">
-            <component
-              v-for="(style, i) in layer.style"
-              :key="i"
-              :is="style.cmp"
-              v-bind="style"
-            >
+            <component v-for="(style, i) in layer.style" :key="i" :is="style.cmp" v-bind="style">
               <!-- create inner style components: vl-style-circle, vl-style-icon, vl-style-fill, vl-style-stroke & etc -->
               <div v-if="style.styles">
-                <component
-                  v-for="(st, cmp) in style.styles"
-                  :key="cmp"
-                  :is="cmp"
-                  v-bind="st"
-                >
+                <component v-for="(st, cmp) in style.styles" :key="cmp" :is="cmp" v-bind="st">
                   <!-- vl-style-fill, vl-style-stroke if provided -->
-                  <vl-style-fill
-                    v-if="st.fill"
-                    v-bind="st.fill"
-                  ></vl-style-fill>
-                  <vl-style-stroke
-                    v-if="st.stroke"
-                    v-bind="st.stroke"
-                  ></vl-style-stroke>
+                  <vl-style-fill v-if="st.fill" v-bind="st.fill"></vl-style-fill>
+                  <vl-style-stroke v-if="st.stroke" v-bind="st.stroke"></vl-style-stroke>
                 </component>
               </div>
             </component>
@@ -90,32 +75,15 @@
             v-bind="layer.source"
             :ident="layer.target"
             :features.sync="drawnFeatures"
-          >
-          </component>
+          ></component>
           <div v-if="layer.style">
-            <component
-              v-for="(style, i) in layer.style"
-              :key="i"
-              :is="style.cmp"
-              v-bind="style"
-            >
+            <component v-for="(style, i) in layer.style" :key="i" :is="style.cmp" v-bind="style">
               <!-- create inner style components: vl-style-circle, vl-style-icon, vl-style-fill, vl-style-stroke & etc -->
               <div v-if="layer.style">
-                <component
-                  v-for="(st, cmp) in style.styles"
-                  :key="cmp"
-                  :is="cmp"
-                  v-bind="st"
-                >
+                <component v-for="(st, cmp) in style.styles" :key="cmp" :is="cmp" v-bind="st">
                   <!-- vl-style-fill, vl-style-stroke if provided -->
-                  <vl-style-fill
-                    v-if="st.fill"
-                    v-bind="st.fill"
-                  ></vl-style-fill>
-                  <vl-style-stroke
-                    v-if="st.stroke"
-                    v-bind="st.stroke"
-                  ></vl-style-stroke>
+                  <vl-style-fill v-if="st.fill" v-bind="st.fill"></vl-style-fill>
+                  <vl-style-stroke v-if="st.stroke" v-bind="st.stroke"></vl-style-stroke>
                 </component>
               </div>
             </component>

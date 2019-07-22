@@ -4,15 +4,7 @@
       <v-layout column>
         <v-flex d-flex class="webgis">
           <v-layout row wrap>
-            <v-flex
-              xs3
-              d-flex
-              class="layerstree"
-              align-center
-              justify-center
-              white--text
-              >layerstree</v-flex
-            >
+            <v-flex xs3 d-flex class="layerstree" align-center justify-center white--text>layerstree</v-flex>
             <v-flex xs9 d-flex class="mapview">
               <v-layout
                 align-center
@@ -25,23 +17,10 @@
                 pr-1
                 pb-0
               >
-                <v-flex
-                  d-flex
-                  class="maptools"
-                  align-center
-                  justify-center
-                  white--text
-                  pa-1
-                >
+                <v-flex d-flex class="maptools" align-center justify-center white--text pa-1>
                   <MapTools></MapTools>
                 </v-flex>
-                <v-flex
-                  d-flex
-                  class="vuemap"
-                  align-center
-                  justify-center
-                  white--text
-                >
+                <v-flex d-flex class="vuemap" align-center justify-center white--text>
                   <VueMap
                     :baseLayers="baseLayers"
                     :vectorLayers="vectorLayers"
@@ -105,6 +84,7 @@ export default {
           cmp: "vl-layer-vector",
           visible: true,
           renderMode: "image",
+          zIndex: 201,
           source: {
             cmp: "vl-source-vector",
             features: [],
@@ -141,10 +121,11 @@ export default {
         },
         {
           id: 202,
-          title: "Bird Directive Sites [EN]",
+          title: "DEMO DATA",
           cmp: "vl-layer-vector",
-          visible: false,
+          visible: true,
           renderMode: "image",
+          zIndex: 202,
           source: {
             cmp: "vl-source-vector",
             features: [],
