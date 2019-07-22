@@ -8,13 +8,13 @@
         :load-tiles-while-animating="false"
         :load-tiles-while-interacting="false"
         data-projection="EPSG:4326"
-        @mounted="onMapMounted"
         :style="mapStyle"
+        @mounted="onMapMounted"
       >
         <vl-view
           :zoom.sync="zoom"
-          :minZoom="minZoom"
-          :maxZoom="maxzoom"
+          :min-zoom="minZoom"
+          :max-zoom="maxzoom"
           :center.sync="center"
           :rotation.sync="rotation"
         ></vl-view>
@@ -22,8 +22,8 @@
         <!-- BASE LAYERS -->
         <vl-layer-tile
           v-for="(layer, key) in baseLayers"
-          :key="key"
           :id="key"
+          :key="key"
           :visible="layer.visible"
           :preload="layer.preload"
         >
@@ -32,11 +32,11 @@
 
         <!-- VECTOR LAYERS -->
         <component
-          v-for="layer in vectorLayers"
           :is="layer.cmp"
-          :visible="layer.visible"
-          :key="layer.id"
+          v-for="layer in vectorLayers"
           :id="layer.id"
+          :key="layer.id"
+          :visible="layer.visible"
           v-bind="layer"
           :z-index="layer.zIndex"
         >
@@ -47,13 +47,29 @@
           <!-- add style components if provided -->
           <!-- create vl-style-box or vl-style-func -->
           <div v-if="layer.style">
-            <component v-for="(style, i) in layer.style" :key="i" :is="style.cmp" v-bind="style">
+            <component
+              :is="style.cmp"
+              v-for="(style, i) in layer.style"
+              :key="i"
+              v-bind="style"
+            >
               <!-- create inner style components: vl-style-circle, vl-style-icon, vl-style-fill, vl-style-stroke & etc -->
               <div v-if="style.styles">
-                <component v-for="(st, cmp) in style.styles" :key="cmp" :is="cmp" v-bind="st">
+                <component
+                  :is="cmp"
+                  v-for="(st, cmp) in style.styles"
+                  :key="cmp"
+                  v-bind="st"
+                >
                   <!-- vl-style-fill, vl-style-stroke if provided -->
-                  <vl-style-fill v-if="st.fill" v-bind="st.fill"></vl-style-fill>
-                  <vl-style-stroke v-if="st.stroke" v-bind="st.stroke"></vl-style-stroke>
+                  <vl-style-fill
+                    v-if="st.fill"
+                    v-bind="st.fill"
+                  ></vl-style-fill>
+                  <vl-style-stroke
+                    v-if="st.stroke"
+                    v-bind="st.stroke"
+                  ></vl-style-stroke>
                 </component>
               </div>
             </component>
@@ -63,11 +79,11 @@
 
         <!-- UTILITY LAYERS -->
         <component
-          v-for="layer in utilityLayers"
           :is="layer.cmp"
-          :visible="layer.visible"
-          :key="layer.id"
+          v-for="layer in utilityLayers"
           :id="layer.target"
+          :key="layer.id"
+          :visible="layer.visible"
           v-bind="layer"
         >
           <component
@@ -77,13 +93,29 @@
             :features.sync="drawnFeatures"
           ></component>
           <div v-if="layer.style">
-            <component v-for="(style, i) in layer.style" :key="i" :is="style.cmp" v-bind="style">
+            <component
+              :is="style.cmp"
+              v-for="(style, i) in layer.style"
+              :key="i"
+              v-bind="style"
+            >
               <!-- create inner style components: vl-style-circle, vl-style-icon, vl-style-fill, vl-style-stroke & etc -->
               <div v-if="layer.style">
-                <component v-for="(st, cmp) in style.styles" :key="cmp" :is="cmp" v-bind="st">
+                <component
+                  :is="cmp"
+                  v-for="(st, cmp) in style.styles"
+                  :key="cmp"
+                  v-bind="st"
+                >
                   <!-- vl-style-fill, vl-style-stroke if provided -->
-                  <vl-style-fill v-if="st.fill" v-bind="st.fill"></vl-style-fill>
-                  <vl-style-stroke v-if="st.stroke" v-bind="st.stroke"></vl-style-stroke>
+                  <vl-style-fill
+                    v-if="st.fill"
+                    v-bind="st.fill"
+                  ></vl-style-fill>
+                  <vl-style-stroke
+                    v-if="st.stroke"
+                    v-bind="st.stroke"
+                  ></vl-style-stroke>
                 </component>
               </div>
             </component>
@@ -93,24 +125,24 @@
         <vl-interaction-draw
           v-if="mapStatus === 'draw'"
           source="draw-target"
-          :type="this.drawType"
-          :stopClick="true"
+          :type="drawType"
+          :stop-click="true"
         ></vl-interaction-draw>
         <!-- MEASURE INTERACTION -->
         <vl-interaction-draw
           v-if="mapStatus === 'measure'"
           source="draw-target"
-          :type="this.measureType"
-          :stopClick="true"
+          :type="measureType"
+          :stop-click="true"
         ></vl-interaction-draw>
 
         <!-- SELECT INTERACTION -->
         <vl-interaction-select
-          :features.sync="selectedFeatures"
           v-if="mapStatus === 'info'"
+          :features.sync="selectedFeatures"
           :multi="true"
           :filter="filterF"
-          :hitTolerance="20"
+          :hit-tolerance="20"
         >
           <!-- select styles -->
           <vl-style-box>
@@ -207,6 +239,18 @@ export default {
       };
     }
   },
+  watch: {
+    mapStatus(newValue) {
+      switch (newValue) {
+        case "print":
+          this.print();
+          break;
+
+        default:
+          break;
+      }
+    }
+  },
   methods: {
     onMapMounted() {
       // now ol.Map instance is ready and we can work with it directly
@@ -251,18 +295,6 @@ export default {
       // Set print size
       map.setSize(this.printSize);
       map.getView().fit(extent, { size: this.printSize });
-    }
-  },
-  watch: {
-    mapStatus(newValue) {
-      switch (newValue) {
-        case "print":
-          this.print();
-          break;
-
-        default:
-          break;
-      }
     }
   }
 };

@@ -63,7 +63,7 @@
           <v-flex d-flex xs12 md10>
             <v-layout row wrap>
               <v-flex d-flex xs12>
-                <v-card flat id="partnership">
+                <v-card id="partnership" flat>
                   <v-card-title primary-title class="justify-center">
                     <div class="headline font-weight-medium">
                       {{ $t(`pages[0].content[0].title`) }}
@@ -82,7 +82,7 @@
               </v-flex>
 
               <v-flex d-flex xs12>
-                <v-card flat id="partnership">
+                <v-card id="partnership" flat>
                   <v-card-title primary-title class="justify-center">
                     <div class="headline font-weight-medium">
                       {{ $t(`pages[0].content[1].title`) }}
@@ -100,7 +100,7 @@
                 </v-card>
               </v-flex>
               <v-flex d-flex xs12>
-                <v-card flat id="partnership">
+                <v-card id="partnership" flat>
                   <v-card-title primary-title class="justify-center">
                     <div class="headline font-weight-medium">
                       {{ $t(`pages[0].content[2].title`) }}

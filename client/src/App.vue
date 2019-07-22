@@ -11,7 +11,7 @@ import { mapActions } from "vuex";
 import { mapGetters } from "vuex";
 
 export default {
-  name: "app",
+  name: "App",
   components: {
     TheLoader
   },
@@ -21,11 +21,11 @@ export default {
   computed: {
     ...mapGetters("app", ["loading", "pages"])
   },
-  methods: {
-    ...mapActions("app", ["fetchPages"])
-  },
   async created() {
     await this.fetchPages();
+  },
+  methods: {
+    ...mapActions("app", ["fetchPages"])
   }
 };
 </script>

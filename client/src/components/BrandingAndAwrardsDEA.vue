@@ -13,7 +13,7 @@
           </v-card-actions>
         </v-card>
       </v-flex>
-      <v-flex d-flex xs12 v-if="showReports">
+      <v-flex v-if="showReports" d-flex xs12>
         <v-layout row wrap pa-2>
           <v-flex d-flex xs12>
             <v-layout row wrap fill-height>

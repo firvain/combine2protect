@@ -1,10 +1,10 @@
 <template>
-  <div class="loading" v-show="loading">Loading&#8230;</div>
+  <div v-show="loading" class="loading">Loading&#8230;</div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 export default {
-  name: "loader",
+  name: "Loader",
   data() {
     return {};
   },
