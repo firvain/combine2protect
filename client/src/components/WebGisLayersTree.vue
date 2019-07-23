@@ -33,6 +33,7 @@
           selected-color="accent"
           open-on-click
           :open-all="true"
+          class="text-no-wrap"
         >
           <template v-slot:prepend="{ item, activeTreeItem }">
             <v-icon
@@ -46,6 +47,24 @@
               "
             ></v-icon
           ></template>
+          <template v-slot:append="{ item, activeTreeItem }">
+            <v-icon
+              v-if="showDown(item)"
+              small
+              :color="activeTreeItem ? 'accent' : ''"
+              @click="moveDown(item.id)"
+            >
+              mdi-arrow-down
+            </v-icon>
+            <v-icon
+              v-if="showUp(item)"
+              small
+              :color="activeTreeItem ? 'accent' : ''"
+              @click="moveUp(item.id)"
+            >
+              mdi-arrow-up
+            </v-icon>
+          </template>
         </v-treeview>
       </v-card-text>
     </v-card>
@@ -73,6 +92,9 @@ export default {
     };
   },
   computed: {
+    vectorLayersReversed() {
+      return [...this.vectorLayers].reverse();
+    },
     mapLayers() {
       return [
         {
@@ -83,7 +105,7 @@ export default {
         {
           id: 2,
           title: "Vector Layers",
-          children: this.vectorLayers
+          children: this.vectorLayersReversed
         }
       ];
     },
@@ -95,11 +117,55 @@ export default {
   },
   methods: {
     changeVisibility(item) {
-      console.log(item);
       const { id, visible } = item;
       this.$emit("change:visible", { id, visible: !visible });
+    },
+    showUp(item) {
+      const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
+      if (isBaselayer > -1) {
+        return false;
+      } else if (
+        !item.children &&
+        item.id !== this.vectorLayersReversed[0].id
+      ) {
+        return true;
+      }
+    },
+    showDown(item) {
+      const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
+      if (isBaselayer > -1) {
+        return false;
+      } else if (
+        !item.children &&
+        item.id !==
+          this.vectorLayersReversed[this.vectorLayersReversed.length - 1].id
+      )
+        return true;
+    },
+    moveUp(id) {
+      this.$emit("change:moveUp", id);
+    },
+    moveDown(id) {
+      this.$emit("change:moveDown", id);
     }
   }
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+/* fix for overflowing text in v-treeview */
+
+.v-treeview-node__content,
+::v-deep .v-treeview-node__label {
+  flex-shrink: 1;
+  font-size: 1em;
+}
+::v-deep .v-treeview-node--leaf {
+  margin-left: 1em;
+}
+::v-deep .v-treeview-node__root {
+  height: auto !important;
+}
+::v-deep .v-treeview-v-treeview-node__content {
+  font-weight: 500;
+}
+</style>

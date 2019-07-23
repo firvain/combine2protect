@@ -23,7 +23,7 @@
         <vl-layer-tile
           v-for="(layer, key) in baseLayers"
           :id="key"
-          :key="key"
+          :key="layer.id"
           :visible="layer.visible"
           :preload="layer.preload"
         >
@@ -33,9 +33,9 @@
         <!-- VECTOR LAYERS -->
         <component
           :is="layer.cmp"
-          v-for="layer in vectorLayers"
+          v-for="(layer, index) in vectorLayers"
           :id="layer.id"
-          :key="layer.id"
+          :key="index"
           :visible="layer.visible"
           v-bind="layer"
           :z-index="layer.zIndex"
