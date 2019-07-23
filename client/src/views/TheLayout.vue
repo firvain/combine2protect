@@ -1,6 +1,6 @@
 <template>
   <div class="mine">
-    <SiteToolBar :pages="pages" v-if="showBars"></SiteToolBar>
+    <SiteToolBar v-if="showBars" :pages="pages"></SiteToolBar>
     <router-view :pages="pages"></router-view>
     <TheFooter v-if="showBars"></TheFooter>
   </div>

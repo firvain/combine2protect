@@ -4,7 +4,22 @@
       <v-layout column>
         <v-flex d-flex class="webgis">
           <v-layout row wrap>
-            <v-flex xs3 d-flex class="layerstree" align-center justify-center white--text>layerstree</v-flex>
+            <v-flex
+              xs3
+              d-flex
+              class="layerstreeWrapper"
+              align-start
+              justify-center
+              pa-1
+            >
+              <LayersTree
+                :base-layers="baseLayers"
+                :vector-layers="vectorLayers"
+                @change:visible="setVisibility"
+                @change:moveUp="moveUp"
+                @change:moveDown="moveDown"
+              ></LayersTree>
+            </v-flex>
             <v-flex xs9 d-flex class="mapview">
               <v-layout
                 align-center
@@ -13,21 +28,34 @@
                 fill-height
                 align-items-start
                 pt-1
-                pl-1P
+                pl-1p
                 pr-1
                 pb-0
               >
-                <v-flex d-flex class="maptools" align-center justify-center white--text pa-1>
+                <v-flex
+                  d-flex
+                  class="maptools"
+                  align-center
+                  justify-center
+                  white--text
+                  pa-1
+                >
                   <MapTools></MapTools>
                 </v-flex>
-                <v-flex d-flex class="vuemap" align-center justify-center white--text>
+                <v-flex
+                  d-flex
+                  class="vuemap"
+                  align-center
+                  justify-center
+                  white--text
+                >
                   <VueMap
-                    :baseLayers="baseLayers"
-                    :vectorLayers="vectorLayers"
-                    :utilityLayers="utilityLayers"
-                    :mapStatus="mapStatus"
-                    :drawType="drawType"
-                    :measureType="measureType"
+                    :base-layers="baseLayers"
+                    :vector-layers="vectorLayers"
+                    :utility-layers="utilityLayers"
+                    :map-status="mapStatus"
+                    :draw-type="drawType"
+                    :measure-type="measureType"
                     @export:pdf="exportPDF"
                   ></VueMap>
                 </v-flex>
@@ -44,14 +72,16 @@
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 import MapTools from "@/components/WebGISMaptools.vue";
+import LayersTree from "@/components/WebGISLayersTree.vue";
 import VueMap from "@/components/WebGisVueMap.vue";
 import { loadingBBox } from "vuelayers/lib/ol-ext";
 import { loaderFactory } from "../services/api.js";
 import * as jsPDF from "jspdf";
 export default {
-  name: "webGIS",
+  name: "WebGIS",
   components: {
     MapTools,
+    LayersTree,
     VueMap
   },
   data() {
@@ -66,7 +96,7 @@ export default {
           preload: Infinity
         },
         {
-          id: 100,
+          id: 101,
           name: "bingmaps",
           title: "Bing Maps",
           apiKey:
@@ -79,12 +109,11 @@ export default {
       ],
       vectorLayers: [
         {
-          id: 201,
-          title: "Bird Directive Sites [EN]",
+          id: 200,
+          title: "Bird Directive GREEN",
           cmp: "vl-layer-vector",
           visible: true,
           renderMode: "image",
-          zIndex: 201,
           source: {
             cmp: "vl-source-vector",
             features: [],
@@ -109,7 +138,7 @@ export default {
               cmp: "vl-style-box",
               styles: {
                 "vl-style-fill": {
-                  color: [255, 255, 255, 0.5]
+                  color: "green"
                 },
                 "vl-style-stroke": {
                   color: "#8f209b",
@@ -120,12 +149,11 @@ export default {
           ]
         },
         {
-          id: 202,
-          title: "DEMO DATA",
+          id: 201,
+          title: "DEMO DATA blue",
           cmp: "vl-layer-vector",
           visible: true,
           renderMode: "image",
-          zIndex: 202,
           source: {
             cmp: "vl-source-vector",
             features: [],
@@ -140,7 +168,37 @@ export default {
               cmp: "vl-style-box",
               styles: {
                 "vl-style-fill": {
-                  color: [255, 255, 255, 0.5]
+                  color: "blue"
+                },
+                "vl-style-stroke": {
+                  color: "#219e46",
+                  width: 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          id: 202,
+          title: "DEMO DATA2 red",
+          cmp: "vl-layer-vector",
+          visible: true,
+          renderMode: "image",
+          source: {
+            cmp: "vl-source-vector",
+            features: [],
+            url() {},
+            strategyFactory() {
+              return loadingBBox;
+            },
+            loaderFactory
+          },
+          style: [
+            {
+              cmp: "vl-style-box",
+              styles: {
+                "vl-style-fill": {
+                  color: "red"
                 },
                 "vl-style-stroke": {
                   color: "#219e46",
@@ -226,9 +284,40 @@ export default {
         console.log(error);
         this.updateMapStatus("display");
       }
+    },
+    setVisibility(e) {
+      const layer = this.vectorLayers.find(k => k.id === e.id);
+      const baseLayer = this.baseLayers.find(k => k.id === e.id);
+      if (layer) layer.visible = e.visible;
+      if (baseLayer) baseLayer.visible = e.visible;
+    },
+    moveDown(id) {
+      const old_index = this.vectorLayers.findIndex(x => x.id === id);
+      const new_index = old_index - 1;
+      this.move(this.vectorLayers, old_index, new_index);
+    },
+    moveUp(id) {
+      const old_index = this.vectorLayers.findIndex(x => x.id === id);
+      const new_index = old_index + 1;
+      this.move(this.vectorLayers, old_index, new_index);
+    },
+    move(arr, old_index, new_index) {
+      while (old_index < 0) {
+        old_index += arr.length;
+      }
+      while (new_index < 0) {
+        new_index += arr.length;
+      }
+      if (new_index >= arr.length) {
+        let k = new_index - arr.length;
+        while (k-- + 1) {
+          arr.push(undefined);
+        }
+      }
+      arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+      return arr;
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -236,7 +325,7 @@ export default {
   min-height: calc(100vh - 165px);
   background-color: #da7033;
 }
-.layerstree {
+.layerstreeWrapper {
   background-color: red;
   flex: 1;
 }

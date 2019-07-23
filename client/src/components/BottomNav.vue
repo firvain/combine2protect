@@ -38,7 +38,7 @@
 </template>
 <script>
 export default {
-  name: "bottomNav",
+  name: "BottomNav",
   props: {
     show: {
       type: Boolean,

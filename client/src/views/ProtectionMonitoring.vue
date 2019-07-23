@@ -16,7 +16,7 @@
             </v-card-text>
           </v-card>
         </v-flex>
-        <v-flex d-flex v-for="msg in msgs" :key="msg.title" xs12>
+        <v-flex v-for="msg in msgs" :key="msg.title" d-flex xs12>
           <v-card flat>
             <v-card-title
               primary-title
@@ -50,7 +50,7 @@
 </template>
 <script>
 export default {
-  name: "protectionmonitoring",
+  name: "Protectionmonitoring",
   components: {},
   data() {
     return {

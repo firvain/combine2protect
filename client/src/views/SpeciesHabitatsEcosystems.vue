@@ -26,7 +26,7 @@
           <v-layout column fill-height>
             <v-flex>
               <v-layout row wrap align-content-start fill-height>
-                <v-flex d-flex xs12 md4 v-if="hasInfo === 0 || hasInfo === 1">
+                <v-flex v-if="hasInfo === 0 || hasInfo === 1" d-flex xs12 md4>
                   <v-card>
                     <v-img
                       src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
@@ -36,15 +36,15 @@
                       <v-btn
                         flat
                         color="primary"
-                        @click="showInfoSpecies"
                         class="text-none"
+                        @click="showInfoSpecies"
                       >
                         {{ $t(`pages[1].subpages[0].title`) }}</v-btn
                       >
                     </v-card-actions>
                   </v-card>
                 </v-flex>
-                <v-flex d-flex xs12 md4 v-if="hasInfo === 0 || hasInfo === 2">
+                <v-flex v-if="hasInfo === 0 || hasInfo === 2" d-flex xs12 md4>
                   <v-card>
                     <v-img
                       src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
@@ -54,15 +54,15 @@
                       <v-btn
                         flat
                         color="primary"
-                        @click="showInfoHabitats"
                         class="text-none"
+                        @click="showInfoHabitats"
                       >
                         {{ $t(`pages[1].subpages[1].title`) }}</v-btn
                       >
                     </v-card-actions>
                   </v-card>
                 </v-flex>
-                <v-flex d-flex xs12 md4 v-if="hasInfo === 0 || hasInfo === 3">
+                <v-flex v-if="hasInfo === 0 || hasInfo === 3" d-flex xs12 md4>
                   <v-card>
                     <v-img
                       src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
@@ -72,8 +72,8 @@
                       <v-btn
                         flat
                         color="primary"
-                        @click="showInfoEcosystems"
                         class="text-none"
+                        @click="showInfoEcosystems"
                       >
                         {{ $t(`pages[1].subpages[2].title`) }}</v-btn
                       >
@@ -81,7 +81,7 @@
                   </v-card></v-flex
                 >
 
-                <v-flex d-flex xs12 md8 v-if="hasInfo > 0">
+                <v-flex v-if="hasInfo > 0" d-flex xs12 md8>
                   <v-card>
                     <v-layout column fill-height pa-0>
                       <v-flex d-flex>
@@ -95,8 +95,8 @@
                           <v-btn
                             flat
                             color="primary"
-                            @click="goBack"
                             class="text-none"
+                            @click="goBack"
                           >
                             {{ $t("comps.back").toUpperCase() }}</v-btn
                           >
@@ -115,7 +115,7 @@
 </template>
 <script>
 export default {
-  name: "specieshabitatsecosystems",
+  name: "Specieshabitatsecosystems",
   components: {},
   data() {
     return {

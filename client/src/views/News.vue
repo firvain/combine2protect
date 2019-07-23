@@ -60,7 +60,7 @@
                     <img :src="item.img" />
                   </v-list-tile-avatar>
                   <v-list-tile-content>
-                    <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                    <v-list-tile-title> {{ item.title }} </v-list-tile-title>
                   </v-list-tile-content>
                 </v-list-tile>
               </template>
@@ -73,7 +73,7 @@
 </template>
 <script>
 export default {
-  name: "news",
+  name: "News",
   components: {},
   data() {
     return {
