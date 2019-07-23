@@ -8,15 +8,15 @@
       <v-flex xs8 d-flex>
         <v-card flat>
           <v-form
-            @submit.prevent="checkAnswers"
             id="check-answers-form"
             ref="myForm"
+            @submit.prevent="checkAnswers"
           >
             <v-flex
-              d-flex
-              xs12
               v-for="(question, idx) in questions"
               :key="idx"
+              d-flex
+              xs12
               pa-0
             >
               <v-layout row wrap align-center>
@@ -25,8 +25,8 @@
                 </v-flex>
                 <v-flex xs12 md8 pa-0>
                   <v-radio-group
-                    row
                     v-model="question.choosen"
+                    row
                     :disabled="disableSubmit"
                   >
                     <v-radio
@@ -41,10 +41,10 @@
             </v-flex>
           </v-form>
           <v-card-title
+            v-show="showresults"
             primary-title
             class="title white--text"
             :class="[{ success: score === 1 }, 'error']"
-            v-show="showresults"
           >
             <v-spacer></v-spacer>
             Score: {{ (score / 10) * 100 }} %</v-card-title

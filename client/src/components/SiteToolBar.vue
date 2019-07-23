@@ -5,15 +5,15 @@
       width="160"
       height="40"
       alt="COMBINE2PROTECT logo"
-      @click="$router.push('/')"
       class="hoverTitle"
+      @click="$router.push('/')"
     />
     <v-spacer></v-spacer>
     <div class="search">
       <v-text-field
+        v-model="search"
         class="pt-0"
         hide-details
-        v-model="search"
         append-icon="mdi-magnify"
         placeholder="Search for WHAT??????"
       >
@@ -66,9 +66,9 @@
             <v-btn
               small
               flat
-              v-on="on"
               :to="pages[2].route"
               :class="{ smallLetters: $vuetify.breakpoint.lgAndDown }"
+              v-on="on"
             >
               {{ $t("pages[2].title") }}
             </v-btn>
@@ -107,9 +107,9 @@
             <v-btn
               small
               flat
-              v-on="on"
               :to="pages[5].route"
               :class="{ smallLetters: $vuetify.breakpoint.lgAndDown }"
+              v-on="on"
             >
               {{ $t("pages[5].title") }}
             </v-btn>
@@ -150,7 +150,7 @@
 </template>
 <script>
 export default {
-  name: "toolbar",
+  name: "Toolbar",
   props: {
     pages: {
       type: Array,

@@ -25,10 +25,10 @@
             <div>Workshops</div>
           </v-flex>
           <v-flex
-            d-flex
-            xs12
             v-for="workshop in workshops"
             :key="workshop.title"
+            d-flex
+            xs12
           >
             <v-layout row wrap>
               <v-flex d-flex xs12 class="text-xs-center title">
@@ -42,7 +42,7 @@
               </v-flex>
               <v-flex d-flex xs12 md4>
                 <v-layout row wrap>
-                  <v-flex xs4 v-for="i in 6" :key="i">
+                  <v-flex v-for="i in 6" :key="i" xs4>
                     <v-btn
                       color="primary"
                       flat
@@ -72,7 +72,7 @@
           >
             <div>Seminars</div>
           </v-flex>
-          <v-flex d-flex xs12 v-for="seminar in seminars" :key="seminar.title">
+          <v-flex v-for="seminar in seminars" :key="seminar.title" d-flex xs12>
             <v-layout row wrap>
               <v-flex d-flex xs12 class="text-xs-center title">
                 <div>{{ seminar.title }}</div>
@@ -85,7 +85,7 @@
               </v-flex>
               <v-flex d-flex xs12 md4>
                 <v-layout row wrap>
-                  <v-flex xs4 v-for="i in 6" :key="i">
+                  <v-flex v-for="i in 6" :key="i" xs4>
                     <v-btn
                       color="primary"
                       flat
@@ -112,10 +112,10 @@
             <div>Experience Exchange</div>
           </v-flex>
           <v-flex
-            d-flex
-            xs12
             v-for="experience in experiences"
             :key="experience.title"
+            d-flex
+            xs12
           >
             <v-layout row wrap>
               <v-flex d-flex xs12 class="text-xs-center title">
@@ -129,7 +129,7 @@
               </v-flex>
               <v-flex d-flex xs12 md4>
                 <v-layout row wrap>
-                  <v-flex xs4 v-for="i in 6" :key="i">
+                  <v-flex v-for="i in 6" :key="i" xs4>
                     <v-btn
                       color="primary"
                       flat
@@ -149,7 +149,7 @@
 </template>
 <script>
 export default {
-  name: "capacity",
+  name: "Capacity",
   components: {},
   data() {
     return {

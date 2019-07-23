@@ -21,18 +21,18 @@
       </v-btn>
     </v-flex>
     <v-flex
+      v-if="mapStatus !== 'display'"
       d-flex
       grow
       class="module text-xs-center"
       fill-height
-      v-if="mapStatus !== 'display'"
     >
       <v-layout row wrap align-center>
-        <v-flex d-flex xs12 pl-1 v-if="mapStatus === 'draw'">
+        <v-flex v-if="mapStatus === 'draw'" d-flex xs12 pl-1>
           <v-radio-group
             ref="drawTypeRadioPicker"
-            row
             v-model="radioGroupDraw"
+            row
             hide-details
             dark
           >
@@ -45,11 +45,11 @@
             ></v-radio>
           </v-radio-group>
         </v-flex>
-        <v-flex d-flex xs12 pl-1 v-if="mapStatus === 'measure'">
+        <v-flex v-if="mapStatus === 'measure'" d-flex xs12 pl-1>
           <v-radio-group
             ref="drawTypeRadioPicker"
-            row
             v-model="radioGroupMeasure"
+            row
             hide-details
             dark
           >
@@ -72,7 +72,7 @@ import { mapGetters } from "vuex";
 import { mapMutations } from "vuex";
 
 export default {
-  name: "maptools",
+  name: "Maptools",
   data() {
     return {
       radioGroupItems: [

@@ -14,10 +14,10 @@
         </v-card>
       </v-flex>
       <v-flex
-        v-show="showReports"
-        xs12
         v-for="report in reports"
+        v-show="showReports"
         :key="report.title"
+        xs12
       >
         <v-container grid-list-md>
           <v-layout row wrap justify-start align-center>
@@ -26,7 +26,7 @@
                 {{ report.title }}
               </div>
             </v-flex>
-            <v-flex xs12 md8 v-if="report.summary">
+            <v-flex v-if="report.summary" xs12 md8>
               <read-more
                 :more-str="$t(`comps.readmore.more`)"
                 :text="report.summary"
@@ -35,10 +35,10 @@
                 :max-chars="200"
               ></read-more>
             </v-flex>
-            <v-flex xs12 md2 v-if="report.image">
+            <v-flex v-if="report.image" xs12 md2>
               <v-img :src="report.image" contain> </v-img>
             </v-flex>
-            <v-flex xs12 md2 v-if="report.link" class="text-xs-center">
+            <v-flex v-if="report.link" xs12 md2 class="text-xs-center">
               <v-btn color="primary" :href="report.link" target="_blank"
                 >Link</v-btn
               >
@@ -52,7 +52,7 @@
 </template>
 <script>
 export default {
-  name: "biodiversity",
+  name: "Biodiversity",
   data() {
     return {
       showReports: false,

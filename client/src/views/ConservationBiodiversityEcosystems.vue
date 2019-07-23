@@ -41,10 +41,10 @@
 <script>
 export default {
   name: "ConservationBiodiversity",
+  components: {},
   props: {
     pages: { type: Array, required: true }
   },
-  components: {},
   data() {
     return {};
   },
