@@ -1,8 +1,47 @@
 <template>
   <v-content>
-    <v-container fluid pa-0 fill-height>
-      <v-layout row wrap justify-center align-center fill-height pa-0>
-        <v-flex xs12 class="mycarousel">
+    <v-container fluid fill-height pa-0 ma-0>
+      <v-layout column>
+        <v-flex d-flex class="intro">
+          <v-layout v-resize="onResize" row wrap>
+            <v-flex xs12 d-flex class="myCarousel" align-start justfy-center>
+              <v-carousel
+                hide-delimiters
+                hide-controls
+                :height="carouselHeight"
+              >
+                <v-carousel-item
+                  v-for="(slide, i) in slides"
+                  :key="i"
+                  :src="slide.src"
+                  reverse-transition="fade"
+                  transition="fade"
+                >
+                  <v-sheet
+                    height="100%"
+                    tile
+                    color="transparent"
+                    class="display-3"
+                  >
+                    <v-layout align-end justify-start fill-height>
+                      <div
+                        class="pa-2"
+                        style="width:100%; color:red; background-color:rgb(117,117,117,.5)"
+                      >
+                        {{ slide.title }}
+                      </div>
+                    </v-layout>
+                  </v-sheet>
+                </v-carousel-item>
+              </v-carousel>
+            </v-flex>
+            <v-flex xs12 d-flex class="bottomNav">
+              <BottomNav :show="true"></BottomNav>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+      <!-- <v-flex xs12 class="mycarousel">
           <v-carousel height="700" hide-delimiters>
             <v-carousel-item
               v-for="(slide, i) in slides"
@@ -18,7 +57,7 @@
           </div>
         </v-flex>
         <v-flex xs12><BottomNav :show="true"></BottomNav> </v-flex
-      ></v-layout>
+      ></v-layout> -->
     </v-container>
   </v-content>
 </template>
@@ -39,28 +78,53 @@ export default {
         {
           title: "first image",
           content: "1st content",
-          src: "https://via.placeholder.com/1920x1024/FF0000.png"
+          src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg"
         },
         {
           title: "second image",
           content: "2nd content",
-          src: "https://via.placeholder.com/1920x1024/008000.png"
+          src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg"
         },
         {
           title: "third image",
           content: "3rd content",
-          src: "https://via.placeholder.com/1920x1024.png"
+          src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg"
         }
-      ]
+      ],
+      carouselHeight: 300
     };
   },
-  methods: {}
+  computed: {},
+  mounted() {
+    this.onResize();
+  },
+  methods: {
+    onResize() {
+      this.windowSize = this.carouselHeight = window.innerHeight - 64;
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 .textLabel {
   height: 56px;
+}
+.intro {
+  height: 100%;
+  background-color: #da7033;
+  // flex: 1;
+}
+.myCarousel {
+  background-color: blue;
+  min-height: calc(100vh - 64px);
+  width: 100%;
+}
+.bottomNav {
+  background-color: red;
+  // flex: 0 1 auto;
+  width: 100%;
+  height: 64px;
 }
 /* .vueperslide__content-wrapper--outside-top {
   transition: 0.3s ease-in-out;
