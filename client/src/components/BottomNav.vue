@@ -25,23 +25,6 @@
             </v-list-tile>
           </v-list>
         </v-menu>
-        <!-- <v-menu open-on-hover top offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn color="accent" dark v-on="on">
-              Data
-            </v-btn>
-          </template>
-
-          <v-list>
-            <v-list-tile
-              v-for="(item, index) in home"
-              :key="index"
-              @click="gotoText"
-            >
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-            </v-list-tile>
-          </v-list>
-        </v-menu> -->
         <v-btn color="accent" to="/home">
           {{ $t("pages[0].content[0].title") }}
         </v-btn>
