@@ -2,29 +2,37 @@
   <v-content>
     <v-container fluid grid-list-lg fill-height>
       <v-layout column>
-        <v-flex>
-          <v-layout row wrap align-content-start>
-            <v-flex d-flex xs12 md10>
+        <v-flex d-flex>
+          <v-layout row wrap align-content-start justify-center>
+            <v-flex v-show="!isshowpdf" d-flex-inline xs12 md10>
               <v-card height="300">
                 <v-card-title primary-title>
                   <div class="full">{{ cardText }}</div>
                 </v-card-title>
               </v-card>
             </v-flex>
-            <v-flex d-flex xs12 md2>
+            <v-flex v-show="!isshowpdf" d-flex-inline xs12 md2>
               <v-img
                 height="300"
                 class="hoverImage"
                 src="https://via.placeholder.com/120x90/0000FF/808080/?text=BookBanner"
-                @click="showPdfReader"
+                @click="showPdffun"
               />
+            </v-flex>
+            <v-flex d-flex xs12 md6>
+              <pdfViewer
+                :value="isshowpdf"
+                :pdfurl="pdfurls"
+                @closepdf="closepdf"
+                @pdferr="pdferr"
+              ></pdfViewer>
             </v-flex>
           </v-layout>
         </v-flex>
 
-        <v-flex>
+        <v-flex d-flex>
           <v-layout column fill-height>
-            <v-flex>
+            <v-flex d-flex>
               <v-layout row wrap align-content-start fill-height>
                 <v-flex v-if="hasInfo === 0 || hasInfo === 1" d-flex xs12 md4>
                   <v-card>
@@ -114,15 +122,21 @@
   </v-content>
 </template>
 <script>
+import pdfViewer from "@/components/PdfViewer";
+
 export default {
   name: "Specieshabitatsecosystems",
-  components: {},
+  components: { pdfViewer },
   data() {
     return {
       hasInfo: 0,
       info: "",
       cardText:
-        "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat."
+        "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat.",
+      showPDF: false,
+      isshowpdf: false,
+      pdfurls:
+        "https://res.cloudinary.com/firvain/image/upload/v1563970033/combine2protect/7_%CE%9C%CF%85%CC%81%CE%B8%CE%BF%CE%B9_%CF%84%CE%BF%CF%85_%CE%91%CE%B9%CF%83%CF%89%CC%81%CF%80%CE%BF%CF%85.pdf"
     };
   },
   computed: {
@@ -131,8 +145,14 @@ export default {
     }
   },
   methods: {
-    showPdfReader() {
-      console.log("showPdfReader");
+    closepdf() {
+      this.isshowpdf = false;
+    },
+    pdferr(errurl) {
+      console.log(errurl);
+    },
+    showPdffun() {
+      this.isshowpdf = true;
     },
     showInfoSpecies() {
       this.hasInfo = 1;
@@ -160,5 +180,8 @@ export default {
 }
 .hoverImage {
   cursor: pointer;
+}
+.cpdf {
+  position: relative;
 }
 </style>
