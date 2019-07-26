@@ -10587,11 +10587,6 @@ vuelayers@^0.11.4:
     uuid "^3.3.2"
     whatwg-fetch "^3.0.0"
 
-vueperslides@^1.19.1:
-  version "1.19.1"
-  resolved "https://registry.yarnpkg.com/vueperslides/-/vueperslides-1.19.1.tgz#3b3f21d0f1f37116f66f3f2885ce4c977917a8bd"
-  integrity sha512-awsRvo6yEnwDDwYrM2ICGPp2Y7yvqijhLsRJS6yO8vW8EwBVO4OnSX5zz6TWrBcaGPOJBE4DLwMkRmvPBis2Ng==
-
 vuetify-loader@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/vuetify-loader/-/vuetify-loader-1.2.2.tgz#7c221dcfd8482344518818d598f9cef8ddd85b6b"
