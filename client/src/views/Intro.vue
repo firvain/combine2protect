@@ -5,11 +5,7 @@
         <v-flex d-flex class="intro">
           <v-layout v-resize="onResize" row wrap>
             <v-flex xs12 d-flex class="myCarousel" align-start justfy-center>
-              <v-carousel
-                hide-delimiters
-                hide-controls
-                :height="carouselHeight"
-              >
+              <v-carousel :height="carouselHeight">
                 <v-carousel-item
                   v-for="(slide, i) in slides"
                   :key="i"
@@ -23,7 +19,7 @@
                     color="transparent"
                     class="display-3"
                   >
-                    <v-layout align-end justify-start fill-height>
+                    <v-layout align-start justify-start fill-height>
                       <div
                         class="pa-2"
                         style="width:100%; color:red; background-color:rgb(117,117,117,.5)"
@@ -66,7 +62,7 @@ import BottomNav from "@/components/BottomNav.vue";
 // In your VueJS component.
 
 // Since v. 1.6.0, you need to include Vueper Slides CSS file for default styles.
-import "vueperslides/dist/vueperslides.css";
+// import "vueperslides/dist/vueperslides.css";
 export default {
   name: "Intro",
   components: {
