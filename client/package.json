@@ -22,7 +22,7 @@
     "vue-i18n": "^8.12.0",
     "vue-read-more": "^1.1.1",
     "vue-router": "^3.0.7",
-    "vuelayers": "0.11.4",
+    "vuelayers": "^0.11.4",
     "vuetify": "^1.5.16",
     "vuex": "^3.1.1"
   },

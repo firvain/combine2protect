@@ -159,7 +159,6 @@ export default {
           source: {
             cmp: "vl-source-vector",
             features: [],
-            url() {},
             strategyFactory() {
               return loadingBBox;
             },
@@ -189,7 +188,6 @@ export default {
           source: {
             cmp: "vl-source-vector",
             features: [],
-            url() {},
             strategyFactory() {
               return loadingBBox;
             },
