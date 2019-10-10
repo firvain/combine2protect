@@ -18,6 +18,7 @@
                 @change:visible="setVisibility"
                 @change:moveUp="moveUp"
                 @change:moveDown="moveDown"
+                @change:activeTreeItem="activeTreeItem"
               ></LayersTree>
             </v-flex>
             <v-flex xs9 d-flex class="mapview">
@@ -56,6 +57,7 @@
                     :map-status="mapStatus"
                     :draw-type="drawType"
                     :measure-type="measureType"
+                    :active-tree-item="selectedLayer"
                     @export:pdf="exportPDF"
                   ></VueMap>
                 </v-flex>
@@ -234,7 +236,8 @@ export default {
         day: null,
         hour: null,
         minute: null
-      }
+      },
+      selectedLayer: null
     };
   },
   computed: {
@@ -316,6 +319,13 @@ export default {
       }
       arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
       return arr;
+    },
+    activeTreeItem(e) {
+      if (e) {
+        this.selectedLayer = e[0];
+      } else {
+        this.selectedLayer = null;
+      }
     }
   }
 };
@@ -323,14 +333,14 @@ export default {
 <style lang="scss" scoped>
 .webgis {
   min-height: calc(100vh - 165px);
-  background-color: #da7033;
+  // background-color: #da7033;
 }
 .layerstreeWrapper {
-  background-color: red;
+  // background-color: red;
   flex: 1;
 }
 .mapview {
-  background-color: green;
+  // background-color: green;
   flex: 1 1 auto;
   .maptools {
     background-color: blue;

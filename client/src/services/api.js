@@ -45,7 +45,7 @@ export const loaderFactory = vm => {
       extent[2] +
       "/" +
       extent[3];
-
+    console.log(url);
     try {
       const response = await axios.get(url, {
         timeout: 30000

@@ -115,6 +115,13 @@ export default {
         : undefined;
     }
   },
+  watch: {
+    activeTreeItem(newValue) {
+      if (newValue && newValue.length > 0) {
+        this.$emit("change:activeTreeItem", newValue);
+      } else this.$emit("change:activeTreeItem", null);
+    }
+  },
   methods: {
     changeVisibility(item) {
       const { id, visible } = item;
