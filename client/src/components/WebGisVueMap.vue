@@ -164,6 +164,8 @@
           source="draw-target"
           :type="measureType"
           :stop-click="true"
+          @drawstart="measureDrawStart"
+          @drawend="measureDrawEnd"
         ></vl-interaction-draw>
 
         <!-- SELECT INTERACTION -->
@@ -201,8 +203,8 @@ import ScaleLine from "ol/control/ScaleLine";
 import FullScreen from "ol/control/FullScreen";
 import OverviewMap from "ol/control/OverviewMap";
 import ZoomSlider from "ol/control/ZoomSlider";
-// import { getArea, getLength } from "ol/sphere.js";
-// import { Polygon } from "ol/geom.js";
+import { getArea, getLength } from "ol/sphere.js";
+import { Polygon } from "ol/geom.js";
 // import KML from "ol/format/KML";
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
@@ -337,6 +339,38 @@ export default {
     info() {
       console.log(this.activeTreeItem);
       if (!this.activeTreeItem) alert("Please select a layer from the tree");
+    },
+    formatLength(line) {
+      const length = getLength(line);
+      let output;
+      if (length > 100) {
+        output = Math.round((length / 1000) * 100) / 100 + " " + "km";
+      } else {
+        output = Math.round(length * 100) / 100 + " " + "m";
+      }
+      return output;
+    },
+    formatArea(polygon) {
+      const area = getArea(polygon);
+      let output;
+      if (area > 10000) {
+        output = Math.round((area / 1000000) * 100) / 100 + " " + "km2";
+      } else {
+        output = Math.round(area * 100) / 100 + " " + "m2";
+      }
+      return output;
+    },
+    measureDrawStart() {
+      console.log(this.$refs);
+      this.$refs.draw.getSource().clear();
+    },
+    measureDrawEnd(evt) {
+      let geom = evt.feature.getGeometry();
+      if (geom instanceof Polygon) {
+        alert("Area is: " + this.formatArea(geom));
+      } else {
+        alert("Length is: " + this.formatLength(geom));
+      }
     }
   }
 };

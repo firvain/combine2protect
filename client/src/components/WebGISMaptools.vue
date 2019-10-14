@@ -1,22 +1,38 @@
 <template>
   <v-layout row wrap align-center fill-height align-content-center>
     <v-flex d-flex shrink>
-      <v-btn icon color="white" @click="SET_MAP_STATUS('draw')">
+      <v-btn
+        icon
+        :color="mapStatus === 'draw' ? 'red' : 'white'"
+        @click="SET_MAP_STATUS('draw')"
+      >
         <v-icon>mdi-square-edit-outline</v-icon>
       </v-btn>
     </v-flex>
     <v-flex d-flex shrink>
-      <v-btn icon color="white" @click="SET_MAP_STATUS('measure')">
+      <v-btn
+        icon
+        :color="mapStatus === 'measure' ? 'red' : 'white'"
+        @click="SET_MAP_STATUS('measure')"
+      >
         <v-icon>mdi-tape-measure</v-icon>
       </v-btn>
     </v-flex>
     <v-flex d-flex shrink>
-      <v-btn icon color="white" @click="SET_MAP_STATUS('info')">
+      <v-btn
+        icon
+        :color="mapStatus === 'info' ? 'red' : 'white'"
+        @click="SET_MAP_STATUS('info')"
+      >
         <v-icon>mdi-information-variant</v-icon>
       </v-btn>
     </v-flex>
     <v-flex d-flex shrink>
-      <v-btn icon color="white" @click="SET_MAP_STATUS('print')">
+      <v-btn
+        icon
+        :color="mapStatus === 'print' ? 'red' : 'white'"
+        @click="SET_MAP_STATUS('print')"
+      >
         <v-icon>mdi-printer</v-icon>
       </v-btn>
     </v-flex>
