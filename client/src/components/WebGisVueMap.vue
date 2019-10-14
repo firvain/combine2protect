@@ -91,7 +91,8 @@
             v-bind="layer.source"
             :ident="layer.target"
             :features.sync="drawnFeatures"
-          ></component>
+          >
+          </component>
           <div v-if="layer.style">
             <component
               :is="style.cmp"
@@ -121,6 +122,35 @@
             </component>
           </div>
         </component>
+        <!-- INFO POPOUP -->
+        <vl-layer-vector
+          v-if="mapStatus === 'info' && selectedFeatures !== 'undefined'"
+        >
+          <vl-source-vector ref="infoVectorSource">
+            <vl-feature
+              v-for="feature in selectedFeatures"
+              :id="feature.id"
+              :key="feature.id"
+              :properties="feature.properties"
+            >
+              <vl-overlay
+                :position="pointOnSurface(feature.geometry)"
+                positioning="center-left"
+                auto-pan
+                stop-event
+                :insert-first="false"
+              >
+                <div class="overlayWrapper">
+                  <ul>
+                    <li v-for="k in Object.keys(feature.properties)" :key="k">
+                      {{ k }} : {{ feature.properties[k] }}
+                    </li>
+                  </ul>
+                </div>
+              </vl-overlay>
+            </vl-feature>
+          </vl-source-vector>
+        </vl-layer-vector>
         <!-- DRAW INTERACTION -->
         <vl-interaction-draw
           v-if="mapStatus === 'draw'"
@@ -140,7 +170,7 @@
         <vl-interaction-select
           v-if="mapStatus === 'info'"
           :features.sync="selectedFeatures"
-          :multi="true"
+          :multi="false"
           :filter="filterF"
           :hit-tolerance="20"
         >
@@ -176,6 +206,7 @@ import ZoomSlider from "ol/control/ZoomSlider";
 // import KML from "ol/format/KML";
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
+import * as olExt from "vuelayers/lib/ol-ext";
 
 export default {
   name: "VueMap",
@@ -203,6 +234,10 @@ export default {
     measureType: {
       type: String,
       default: "Linestring"
+    },
+    activeTreeItem: {
+      type: Number,
+      default: null
     }
   },
   data() {
@@ -245,13 +280,17 @@ export default {
         case "print":
           this.print();
           break;
-
+        case "info":
+          this.info();
+          break;
         default:
           break;
       }
     }
   },
+
   methods: {
+    pointOnSurface: olExt.findPointOnSurface,
     onMapMounted() {
       // now ol.Map instance is ready and we can work with it directly
       this.$refs.map.$map.getControls().extend([
@@ -270,9 +309,8 @@ export default {
       ]);
     },
     filterF(feature, layer) {
-      console.log(feature, layer);
-      // if (layer.get("id") === this.selectedLayer) return true;
-      return true;
+      if (layer.get("id") === this.activeTreeItem) return true;
+      return false;
     },
     print() {
       const map = this.$refs.map.$map;
@@ -295,6 +333,10 @@ export default {
       // Set print size
       map.setSize(this.printSize);
       map.getView().fit(extent, { size: this.printSize });
+    },
+    info() {
+      console.log(this.activeTreeItem);
+      if (!this.activeTreeItem) alert("Please select a layer from the tree");
     }
   }
 };
@@ -315,5 +357,14 @@ export default {
   left: auto;
   right: 0.5em;
   top: 2.5em;
+}
+.overlayWrapper {
+  background: #fff;
+  padding: 8px;
+  color: black;
+  overflow: auto;
+  max-height: 10em;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
 }
 </style>

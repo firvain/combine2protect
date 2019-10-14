@@ -32,7 +32,7 @@ export const getPages = async () => {
   }
 };
 
-export const loaderFactory = vm => {
+export function loaderFactory() {
   return async extent => {
     // let url = vm.$source.getUrl();
     const url =
@@ -45,23 +45,22 @@ export const loaderFactory = vm => {
       extent[2] +
       "/" +
       extent[3];
-
     try {
       const response = await axios.get(url, {
         timeout: 30000
       });
       const text = response.data;
-      return vm.$source.getFormat().readFeatures(text, {
-        featureProjection: vm.viewProjection,
-        dataProjection: vm.resolvedDataProjection
+      return this.$source.getFormat().readFeatures(text, {
+        featureProjection: this.viewProjection,
+        dataProjection: this.resolvedDataProjection
       });
     } catch (error) {
       console.log(error);
       const e = {
         msg: error,
-        id: vm.$parent.$props.id
+        id: this.$parent.$props.id
       };
-      vm.$emit("error", e);
+      this.$emit("error", e);
     }
   };
-};
+}
