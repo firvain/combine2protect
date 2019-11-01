@@ -95,7 +95,11 @@ export default {
           title: "OpenStreetMap",
           visible: true,
           crossOrigin: "anonymous",
-          preload: Infinity
+          preload: Infinity,
+          url:
+            "https://cartodb-basemaps-{1-4}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+          attributions:
+            "Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
         },
         {
           id: 101,
@@ -208,8 +212,9 @@ export default {
         //     }
         //   ]
         // },
+
         {
-          id: "203",
+          id: 203,
           title: "Image Example (AUTH)",
           cmp: "vl-layer-tile",
           visible: true,
@@ -217,6 +222,19 @@ export default {
             cmp: "vl-source-wms",
             url: "http://178.128.205.115:8080/geoserver/combine2protect/wms",
             layers: "combine2protect:Acip_brev",
+            extParams: { TILED: true },
+            serverType: "geoserver"
+          }
+        },
+        {
+          id: 204,
+          title: "Shapefile Example (AUTH)",
+          cmp: "vl-layer-tile",
+          visible: true,
+          source: {
+            cmp: "vl-source-wms",
+            url: "http://178.128.205.115:8080/geoserver/combine2protect/wms",
+            layers: "combine2protect:WDPA_cleaning",
             extParams: { TILED: true },
             serverType: "geoserver"
           }

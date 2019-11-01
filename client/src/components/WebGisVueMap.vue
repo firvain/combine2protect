@@ -490,7 +490,7 @@ export default {
   right: 0.5em;
 }
 ::v-deep .mouse-position {
-  background: rgba(0, 60, 136, 0.3);
+  background: #454545;
   border-radius: 4px;
   bottom: 8px;
   left: 15em;
@@ -518,6 +518,15 @@ export default {
   max-height: 10em;
   border-radius: 10px;
   border: 1px solid #cccccc;
+}
+::v-deep .ol-control button {
+  background-color: #454545;
+}
+::v-deep .ol-scale-line {
+  background-color: #454545;
+}
+::v-deep .ol-scale-line .ol-touch {
+  background-color: #454545;
 }
 ::v-deep .rotate-north {
   top: 7em;
