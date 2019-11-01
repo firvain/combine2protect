@@ -47,7 +47,7 @@
               "
             ></v-icon
           ></template>
-          <template v-slot:append="{ item, activeTreeItem }">
+          <!-- <template v-slot:append="{ item, activeTreeItem }">
             <v-icon
               v-if="showDown(item)"
               small
@@ -64,7 +64,7 @@
             >
               mdi-arrow-up
             </v-icon>
-          </template>
+          </template> -->
         </v-treeview>
       </v-card-text>
     </v-card>

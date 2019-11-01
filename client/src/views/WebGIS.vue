@@ -99,7 +99,8 @@ export default {
           url:
             "https://cartodb-basemaps-{1-4}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
           attributions:
-            "Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
+            "Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL.",
+          zIndex: 0
         },
         {
           id: 101,
@@ -110,7 +111,8 @@ export default {
           imagerySet: "AerialWithLabelsOnDemand",
           visible: false,
           crossOrigin: "anonymous",
-          preload: Infinity
+          preload: Infinity,
+          zIndex: 1
         }
       ],
       vectorLayers: [
@@ -224,7 +226,8 @@ export default {
             layers: "combine2protect:Acip_brev",
             extParams: { TILED: true },
             serverType: "geoserver"
-          }
+          },
+          zIndex: 203
         },
         {
           id: 204,
@@ -237,7 +240,8 @@ export default {
             layers: "combine2protect:WDPA_cleaning",
             extParams: { TILED: true },
             serverType: "geoserver"
-          }
+          },
+          zIndex: 204
         }
       ],
       utilityLayers: [

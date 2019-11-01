@@ -29,6 +29,7 @@
           :key="layer.id"
           :visible="layer.visible"
           :preload="layer.preload"
+          :z-index="layer.zIndex"
         >
           <component :is="'vl-source-' + layer.name" v-bind="layer"></component>
         </vl-layer-tile>
