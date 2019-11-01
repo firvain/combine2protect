@@ -222,24 +222,39 @@
       <div class="map-panel">
         <v-card class="mx-auto elevation-10" height="100%" width="300">
           <v-toolbar color="secondary darken-2 white--text" flat
-            >PANEL</v-toolbar
-          >
-          <v-card-text
-            ><strong>Lorem Ipsum</strong> is simply dummy text of the printing
-            and typesetting industry. Lorem Ipsum has been the industry's
-            standard dummy text ever since the 1500s, when an unknown printer
-            took a galley of type and scrambled it to make a type specimen book.
-            It has survived not only five centuries, but also the leap into
-            electronic typesetting, remaining essentially unchanged. It was
-            popularised in the 1960s with the release of Letraset sheets
-            containing Lorem Ipsum passages, and more recently with desktop
-            publishing software like Aldus PageMaker including versions of Lorem
-            Ipsum.</v-card-text
-          >
-          <v-card-actions>
+            ><v-toolbar-title>PANEL</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn small @click="panelButton">Click me</v-btn>
-          </v-card-actions>
+            <v-toolbar-items class="hidden-sm-and-down">
+              <v-btn icon @click="showPanel = !showPanel" small
+                ><v-icon
+                  color="white"
+                  v-text="
+                    `mdi-${
+                      showPanel === false ? 'arrow-expand' : 'arrow-collapse'
+                    }`
+                  "
+                ></v-icon
+              ></v-btn>
+            </v-toolbar-items>
+          </v-toolbar>
+          <template v-if="showPanel">
+            <v-card-text
+              ><strong>Lorem Ipsum</strong> is simply dummy text of the printing
+              and typesetting industry. Lorem Ipsum has been the industry's
+              standard dummy text ever since the 1500s, when an unknown printer
+              took a galley of type and scrambled it to make a type specimen
+              book. It has survived not only five centuries, but also the leap
+              into electronic typesetting, remaining essentially unchanged. It
+              was popularised in the 1960s with the release of Letraset sheets
+              containing Lorem Ipsum passages, and more recently with desktop
+              publishing software like Aldus PageMaker including versions of
+              Lorem Ipsum.</v-card-text
+            >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn small @click="panelButton">Click me</v-btn>
+            </v-card-actions>
+          </template>
         </v-card>
       </div>
     </v-flex>
@@ -305,7 +320,8 @@ export default {
       extent: [2400000, 4800000, 2640000, 5120000],
       printSize: [(297 * 72) / 25.4, (210 * 72) / 25.4],
       deviceCoordinate: undefined,
-      showGeoloc: false
+      showGeoloc: false,
+      showPanel: false
     };
   },
   computed: {
@@ -490,13 +506,14 @@ export default {
   right: 0.5em;
 }
 ::v-deep .mouse-position {
-  background: #454545;
+  background-color: #454545;
+  color: #fff;
   border-radius: 4px;
-  bottom: 8px;
-  left: 15em;
+  top: 0.5em;
+  left: 3em;
   position: absolute;
-  font-size: 12px;
-  padding: 2px;
+  padding: 4px;
+  margin: 2px;
 }
 // ::v-deep .ol-control button {
 //   width: 1em;
