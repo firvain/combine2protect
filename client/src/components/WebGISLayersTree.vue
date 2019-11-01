@@ -104,7 +104,7 @@ export default {
         },
         {
           id: 2,
-          title: "Vector Layers",
+          title: "Map Layers",
           children: this.vectorLayersReversed
         }
       ];

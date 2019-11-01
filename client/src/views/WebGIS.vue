@@ -76,8 +76,8 @@ import { mapActions } from "vuex";
 import MapTools from "@/components/WebGISMaptools.vue";
 import LayersTree from "@/components/WebGISLayersTree.vue";
 import VueMap from "@/components/WebGisVueMap.vue";
-import { loadingBBox } from "vuelayers/lib/ol-ext";
-import { loaderFactory } from "../services/api.js";
+// import { loadingBBox } from "vuelayers/lib/ol-ext";
+// import { loaderFactory } from "../services/api.js";
 import * as jsPDF from "jspdf";
 export default {
   name: "WebGIS",
@@ -110,103 +110,116 @@ export default {
         }
       ],
       vectorLayers: [
+        // {
+        //   id: 200,
+        //   title: "Bird Directive GREEN",
+        //   cmp: "vl-layer-vector",
+        //   visible: false,
+        //   renderMode: "image",
+        //   source: {
+        //     cmp: "vl-source-vector",
+        //     features: [],
+        //     url(extent, resolution, projection) {
+        //       return (
+        //         "https://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/EUNIS_Website_Dyna_WM/MapServer/7/query?" +
+        //         "&geometryType=esriGeometryEnvelope" +
+        //         "&geometry=" +
+        //         extent.join(",") +
+        //         "&spatialRel=esriSpatialRelEnvelopeIntersects" +
+        //         "&inSR=" +
+        //         projection.split(":")[1] +
+        //         "&outFields=*&f=geojson"
+        //       );
+        //     },
+        //     strategyFactory() {
+        //       return loadingBBox;
+        //     }
+        //   },
+        //   style: [
+        //     {
+        //       cmp: "vl-style-box",
+        //       styles: {
+        //         "vl-style-fill": {
+        //           color: "green"
+        //         },
+        //         "vl-style-stroke": {
+        //           color: "#8f209b",
+        //           width: 2
+        //         }
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   id: 201,
+        //   title: "DEMO DATA blue",
+        //   cmp: "vl-layer-vector",
+        //   visible: false,
+        //   renderMode: "image",
+        //   source: {
+        //     cmp: "vl-source-vector",
+        //     features: [],
+        //     strategyFactory() {
+        //       return loadingBBox;
+        //     },
+        //     loaderFactory
+        //   },
+        //   style: [
+        //     {
+        //       cmp: "vl-style-box",
+        //       styles: {
+        //         "vl-style-fill": {
+        //           color: "blue"
+        //         },
+        //         "vl-style-stroke": {
+        //           color: "#219e46",
+        //           width: 2
+        //         }
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   id: 202,
+        //   title: "DEMO DATA2 red",
+        //   cmp: "vl-layer-vector",
+        //   visible: false,
+        //   renderMode: "image",
+        //   source: {
+        //     cmp: "vl-source-vector",
+        //     features: [],
+        //     strategyFactory() {
+        //       return loadingBBox;
+        //     },
+        //     loaderFactory
+        //   },
+        //   style: [
+        //     {
+        //       cmp: "vl-style-box",
+        //       styles: {
+        //         "vl-style-fill": {
+        //           color: "red"
+        //         },
+        //         "vl-style-stroke": {
+        //           color: "#219e46",
+        //           width: 2
+        //         }
+        //       }
+        //     }
+        //   ]
+        // },
         {
-          id: 200,
-          title: "Bird Directive GREEN",
-          cmp: "vl-layer-vector",
+          id: "203",
+          title: "Image Example (AUTH)",
+          cmp: "vl-layer-tile",
           visible: true,
-          renderMode: "image",
           source: {
-            cmp: "vl-source-vector",
-            features: [],
-            url(extent, resolution, projection) {
-              return (
-                "https://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/EUNIS_Website_Dyna_WM/MapServer/7/query?" +
-                "&geometryType=esriGeometryEnvelope" +
-                "&geometry=" +
-                extent.join(",") +
-                "&spatialRel=esriSpatialRelEnvelopeIntersects" +
-                "&inSR=" +
-                projection.split(":")[1] +
-                "&outFields=*&f=geojson"
-              );
-            },
-            strategyFactory() {
-              return loadingBBox;
-            }
-          },
-          style: [
-            {
-              cmp: "vl-style-box",
-              styles: {
-                "vl-style-fill": {
-                  color: "green"
-                },
-                "vl-style-stroke": {
-                  color: "#8f209b",
-                  width: 2
-                }
-              }
-            }
-          ]
-        },
-        {
-          id: 201,
-          title: "DEMO DATA blue",
-          cmp: "vl-layer-vector",
-          visible: true,
-          renderMode: "image",
-          source: {
-            cmp: "vl-source-vector",
-            features: [],
-            strategyFactory() {
-              return loadingBBox;
-            },
-            loaderFactory
-          },
-          style: [
-            {
-              cmp: "vl-style-box",
-              styles: {
-                "vl-style-fill": {
-                  color: "blue"
-                },
-                "vl-style-stroke": {
-                  color: "#219e46",
-                  width: 2
-                }
-              }
-            }
-          ]
-        },
-        {
-          id: 202,
-          title: "DEMO DATA2 red",
-          cmp: "vl-layer-vector",
-          visible: true,
-          renderMode: "image",
-          source: {
-            cmp: "vl-source-vector",
-            features: [],
-            strategyFactory() {
-              return loadingBBox;
-            },
-            loaderFactory
-          },
-          style: [
-            {
-              cmp: "vl-style-box",
-              styles: {
-                "vl-style-fill": {
-                  color: "red"
-                },
-                "vl-style-stroke": {
-                  color: "#219e46",
-                  width: 2
-                }
-              }
-            }
-          ]
+            cmp: "vl-source-wms",
+            url: "http://178.128.205.115:8080/geoserver/combine2protect/wms",
+            layers: "combine2protect:Acip_brev",
+            extParams: { TILED: true },
+            serverType: "geoserver"
+          }
         }
       ],
       utilityLayers: [

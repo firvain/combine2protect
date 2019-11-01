@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap align-center fill-height align-content-center pa-0>
-    <v-flex xs12 d-flex fill-height pa-0 ma-0>
+    <v-flex xs12 d-flex fill-height pa-0 ma-0 class="mapWrapper">
       <vl-map
         id="mymap"
         ref="map"
@@ -9,7 +9,10 @@
         :load-tiles-while-interacting="false"
         data-projection="EPSG:4326"
         :style="mapStyle"
+        :default-controls="{ attribution: true, rotate: false, zoom: true }"
+        extent="extent"
         @mounted="onMapMounted"
+        @postcompose="onMapPostCompose"
       >
         <vl-view
           :zoom.sync="zoom"
@@ -193,23 +196,71 @@
           </vl-style-box>
           <!--// select styles -->
         </vl-interaction-select>
+        <vl-geoloc
+          v-if="showGeoloc"
+          ref="geoloc"
+          @update:position="onUpdatePosition"
+        >
+          <template slot-scope="geoloc">
+            <vl-feature
+              v-if="geoloc.position"
+              id="marker"
+              ref="marker"
+              :properties="{ start: Date.now(), duration: 2500 }"
+            >
+              <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
+              <vl-style-box>
+                <vl-style-circle :radius="4">
+                  <vl-style-fill color="red"></vl-style-fill>
+                  <vl-style-stroke :color="[234, 53, 53]"></vl-style-stroke>
+                </vl-style-circle>
+              </vl-style-box>
+            </vl-feature>
+          </template>
+        </vl-geoloc>
       </vl-map>
+      <div class="map-panel">
+        <v-card class="mx-auto elevation-10" height="100%" width="300">
+          <v-toolbar color="secondary darken-2 white--text" flat
+            >PANEL</v-toolbar
+          >
+          <v-card-text
+            ><strong>Lorem Ipsum</strong> is simply dummy text of the printing
+            and typesetting industry. Lorem Ipsum has been the industry's
+            standard dummy text ever since the 1500s, when an unknown printer
+            took a galley of type and scrambled it to make a type specimen book.
+            It has survived not only five centuries, but also the leap into
+            electronic typesetting, remaining essentially unchanged. It was
+            popularised in the 1960s with the release of Letraset sheets
+            containing Lorem Ipsum passages, and more recently with desktop
+            publishing software like Aldus PageMaker including versions of Lorem
+            Ipsum.</v-card-text
+          >
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn small @click="panelButton">Click me</v-btn>
+          </v-card-actions>
+        </v-card>
+      </div>
     </v-flex>
   </v-layout>
 </template>
 <script>
 // import { mapGetters } from "vuex";
 import ScaleLine from "ol/control/ScaleLine";
-import FullScreen from "ol/control/FullScreen";
-import OverviewMap from "ol/control/OverviewMap";
-import ZoomSlider from "ol/control/ZoomSlider";
+import MousePosition from "ol/control/MousePosition";
+// import FullScreen from "ol/control/FullScreen";
+// import OverviewMap from "ol/control/OverviewMap";
+// import ZoomSlider from "ol/control/ZoomSlider";
+import ZoomToExtent from "ol/control/ZoomToExtent";
 import { getArea, getLength } from "ol/sphere.js";
 import { Polygon } from "ol/geom.js";
 // import KML from "ol/format/KML";
-import TileLayer from "ol/layer/Tile";
-import OSM from "ol/source/OSM";
+// import TileLayer from "ol/layer/Tile";
+// import OSM from "ol/source/OSM";
 import * as olExt from "vuelayers/lib/ol-ext";
-
+import { createStringXY } from "ol/coordinate";
+import { GeolocatioControl } from "../extra/index.js";
 export default {
   name: "VueMap",
   props: {
@@ -244,14 +295,17 @@ export default {
   },
   data() {
     return {
-      center: [21.78896, 40.30069],
-      minZoom: 9,
-      zoom: 11,
+      center: [22.920227, 40.736851],
+      minZoom: 5,
+      zoom: 7,
       maxzoom: 13,
       rotation: 0,
       selectedFeatures: [],
       drawnFeatures: [],
-      printSize: [(297 * 72) / 25.4, (210 * 72) / 25.4]
+      extent: [2400000, 4800000, 2640000, 5120000],
+      printSize: [(297 * 72) / 25.4, (210 * 72) / 25.4],
+      deviceCoordinate: undefined,
+      showGeoloc: false
     };
   },
   computed: {
@@ -297,17 +351,27 @@ export default {
       // now ol.Map instance is ready and we can work with it directly
       this.$refs.map.$map.getControls().extend([
         new ScaleLine(),
-        new FullScreen(),
-        new OverviewMap({
-          collapsed: true,
-          collapsible: true,
-          layers: [
-            new TileLayer({
-              source: new OSM()
-            })
-          ]
+        new ZoomToExtent({
+          extent: this.extent
         }),
-        new ZoomSlider()
+        new MousePosition({
+          className: "mouse-position",
+          coordinateFormat: createStringXY(3),
+          projection: "EPSG:4326",
+          undefinedHTML: ""
+        }),
+        new GeolocatioControl()
+        // new RotateNorthControl()
+        // new FullScreen(),
+        // new OverviewMap({
+        //   collapsed: true,
+        //   collapsible: true,
+        //   layers: [
+        //     new TileLayer({
+        //       source: new OSM()
+        //     })
+        //   ]
+        // })
       ]);
     },
     filterF(feature, layer) {
@@ -337,7 +401,6 @@ export default {
       map.getView().fit(extent, { size: this.printSize });
     },
     info() {
-      console.log(this.activeTreeItem);
       if (!this.activeTreeItem) alert("Please select a layer from the tree");
     },
     formatLength(line) {
@@ -371,14 +434,69 @@ export default {
       } else {
         alert("Length is: " + this.formatLength(geom));
       }
+    },
+    panelButton() {
+      alert("This Panel can be used for user information and interaction");
+    },
+    onUpdatePosition(coordinate) {
+      this.deviceCoordinate = coordinate;
+    },
+    onMapPostCompose({ vectorContext, frameState }) {
+      const easeInOut = t => 1 - Math.pow(1 - t, 3);
+
+      if (!this.$refs.marker || !this.$refs.marker.$feature) return;
+      const feature = this.$refs.marker.$feature;
+      if (!feature.getGeometry() || !feature.getStyle()) return;
+      const flashGeom = feature.getGeometry().clone();
+      const duration = feature.get("duration");
+      const elapsed = frameState.time - feature.get("start");
+      const elapsedRatio = elapsed / duration;
+      const radius = easeInOut(elapsedRatio) * 35 + 5;
+      const opacity = easeInOut(1 - elapsedRatio);
+      const fillOpacity = easeInOut(0.5 - elapsedRatio);
+      vectorContext.setStyle(
+        olExt.createStyle({
+          imageRadius: radius,
+          fillColor: [119, 170, 203, fillOpacity],
+          strokeColor: [119, 170, 203, opacity],
+          strokeWidth: 2 + opacity
+        })
+      );
+      vectorContext.drawGeometry(flashGeom);
+      vectorContext.setStyle(feature.getStyle()(feature)[0]);
+      vectorContext.drawGeometry(feature.getGeometry());
+      if (elapsed > duration) {
+        feature.set("start", Date.now());
+      }
+      this.$refs.map.render();
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.mapWrapper {
+  position: relative;
+}
 .mymap {
+  position: absolute;
+  top: 0em;
+  right: 0em;
   height: 100%;
+}
+.map-panel {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+}
+::v-deep .mouse-position {
+  background: rgba(0, 60, 136, 0.3);
+  border-radius: 4px;
+  bottom: 8px;
+  left: 15em;
+  position: absolute;
+  font-size: 12px;
+  padding: 2px;
 }
 // ::v-deep .ol-control button {
 //   width: 1em;
@@ -400,5 +518,27 @@ export default {
   max-height: 10em;
   border-radius: 10px;
   border: 1px solid #cccccc;
+}
+::v-deep .rotate-north {
+  top: 7em;
+  left: 0.5em;
+}
+::v-deep .ol-touch .rotate-north {
+  top: 5.71em;
+}
+::v-deep .geolocation {
+  top: 7em;
+  left: 0.5em;
+}
+::v-deep .ol-touch .geolocation {
+  top: 5.71em;
+}
+.here {
+  background-color: white;
+  font-size: 1em;
+  color: black;
+  padding: 0.4em;
+  border: 2px solid black;
+  border-radius: 5px;
 }
 </style>
