@@ -372,7 +372,7 @@ export default {
   // background-color: green;
   flex: 1 1 auto;
   .maptools {
-    background-color: blue;
+    background-color: #454545;
     min-height: 56px;
     flex: 0 1 auto;
     width: 100%;
