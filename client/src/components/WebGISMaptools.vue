@@ -18,7 +18,7 @@
         <v-icon>mdi-tape-measure</v-icon>
       </v-btn>
     </v-flex>
-    <v-flex d-flex shrink>
+    <!-- <v-flex d-flex shrink>
       <v-btn
         icon
         :color="mapStatus === 'info' ? 'red' : 'white'"
@@ -26,8 +26,8 @@
       >
         <v-icon>mdi-information-variant</v-icon>
       </v-btn>
-    </v-flex>
-    <v-flex d-flex shrink>
+    </v-flex> -->
+    <!-- <v-flex d-flex shrink>
       <v-btn
         icon
         :color="mapStatus === 'print' ? 'red' : 'white'"
@@ -35,7 +35,7 @@
       >
         <v-icon>mdi-printer</v-icon>
       </v-btn>
-    </v-flex>
+    </v-flex> -->
     <v-flex
       v-if="mapStatus !== 'display'"
       d-flex

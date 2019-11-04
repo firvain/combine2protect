@@ -1,5 +1,7 @@
 import { Control } from "ol/control";
-import { fromLonLat } from "ol/proj";
+// import { fromLonLat, transform } from "ol/proj";
+import store from "../store";
+
 export const RotateNorthControl = (function (Control) {
   function RotateNorthControl(opt_options) {
     const options = opt_options || {};
@@ -59,7 +61,6 @@ export const GeolocatioControl = (function (Control) {
     let count = 0;
     const counter = max => {
       count++;
-      console.log(count, max);
       if (count > max) {
         document.getElementById("GeolocBtn").innerHTML = "◎";
         return;
@@ -85,26 +86,124 @@ export const GeolocatioControl = (function (Control) {
       );
     };
 
-    later(6000).then(
-      coords => {
-        this.getMap()
-          .getView()
-          .setCenter(fromLonLat(coords, "EPSG:3857"));
-        this.getMap()
-          .getView()
-          .setZoom(11);
-      }
-      // this.getMap().vm[0].$parent.$refs.geoloc.$geolocation.getPosition()
-    );
-    // setTimeout(() => {
-    //   console.log(
-    //     this.getMap().vm[0].$parent.$refs.geoloc.$geolocation.getPosition()
-    //   );
-    // }, 3000);
-    // this.getMap()
-    //   .getView()
-    //   .centerOn(this.getPosition(), this.map.getSize());
+    later(6000).then(coords => {
+      this.getMap()
+        .getView()
+        .setCenter(coords);
+      this.getMap()
+        .getView()
+        .setZoom(11);
+    });
   };
 
   return GeolocatioControl;
+})(Control);
+
+export const InfoControl = (function (Control) {
+  function InfoControl(opt_options) {
+    const options = opt_options || {};
+
+    const button = document.createElement("button");
+    button.innerHTML = "i";
+    button.setAttribute("id", "InfoBtn");
+    const element = document.createElement("div");
+    element.className = "infobtn ol-unselectable ol-control";
+    element.appendChild(button);
+
+    Control.call(this, {
+      element: element,
+      target: options.target
+    });
+
+    button.addEventListener("click", this.handleInfoControl.bind(this), false);
+  }
+
+  if (Control) InfoControl.__proto__ = Control;
+  InfoControl.prototype = Object.create(Control && Control.prototype);
+  InfoControl.prototype.constructor = InfoControl;
+
+  InfoControl.prototype.handleInfoControl = function handleInfoControl() {
+    store.dispatch("webgis/updateMapStatus", "info").then(() => {
+      // this.getMap().on("singleclick", function (evt) {
+      //   // console.log(evt.coordinate);
+
+      //   // convert coordinate to EPSG-4326
+      //   const coords = transform(evt.coordinate, "EPSG:3857", "EPSG:4326");
+      //   console.log(coords);
+      // });
+      this.getMap().on("singleclick", evt => {
+        const viewResolution = this.getMap()
+          .getView()
+          .getResolution();
+        this.getMap().forEachLayerAtPixel(evt.pixel, layer => {
+          if (typeof layer.getSource().getParams === "function") {
+            const url = layer.getSource().getGetFeatureInfoUrl(
+              evt.coordinate,
+              viewResolution,
+              this.getMap()
+                .getView()
+                .getProjection(),
+              { INFO_FORMAT: "application/json" }
+            );
+            store.dispatch("webgis/getFeatureInfo", {
+              url
+            });
+            // const urlTable = layer.getSource().getGetFeatureInfoUrl(
+            //   evt.coordinate,
+            //   viewResolution,
+            //   this.getMap()
+            //     .getView()
+            //     .getProjection(),
+            //   { INFO_FORMAT: "text/html" }
+            // );
+            // // console.log(urlTable);
+            // store.dispatch("webgis/getFeatureInfoTable", {
+            //   urlTable
+            // });
+          }
+        });
+      });
+    });
+
+    // this.getMap()
+    //   .getView()
+    //   .setCenter(fromLonLat(coords, "EPSG:3857"));
+    // this.getMap()
+    //   .getView()
+    //   .setZoom(11);
+  };
+
+  return InfoControl;
+})(Control);
+
+
+export const PrintControl = (function (Control) {
+  function PrintControl(opt_options) {
+    const options = opt_options || {};
+
+    const button = document.createElement("button");
+    button.innerHTML = "<i class='v-icon mdi mdi-printer'    aria-hidden='true'></i>";
+
+    const element = document.createElement("div");
+    element.className = "printBtn ol-unselectable ol-control";
+    element.appendChild(button);
+
+    Control.call(this, {
+      element: element,
+      target: options.target
+    });
+
+    button.addEventListener("click", this.handlePrintControl.bind(this), false);
+  }
+
+  if (Control) PrintControl.__proto__ = Control;
+  PrintControl.prototype = Object.create(Control && Control.prototype);
+  PrintControl.prototype.constructor = PrintControl;
+
+  PrintControl.prototype.handlePrintControl = function handlePrintControl() {
+    store.dispatch("webgis/updateMapStatus", "print")
+
+  };
+
+  return PrintControl;
 })(Control);

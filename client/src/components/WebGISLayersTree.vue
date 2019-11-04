@@ -1,7 +1,7 @@
 <template>
   <v-layout class="layersTree" fill-height>
     <v-card class="mx-auto" width="100%">
-      <v-sheet class="pa-3 secondary">
+      <v-sheet class="pa-3 secondary darken-2">
         <v-text-field
           v-model="search"
           label="search"

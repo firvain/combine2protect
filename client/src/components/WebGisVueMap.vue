@@ -7,7 +7,6 @@
         class="mymap"
         :load-tiles-while-animating="false"
         :load-tiles-while-interacting="false"
-        data-projection="EPSG:4326"
         :style="mapStyle"
         :default-controls="{ attribution: true, rotate: false, zoom: true }"
         extent="extent"
@@ -20,6 +19,7 @@
           :max-zoom="maxzoom"
           :center.sync="center"
           :rotation.sync="rotation"
+          projection="EPSG:4326"
         ></vl-view>
 
         <!-- BASE LAYERS -->
@@ -127,7 +127,7 @@
           </div>
         </component>
         <!-- INFO POPOUP -->
-        <vl-layer-vector
+        <!-- <vl-layer-vector
           v-if="mapStatus === 'info' && selectedFeatures !== 'undefined'"
         >
           <vl-source-vector ref="infoVectorSource">
@@ -154,7 +154,18 @@
               </vl-overlay>
             </vl-feature>
           </vl-source-vector>
-        </vl-layer-vector>
+        </vl-layer-vector> -->
+        <template v-if="featureInfo.crs">
+          <vl-feature
+            v-for="feature in featureInfo.features"
+            :id="feature.id"
+            :key="feature.id"
+            :properties="feature.properties"
+          >
+            <vl-geom-multi-polygon
+              :coordinates="feature.geometry.coordinates"
+            ></vl-geom-multi-polygon> </vl-feature
+        ></template>
         <!-- DRAW INTERACTION -->
         <vl-interaction-draw
           v-if="mapStatus === 'draw'"
@@ -226,7 +237,7 @@
             ><v-toolbar-title>PANEL</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items class="hidden-sm-and-down">
-              <v-btn icon @click="showPanel = !showPanel" small
+              <v-btn icon small @click="$emit('change:showpanel', !showPanel)"
                 ><v-icon
                   color="white"
                   v-text="
@@ -239,22 +250,41 @@
             </v-toolbar-items>
           </v-toolbar>
           <template v-if="showPanel">
-            <v-card-text
-              ><strong>Lorem Ipsum</strong> is simply dummy text of the printing
-              and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer
-              took a galley of type and scrambled it to make a type specimen
-              book. It has survived not only five centuries, but also the leap
-              into electronic typesetting, remaining essentially unchanged. It
-              was popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.</v-card-text
-            >
-            <v-card-actions>
+            <template v-if="mapStatus === 'display'">
+              <v-card-text>
+                <Strong>Lorem Ipsum</Strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+              </v-card-text>
+               <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn small @click="panelButton">Click me</v-btn>
             </v-card-actions>
+
+            </template>
+            <template v-if="mapStatus === 'info'">
+              <v-card-text>
+                <div
+                  v-if="
+                    Object.keys(featureInfo).length !== 0 &&
+                      featureInfo.constructor === Object
+                  "
+                  class="overlayWrapper"
+                >
+                  <Strong>{{ featureInfo.features[0].id }}</Strong>
+
+                  <ul>
+                    <li
+                      v-for="k in Object.keys(
+                        featureInfo.features[0].properties
+                      )"
+                      :key="k"
+                    >
+                      {{ k }} : {{ featureInfo.features[0].properties[k] }}
+                    </li>
+                  </ul>
+                </div>
+              </v-card-text>
+             
+            </template>
           </template>
         </v-card>
       </div>
@@ -276,7 +306,7 @@ import { Polygon } from "ol/geom.js";
 // import OSM from "ol/source/OSM";
 import * as olExt from "vuelayers/lib/ol-ext";
 import { createStringXY } from "ol/coordinate";
-import { GeolocatioControl } from "../extra/index.js";
+import { GeolocatioControl, InfoControl, PrintControl } from "../extra/index.js";
 export default {
   name: "VueMap",
   props: {
@@ -291,6 +321,11 @@ export default {
     utilityLayers: {
       type: Array,
       required: true
+    },
+    featureInfo: {
+      type: Object,
+      // required: true,
+      default: () => {}
     },
     mapStatus: {
       type: String,
@@ -307,6 +342,10 @@ export default {
     activeTreeItem: {
       type: Number,
       default: null
+    },
+    showPanel: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -318,11 +357,10 @@ export default {
       rotation: 0,
       selectedFeatures: [],
       drawnFeatures: [],
-      extent: [2400000, 4800000, 2640000, 5120000],
+      extent: [21.4, 39.5, 23.65, 41.8],
       printSize: [(297 * 72) / 25.4, (210 * 72) / 25.4],
       deviceCoordinate: undefined,
-      showGeoloc: false,
-      showPanel: false
+      showGeoloc: false
     };
   },
   computed: {
@@ -334,9 +372,6 @@ export default {
           break;
         case "measure":
           cursor = "copy";
-          break;
-        case "info":
-          cursor = "help";
           break;
         default:
           cursor = "default";
@@ -354,12 +389,18 @@ export default {
           this.print();
           break;
         case "info":
-          this.info();
+          // this.info();
           break;
         default:
           break;
       }
+    },
+    featureInfo(newValue) {
+      if(newValue.features && newValue.features[0].geometry) {
+         console.log(newValue.features[0].geometry.coordinates)
+      }
     }
+    
   },
 
   methods: {
@@ -377,18 +418,9 @@ export default {
           projection: "EPSG:4326",
           undefinedHTML: ""
         }),
-        new GeolocatioControl()
-        // new RotateNorthControl()
-        // new FullScreen(),
-        // new OverviewMap({
-        //   collapsed: true,
-        //   collapsible: true,
-        //   layers: [
-        //     new TileLayer({
-        //       source: new OSM()
-        //     })
-        //   ]
-        // })
+        new GeolocatioControl(),
+        new InfoControl(),
+        new PrintControl()
       ]);
     },
     filterF(feature, layer) {
@@ -506,6 +538,7 @@ export default {
   top: 0.5em;
   right: 0.5em;
 }
+
 ::v-deep .mouse-position {
   background-color: #454545;
   color: #fff;
@@ -516,12 +549,7 @@ export default {
   padding: 4px;
   margin: 2px;
 }
-// ::v-deep .ol-control button {
-//   width: 1em;
-//   height: 1em;
-//   font-size: 1em;
-//   line-height: 1em;
-// }
+
 ::v-deep .ol-overviewmap {
   bottom: auto;
   left: auto;
@@ -530,12 +558,12 @@ export default {
 }
 .overlayWrapper {
   background: #fff;
-  padding: 8px;
+  padding: 2px;
   color: black;
   overflow: auto;
-  max-height: 10em;
-  border-radius: 10px;
-  border: 1px solid #cccccc;
+  max-height: 15em;
+  // border-radius: 10px;
+  // border: 1px solid #cccccc;
 }
 ::v-deep .ol-control button {
   background-color: #454545;
@@ -559,6 +587,24 @@ export default {
 }
 ::v-deep .ol-touch .geolocation {
   top: 5.71em;
+}
+::v-deep .infobtn {
+  top: 9.5em;
+  left: 0.5em;
+}
+::v-deep .ol-touch .infobtn {
+  top: 9.21em;
+}
+::v-deep .printBtn {
+  top: 12em;
+  left: 0.5em;
+  .v-icon {
+    line-height: 0.5em;
+    width: 0.5em;
+  }
+}
+::v-deep .ol-touch .printBtn {
+  top: 11.21em;
 }
 .here {
   background-color: white;

@@ -54,11 +54,14 @@
                     :base-layers="baseLayers"
                     :vector-layers="vectorLayers"
                     :utility-layers="utilityLayers"
+                    :feature-info="featureInfo"
+                    :show-panel="showPanel"
                     :map-status="mapStatus"
                     :draw-type="drawType"
                     :measure-type="measureType"
                     :active-tree-item="selectedLayer"
                     @export:pdf="exportPDF"
+                    @change:showpanel="changeShowPanel"
                   ></VueMap>
                 </v-flex>
               </v-layout>
@@ -73,6 +76,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
+import { mapMutations } from "vuex";
 import MapTools from "@/components/WebGISMaptools.vue";
 import LayersTree from "@/components/WebGISLayersTree.vue";
 import VueMap from "@/components/WebGisVueMap.vue";
@@ -219,13 +223,14 @@ export default {
           id: 203,
           title: "Image Example (AUTH)",
           cmp: "vl-layer-tile",
-          visible: true,
+          visible: false,
           source: {
             cmp: "vl-source-wms",
-            url: "http://178.128.205.115:8080/geoserver/combine2protect/wms",
+            url: process.env.VUE_APP_GEOSERVER_URL,
             layers: "combine2protect:Acip_brev",
             extParams: { TILED: true },
-            serverType: "geoserver"
+            serverType: "geoserver",
+            crossOrigin: "anonymous"
           },
           zIndex: 203
         },
@@ -236,10 +241,12 @@ export default {
           visible: true,
           source: {
             cmp: "vl-source-wms",
-            url: "http://178.128.205.115:8080/geoserver/combine2protect/wms",
+            url: process.env.VUE_APP_GEOSERVER_URL,
             layers: "combine2protect:WDPA_cleaning",
             extParams: { TILED: true },
-            serverType: "geoserver"
+            serverType: "geoserver",
+            crossOrigin: "anonymous",
+            projection: "EPSG:4326"
           },
           zIndex: 204
         }
@@ -274,7 +281,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("webgis", ["mapStatus", "drawType", "measureType"]),
+    ...mapGetters("webgis", [
+      "mapStatus",
+      "drawType",
+      "measureType",
+      "featureInfo",
+      "showPanel"
+    ]),
     currentDate: {
       get() {
         return this.date;
@@ -292,6 +305,7 @@ export default {
   },
   methods: {
     ...mapActions("webgis", ["updateMapStatus"]),
+    ...mapMutations("webgis", ["SET_SHOWPANEL"]),
     async exportPDF(data) {
       const myPromise = new Promise((resolve, reject) => {
         if (data) resolve(data);
@@ -359,6 +373,10 @@ export default {
       } else {
         this.selectedLayer = null;
       }
+    },
+    changeShowPanel(e) {
+      console.log(e);
+      this.SET_SHOWPANEL(e);
     }
   }
 };
