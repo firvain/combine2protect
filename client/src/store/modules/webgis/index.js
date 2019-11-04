@@ -4,10 +4,9 @@ import {
   SET_DRAW_TYPE,
   SET_MEASURE_TYPE,
   SET_FEATURE_INFO,
- 
   SET_SHOWPANEL
 } from "../../mutation-types";
-import { fetchFeatureInfo, fetchFeatureInfoTable } from "../../../api";
+import { fetchFeatureInfo } from "../../../api";
 const state = {
   mapStatus: "display",
   drawType: "Point",
@@ -34,11 +33,10 @@ const mutations = {
   [SET_FEATURE_INFO]: (state, payload) => {
     state.featureInfo = payload;
   },
-  
+
   [SET_SHOWPANEL]: (state, payload) => {
     state.showPanel = payload;
   }
-
 };
 
 const actions = {
@@ -53,7 +51,7 @@ const actions = {
     // const { coordinate, resolution, projection, params, source } = payload;
     const info = await fetchFeatureInfo(payload);
     commit("SET_FEATURE_INFO", info);
-    commit("SET_SHOWPANEL", true)
+    commit("SET_SHOWPANEL", true);
   }
 };
 export default {

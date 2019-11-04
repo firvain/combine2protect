@@ -143,7 +143,7 @@ export const InfoControl = (function (Control) {
               this.getMap()
                 .getView()
                 .getProjection(),
-              { INFO_FORMAT: "application/jsonp" }
+              { INFO_FORMAT: "application/json" }
             );
             store.dispatch("webgis/getFeatureInfo", {
               url
@@ -176,13 +176,13 @@ export const InfoControl = (function (Control) {
   return InfoControl;
 })(Control);
 
-
 export const PrintControl = (function (Control) {
   function PrintControl(opt_options) {
     const options = opt_options || {};
 
     const button = document.createElement("button");
-    button.innerHTML = "<i class='v-icon mdi mdi-printer'    aria-hidden='true'></i>";
+    button.innerHTML =
+      "<i class='v-icon mdi mdi-printer'    aria-hidden='true'></i>";
 
     const element = document.createElement("div");
     element.className = "printBtn ol-unselectable ol-control";
@@ -201,8 +201,7 @@ export const PrintControl = (function (Control) {
   PrintControl.prototype.constructor = PrintControl;
 
   PrintControl.prototype.handlePrintControl = function handlePrintControl() {
-    store.dispatch("webgis/updateMapStatus", "print")
-
+    store.dispatch("webgis/updateMapStatus", "print");
   };
 
   return PrintControl;
