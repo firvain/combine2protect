@@ -143,7 +143,7 @@ export const InfoControl = (function (Control) {
               this.getMap()
                 .getView()
                 .getProjection(),
-              { INFO_FORMAT: "application/json" }
+              { INFO_FORMAT: "text/javascript" }
             );
             store.dispatch("webgis/getFeatureInfo", {
               url

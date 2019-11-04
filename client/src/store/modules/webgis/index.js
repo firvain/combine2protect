@@ -46,12 +46,15 @@ const actions = {
   updateMeasureType({ commit }, payload) {
     commit("SET_MEASURE_TYPE", payload);
   },
-  async getFeatureInfo({ commit }, payload) {
+  getFeatureInfo({ commit }, payload) {
     commit("SET_FEATURE_INFO", {});
     // const { coordinate, resolution, projection, params, source } = payload;
-    const info = await fetchFeatureInfo(payload);
-    commit("SET_FEATURE_INFO", info);
-    commit("SET_SHOWPANEL", true);
+    fetchFeatureInfo(payload).then(info => {
+      console.log(info);
+      commit("SET_FEATURE_INFO", info);
+      commit("SET_SHOWPANEL", true);
+    });
+
   }
 };
 export default {
