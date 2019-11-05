@@ -208,7 +208,7 @@
           <!--// select styles -->
         </vl-interaction-select>
         <vl-geoloc
-          v-if="showGeoloc"
+          v-if="mapStatus === 'geolocation'"
           ref="geoloc"
           @update:position="onUpdatePosition"
         >
@@ -334,6 +334,34 @@
                 </p></v-card-text
               >
             </template>
+            <template v-if="mapStatus === 'geolocation'">
+              <v-card-text v-if="!deviceCoordinate">{{
+                panelText.geolocation
+              }}</v-card-text>
+              <v-card-text v-else class="subheading text-xs-center">
+                {{ Number(Math.round(deviceCoordinate[0] + "e3") + "e-3") }}
+                {{ Number(Math.round(deviceCoordinate[1] + "e3") + "e-3") }}
+                <Strong>
+                  {{
+                    this.$refs.map.$map
+                      .getView()
+                      .getProjection()
+                      .getCode()
+                  }}</Strong
+                ></v-card-text
+              >
+
+              <v-card-actions
+                ><v-spacer></v-spacer
+                ><v-btn
+                  v-if="deviceCoordinate"
+                  small
+                  flat
+                  @click="clearGeolocation"
+                  >Clear</v-btn
+                >
+              </v-card-actions>
+            </template>
           </template>
         </v-card>
       </div>
@@ -407,7 +435,6 @@ export default {
       extent: [21.4, 39.5, 23.65, 41.8],
       printSize: [(297 * 72) / 25.4, (210 * 72) / 25.4],
       deviceCoordinate: undefined,
-      showGeoloc: false,
       measureType: "LineString",
       drawType: "Point",
       lengthUnit: "meters",
@@ -477,7 +504,9 @@ export default {
                 recently with desktop publishing software like Aldus PageMaker
                 including versions of Lorem Ipsum.`,
         info: `Click some feature on the map`,
-        print: `Please wait preparing map for print`
+        print: `Please wait preparing map for print`,
+        geolocation: `Please wait trying to locate.
+        Be informed that geolocation is provided by your ISP.`
       }
     };
   },
@@ -619,7 +648,12 @@ export default {
       alert("This Panel can be used for user information and interaction");
     },
     onUpdatePosition(coordinate) {
+      // alert(coordinate);
       this.deviceCoordinate = coordinate;
+      this.$refs.map.$map.getView().animate({
+        center: coordinate,
+        zoom: this.$refs.map.$map.getView().getZoom() + 2
+      });
     },
     onMapPostCompose({ vectorContext, frameState }) {
       const easeInOut = t => 1 - Math.pow(1 - t, 3);
@@ -653,6 +687,10 @@ export default {
     setMeasureType(type) {
       this.measureType = type;
       this.measureOutput = "";
+    },
+    clearGeolocation() {
+      this.$emit("geolocation:clear");
+      this.deviceCoordinate = undefined;
     }
   }
 };

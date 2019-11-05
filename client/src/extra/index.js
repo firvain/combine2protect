@@ -58,42 +58,44 @@ export const GeolocatioControl = (function (Control) {
   GeolocatioControl.prototype.constructor = GeolocatioControl;
 
   GeolocatioControl.prototype.handleGeoloacation = function handleGeoloacation() {
-    let count = 0;
-    const counter = max => {
-      count++;
-      if (count > max) {
-        document.getElementById("GeolocBtn").innerHTML = "◎";
-        return;
-      }
-      document.getElementById("GeolocBtn").innerHTML = count;
-      setTimeout(function () {
-        counter(max);
-      }, 1000);
-    };
-    const later = delay => {
-      this.getMap().vm[0].$parent.$set(
-        this.getMap().vm[0].$parent.$data,
-        "showGeoloc",
-        true
-      );
-      counter(6);
-      return new Promise(resolve =>
-        setTimeout(() => {
-          resolve(
-            this.getMap().vm[0].$parent.$refs.geoloc.$geolocation.getPosition()
-          );
-        }, delay)
-      );
-    };
+    // let count = 0;
+    // const counter = max => {
+    //   count++;
+    //   if (count > max) {
+    //     document.getElementById("GeolocBtn").innerHTML = "◎";
+    //     return;
+    //   }
+    //   document.getElementById("GeolocBtn").innerHTML = count;
+    //   setTimeout(function () {
+    //     counter(max);
+    //   }, 1000);
+    // };
+    document.getElementById("GeolocBtn").innerHTML = "◎";
+    store.dispatch("webgis/updateMapStatus", "geolocation");
+    // const later = delay => {
+    //   this.getMap().vm[0].$parent.$set(
+    //     this.getMap().vm[0].$parent.$data,
+    //     "showGeoloc",
+    //     true
+    //   );
+    //   counter(6);
+    //   return new Promise(resolve =>
+    //     setTimeout(() => {
+    //       resolve(
+    //         this.getMap().vm[0].$parent.$refs.geoloc.$geolocation.getPosition()
+    //       );
+    //     }, delay)
+    //   );
+    // };
 
-    later(6000).then(coords => {
-      this.getMap()
-        .getView()
-        .setCenter(coords);
-      this.getMap()
-        .getView()
-        .setZoom(11);
-    });
+    // later(6000).then(coords => {
+    //   this.getMap()
+    //     .getView()
+    //     .setCenter(coords);
+    //   this.getMap()
+    //     .getView()
+    //     .setZoom(11);
+    // });
   };
 
   return GeolocatioControl;
@@ -253,7 +255,6 @@ export const MeasureControl = (function (Control) {
         "sq. meters"
       );
     });
-
   };
 
   return MeasureControl;

@@ -60,6 +60,7 @@
                     :active-tree-item="selectedLayer"
                     @export:pdf="exportPDF"
                     @change:showpanel="changeShowPanel"
+                    @geolocation:clear="clearGeolocation"
                   ></VueMap>
                 </v-flex>
               </v-layout>
@@ -375,6 +376,9 @@ export default {
     changeShowPanel(e) {
       console.log(e);
       this.SET_SHOWPANEL(e);
+    },
+    clearGeolocation() {
+      this.updateMapStatus("display");
     }
   }
 };
