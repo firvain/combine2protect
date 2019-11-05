@@ -124,6 +124,17 @@ export default {
   },
   methods: {
     changeVisibility(item) {
+      const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
+      if (isBaselayer !== -1) {
+        this.baseLayers.map(x => {
+          if (x.id === item.id) {
+            this.$emit("change:visible", { id, visible: !visible });
+          } else {
+            this.$emit("change:visible", { id: x.id, visible: !!visible });
+          }
+        });
+      }
+
       const { id, visible } = item;
       this.$emit("change:visible", { id, visible: !visible });
     },

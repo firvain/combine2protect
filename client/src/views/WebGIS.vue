@@ -95,7 +95,7 @@ export default {
         {
           id: 100,
           name: "osm",
-          title: "OpenStreetMap",
+          title: "Carto Light",
           visible: true,
           crossOrigin: "anonymous",
           preload: Infinity,
@@ -107,15 +107,36 @@ export default {
         },
         {
           id: 101,
+          name: "osm",
+          title: "OpenStreetMap",
+          visible: false,
+          crossOrigin: "anonymous",
+          preload: Infinity,
+          zIndex: 1
+        },
+        {
+          id: 102,
           name: "bingmaps",
-          title: "Bing Maps",
+          title: "Bing Maps (Aerial with Labels)",
           apiKey:
             "Ap3sskZ5BccP6TvBr0FoLc9orA4_R1uh-8UjpOKYciXL1hNMtAJr_BdxMjTJNkpv",
           imagerySet: "AerialWithLabelsOnDemand",
           visible: false,
           crossOrigin: "anonymous",
           preload: Infinity,
-          zIndex: 1
+          zIndex: 2
+        },
+        {
+          id: 103,
+          name: "bingmaps",
+          title: "Bing Maps (Roads)",
+          apiKey:
+            "Ap3sskZ5BccP6TvBr0FoLc9orA4_R1uh-8UjpOKYciXL1hNMtAJr_BdxMjTJNkpv",
+          imagerySet: "CanvasLight",
+          visible: false,
+          crossOrigin: "anonymous",
+          preload: Infinity,
+          zIndex: 3
         }
       ],
       vectorLayers: [
