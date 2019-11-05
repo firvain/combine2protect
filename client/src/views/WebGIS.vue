@@ -57,8 +57,6 @@
                     :feature-info="featureInfo"
                     :show-panel="showPanel"
                     :map-status="mapStatus"
-                    :draw-type="drawType"
-                    :measure-type="measureType"
                     :active-tree-item="selectedLayer"
                     @export:pdf="exportPDF"
                     @change:showpanel="changeShowPanel"
@@ -261,7 +259,8 @@ export default {
           visible: true,
           source: {
             cmp: "vl-source-vector"
-          }
+          },
+          zIndex: 1000
         }
       ],
       pdfOptions: {
@@ -284,7 +283,6 @@ export default {
     ...mapGetters("webgis", [
       "mapStatus",
       "drawType",
-      "measureType",
       "featureInfo",
       "showPanel"
     ]),

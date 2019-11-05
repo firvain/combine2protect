@@ -9,7 +9,7 @@
         <v-icon>mdi-square-edit-outline</v-icon>
       </v-btn>
     </v-flex>
-    <v-flex d-flex shrink>
+    <!-- <v-flex d-flex shrink>
       <v-btn
         icon
         :color="mapStatus === 'measure' ? 'red' : 'white'"
@@ -17,7 +17,7 @@
       >
         <v-icon>mdi-tape-measure</v-icon>
       </v-btn>
-    </v-flex>
+    </v-flex> -->
     <!-- <v-flex d-flex shrink>
       <v-btn
         icon
@@ -61,7 +61,7 @@
             ></v-radio>
           </v-radio-group>
         </v-flex>
-        <v-flex v-if="mapStatus === 'measure'" d-flex xs12 pl-1>
+        <!-- <v-flex v-if="mapStatus === 'measure'" d-flex xs12 pl-1>
           <v-radio-group
             ref="drawTypeRadioPicker"
             v-model="radioGroupMeasure"
@@ -77,7 +77,7 @@
               dark
             ></v-radio>
           </v-radio-group>
-        </v-flex>
+        </v-flex> -->
       </v-layout>
     </v-flex>
   </v-layout>

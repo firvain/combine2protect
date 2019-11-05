@@ -13,7 +13,7 @@ const state = {
   measureType: "LineString",
   featureInfo: {},
   featureInfoTable: "",
-  showPanel: false
+  showPanel: true
 };
 const getters = {
   ...mapGettersFromStates({
@@ -45,6 +45,7 @@ const actions = {
   },
   updateMeasureType({ commit }, payload) {
     commit("SET_MEASURE_TYPE", payload);
+    commit("SET_SHOWPANEL", true);
   },
   getFeatureInfo({ commit }, payload) {
     commit("SET_FEATURE_INFO", {});
@@ -54,7 +55,6 @@ const actions = {
       commit("SET_FEATURE_INFO", info);
       commit("SET_SHOWPANEL", true);
     });
-
   }
 };
 export default {

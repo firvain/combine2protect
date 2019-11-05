@@ -143,7 +143,7 @@ export const InfoControl = (function (Control) {
               this.getMap()
                 .getView()
                 .getProjection(),
-              { INFO_FORMAT: "text/javascript" }
+              { INFO_FORMAT: "application/json" }
             );
             store.dispatch("webgis/getFeatureInfo", {
               url
@@ -205,4 +205,56 @@ export const PrintControl = (function (Control) {
   };
 
   return PrintControl;
+})(Control);
+
+export const MeasureControl = (function (Control) {
+  function MeasureControl(opt_options) {
+    const options = opt_options || {};
+
+    const button = document.createElement("button");
+    button.innerHTML =
+      "<i class='v-icon mdi mdi-ruler' aria-hidden='true'></i>";
+
+    const element = document.createElement("div");
+    element.className = "measureBtn ol-unselectable ol-control";
+    element.appendChild(button);
+
+    Control.call(this, {
+      element: element,
+      target: options.target
+    });
+
+    button.addEventListener(
+      "click",
+      this.handleMeasureControl.bind(this),
+      false
+    );
+  }
+
+  if (Control) MeasureControl.__proto__ = Control;
+  MeasureControl.prototype = Object.create(Control && Control.prototype);
+  MeasureControl.prototype.constructor = MeasureControl;
+
+  MeasureControl.prototype.handleMeasureControl = function handleMeasureControl() {
+    store.dispatch("webgis/updateMapStatus", "measure").then(() => {
+      this.getMap().vm[0].$parent.$set(
+        this.getMap().vm[0].$parent.$data,
+        "measureOutput",
+        ""
+      );
+      this.getMap().vm[0].$parent.$set(
+        this.getMap().vm[0].$parent.$data,
+        "lengthUnit",
+        "meters"
+      );
+      this.getMap().vm[0].$parent.$set(
+        this.getMap().vm[0].$parent.$data,
+        "areaUnit",
+        "sq. meters"
+      );
+    });
+
+  };
+
+  return MeasureControl;
 })(Control);

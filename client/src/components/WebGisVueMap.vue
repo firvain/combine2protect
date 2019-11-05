@@ -7,7 +7,6 @@
         class="mymap"
         :load-tiles-while-animating="false"
         :load-tiles-while-interacting="false"
-        :style="mapStyle"
         :default-controls="{ attribution: true, rotate: false, zoom: true }"
         extent="extent"
         @mounted="onMapMounted"
@@ -234,7 +233,7 @@
       <div class="map-panel">
         <v-card class="mx-auto elevation-10" height="100%" width="300">
           <v-toolbar color="secondary darken-2 white--text" flat
-            ><v-toolbar-title>PANEL</v-toolbar-title>
+            ><v-toolbar-title>{{ mapStatus.toUpperCase() }}</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items class="hidden-sm-and-down">
               <v-btn icon small @click="$emit('change:showpanel', !showPanel)"
@@ -252,13 +251,12 @@
           <template v-if="showPanel">
             <template v-if="mapStatus === 'display'">
               <v-card-text>
-                <Strong>Lorem Ipsum</Strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                {{ panelText.display }}
               </v-card-text>
-               <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn small @click="panelButton">Click me</v-btn>
-            </v-card-actions>
-
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn small @click="panelButton">Click me</v-btn>
+              </v-card-actions>
             </template>
             <template v-if="mapStatus === 'info'">
               <v-card-text>
@@ -282,8 +280,59 @@
                     </li>
                   </ul>
                 </div>
+                <div v-else>{{ panelText.info }}</div>
               </v-card-text>
-             
+            </template>
+            <template v-if="mapStatus === 'print'">
+              <v-card-text>{{ panelText.print }}</v-card-text>
+            </template>
+            <template v-if="mapStatus === 'measure'">
+              <v-card-actions>
+                <v-btn
+                  color="secondary"
+                  flat
+                  icon
+                  @click="setMeasureType('LineString')"
+                  ><v-icon>mdi-tape-measure</v-icon></v-btn
+                >
+                <v-btn
+                  color="secondary"
+                  flat
+                  icon
+                  @click="setMeasureType('Polygon')"
+                  ><v-icon>mdi-texture-box</v-icon></v-btn
+                >
+                <v-select
+                  v-if="measureType === 'LineString'"
+                  v-model="lengthUnit"
+                  :items="lengthUnits"
+                  label="Length Unit"
+                  dense
+                  flat
+                ></v-select>
+                <v-select
+                  v-if="measureType === 'Polygon'"
+                  v-model="areaUnit"
+                  :items="areaUnits"
+                  label="Area Unit"
+                  dense
+                  flat
+                ></v-select>
+              </v-card-actions>
+              <v-card-text
+                v-if="measureOutput !== '' && measureType === 'LineString'"
+                class="subheading text-xs-center"
+                ><p>
+                  {{ measureOutput + " " + lengthUnit }}
+                </p></v-card-text
+              >
+              <v-card-text
+                v-if="measureOutput !== '' && measureType === 'Polygon'"
+                class="subheading text-xs-center"
+                ><p>
+                  {{ measureOutput + " " + areaUnit }}
+                </p></v-card-text
+              >
             </template>
           </template>
         </v-card>
@@ -301,12 +350,18 @@ import MousePosition from "ol/control/MousePosition";
 import ZoomToExtent from "ol/control/ZoomToExtent";
 import { getArea, getLength } from "ol/sphere.js";
 import { Polygon } from "ol/geom.js";
+// import { transform } from "ol/proj";
 // import KML from "ol/format/KML";
 // import TileLayer from "ol/layer/Tile";
 // import OSM from "ol/source/OSM";
 import * as olExt from "vuelayers/lib/ol-ext";
 import { createStringXY } from "ol/coordinate";
-import { GeolocatioControl, InfoControl, PrintControl } from "../extra/index.js";
+import {
+  GeolocatioControl,
+  InfoControl,
+  PrintControl,
+  MeasureControl
+} from "../extra/index.js";
 export default {
   name: "VueMap",
   props: {
@@ -331,14 +386,6 @@ export default {
       type: String,
       default: "display"
     },
-    drawType: {
-      type: String,
-      default: "Point"
-    },
-    measureType: {
-      type: String,
-      default: "Linestring"
-    },
     activeTreeItem: {
       type: Number,
       default: null
@@ -353,34 +400,91 @@ export default {
       center: [22.920227, 40.736851],
       minZoom: 5,
       zoom: 7,
-      maxzoom: 13,
+      maxzoom: 15,
       rotation: 0,
       selectedFeatures: [],
       drawnFeatures: [],
       extent: [21.4, 39.5, 23.65, 41.8],
       printSize: [(297 * 72) / 25.4, (210 * 72) / 25.4],
       deviceCoordinate: undefined,
-      showGeoloc: false
+      showGeoloc: false,
+      measureType: "LineString",
+      drawType: "Point",
+      lengthUnit: "meters",
+      lengthUnits: ["meters", "miles", "yards", "feet"],
+      areaUnit: "sq. meters",
+      areaUnits: ["sq. meters", "sq. miles", "sq. yards", "sq. feet"],
+      convertLength: {
+        meters: {
+          meters: 1,
+          miles: 0.000621371192,
+          yards: 1.0936133,
+          feet: 3.2808399
+        },
+        miles: {
+          meters: 1609.344,
+          miles: 1,
+          yards: 1760,
+          feet: 5280
+        },
+        yards: {
+          meters: 0.9144,
+          miles: 0.000568181818,
+          yards: 1,
+          feet: 3
+        },
+        feet: {
+          meters: 0.3048,
+          miles: 0.000189393939,
+          yards: 0.333333333,
+          feet: 1
+        },
+        "sq. meters": {
+          "sq. meters": 1,
+          "sq. miles": 3.8610215854781257e-7,
+          "sq. yards": 1.19599005,
+          "sq. feet": 10.7639104
+        },
+        "sq. miles": {
+          "sq. meters": 2589988.11,
+          "sq. miles": 1,
+          "sq. yards": 3097600,
+          "sq. feet": 27878400
+        },
+        "sq. yards": {
+          "sq. meters": 0.83612736,
+          "sq. miles": 3.22830579e-7,
+          "sq. yards": 1,
+          "sq. feet": 9
+        },
+        "sq. feet": {
+          "sq. meters": 0.09290304,
+          "sq. miles": 0.000000035870064279155,
+          "sq. yards": 0.111111111,
+          "sq. feet": 1
+        }
+      },
+      measureOutput: "",
+      panelText: {
+        display: `Lorem Ipsumis simply dummy text of the
+                printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the 1500s, when an
+                unknown printer took a galley of type and scrambled it to make a
+                type specimen book. It has survived not only five centuries, but
+                also the leap into electronic typesetting, remaining essentially
+                unchanged. It was popularised in the 1960s with the release of
+                Letraset sheets containing Lorem Ipsum passages, and more
+                recently with desktop publishing software like Aldus PageMaker
+                including versions of Lorem Ipsum.`,
+        info: `Click some feature on the map`,
+        print: `Please wait preparing map for print`
+      }
     };
   },
   computed: {
-    mapStyle() {
-      let cursor;
-      switch (this.mapStatus) {
-        case "draw":
-          cursor = "crosshair";
-          break;
-        case "measure":
-          cursor = "copy";
-          break;
-        default:
-          cursor = "default";
-          break;
-      }
-      return {
-        cursor
-      };
-    }
+    // convertedOutput() {
+    //   this.convertOutput() ;
+    // }
   },
   watch: {
     mapStatus(newValue) {
@@ -396,11 +500,34 @@ export default {
       }
     },
     featureInfo(newValue) {
-      if(newValue.features && newValue.features[0].geometry) {
-         console.log(newValue.features[0].geometry.coordinates)
+      if (newValue.features && newValue.features[0].geometry) {
+        console.log(newValue.features[0].geometry.coordinates);
       }
+    },
+    lengthUnit: {
+      handler: function(newValue, oldValue) {
+        // alert(this.convertLength[oldValue][newValue]);
+        if (oldValue === newValue) return;
+        if (this.measureOutput === "") return;
+        this.measureOutput =
+          Math.round(
+            +this.measureOutput * this.convertLength[oldValue][newValue] * 100
+          ) / 100;
+      },
+      deep: true
+    },
+    areaUnit: {
+      handler: function(newValue, oldValue) {
+        // alert(this.convertLength[oldValue][newValue]);
+        if (oldValue === newValue) return;
+        if (this.measureOutput === "") return;
+        this.measureOutput =
+          Math.round(
+            +this.measureOutput * this.convertLength[oldValue][newValue] * 100
+          ) / 100;
+      },
+      deep: true
     }
-    
   },
 
   methods: {
@@ -420,7 +547,8 @@ export default {
         }),
         new GeolocatioControl(),
         new InfoControl(),
-        new PrintControl()
+        new PrintControl(),
+        new MeasureControl()
       ]);
     },
     filterF(feature, layer) {
@@ -453,35 +581,38 @@ export default {
       if (!this.activeTreeItem) alert("Please select a layer from the tree");
     },
     formatLength(line) {
-      const length = getLength(line);
+      const length = getLength(line.transform("EPSG:4326", "EPSG:3857"));
+
       let output;
-      if (length > 100) {
-        output = Math.round((length / 1000) * 100) / 100 + " " + "km";
-      } else {
-        output = Math.round(length * 100) / 100 + " " + "m";
-      }
-      return output;
+      output =
+        Math.round(
+          length * this.convertLength["meters"][this.lengthUnit] * 100
+        ) / 100;
+
+      this.measureOutput = output;
+      return;
     },
     formatArea(polygon) {
-      const area = getArea(polygon);
+      const area = getArea(polygon.transform("EPSG:4326", "EPSG:3857"));
+      // alert(area);
       let output;
-      if (area > 10000) {
-        output = Math.round((area / 1000000) * 100) / 100 + " " + "km2";
-      } else {
-        output = Math.round(area * 100) / 100 + " " + "m2";
-      }
-      return output;
+      output =
+        Math.round(
+          area * this.convertLength["sq. meters"][this.areaUnit] * 100
+        ) / 100;
+      this.measureOutput = output;
+      return;
     },
     measureDrawStart() {
-      console.log(this.$refs);
+      // console.log(this.$refs);
       this.$refs.draw.getSource().clear();
     },
     measureDrawEnd(evt) {
       let geom = evt.feature.getGeometry();
       if (geom instanceof Polygon) {
-        alert("Area is: " + this.formatArea(geom));
+        this.formatArea(geom);
       } else {
-        alert("Length is: " + this.formatLength(geom));
+        this.formatLength(geom);
       }
     },
     panelButton() {
@@ -518,6 +649,10 @@ export default {
         feature.set("start", Date.now());
       }
       this.$refs.map.render();
+    },
+    setMeasureType(type) {
+      this.measureType = type;
+      this.measureOutput = "";
     }
   }
 };
@@ -605,6 +740,17 @@ export default {
 }
 ::v-deep .ol-touch .printBtn {
   top: 11.21em;
+}
+::v-deep .measureBtn {
+  top: 14.5em;
+  left: 0.5em;
+  .v-icon {
+    line-height: 0.5em;
+    width: 0.5em;
+  }
+}
+::v-deep .ol-touch .measureBtn {
+  top: 13.71em;
 }
 .here {
   background-color: white;
