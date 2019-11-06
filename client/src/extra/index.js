@@ -125,54 +125,31 @@ export const InfoControl = (function (Control) {
   InfoControl.prototype.constructor = InfoControl;
 
   InfoControl.prototype.handleInfoControl = function handleInfoControl() {
-    store.dispatch("webgis/updateMapStatus", "info").then(() => {
-      // this.getMap().on("singleclick", function (evt) {
-      //   // console.log(evt.coordinate);
+    store.dispatch("webgis/updateMapStatus", "info");
+    // .then(() => {
+    //   this.getMap().on("singleclick", evt => {
+    //     const viewResolution = this.getMap()
+    //       .getView()
+    //       .getResolution();
+    //     this.getMap().forEachLayerAtPixel(evt.pixel, layer => {
+    //       if (typeof layer.getSource().getParams === "function") {
+    //         const url = layer.getSource().getGetFeatureInfoUrl(
+    //           evt.coordinate,
+    //           viewResolution,
+    //           this.getMap()
+    //             .getView()
+    //             .getProjection(),
+    //           { INFO_FORMAT: "application/json" }
+    //         );
+    //         store.dispatch("webgis/getFeatureInfo", {
+    //           url
+    //         });
 
-      //   // convert coordinate to EPSG-4326
-      //   const coords = transform(evt.coordinate, "EPSG:3857", "EPSG:4326");
-      //   console.log(coords);
-      // });
-      this.getMap().on("singleclick", evt => {
-        const viewResolution = this.getMap()
-          .getView()
-          .getResolution();
-        this.getMap().forEachLayerAtPixel(evt.pixel, layer => {
-          if (typeof layer.getSource().getParams === "function") {
-            const url = layer.getSource().getGetFeatureInfoUrl(
-              evt.coordinate,
-              viewResolution,
-              this.getMap()
-                .getView()
-                .getProjection(),
-              { INFO_FORMAT: "application/json" }
-            );
-            store.dispatch("webgis/getFeatureInfo", {
-              url
-            });
-            // const urlTable = layer.getSource().getGetFeatureInfoUrl(
-            //   evt.coordinate,
-            //   viewResolution,
-            //   this.getMap()
-            //     .getView()
-            //     .getProjection(),
-            //   { INFO_FORMAT: "text/html" }
-            // );
-            // // console.log(urlTable);
-            // store.dispatch("webgis/getFeatureInfoTable", {
-            //   urlTable
-            // });
-          }
-        });
-      });
-    });
+    //       }
+    //     });
+    //   });
+    // });
 
-    // this.getMap()
-    //   .getView()
-    //   .setCenter(fromLonLat(coords, "EPSG:3857"));
-    // this.getMap()
-    //   .getView()
-    //   .setZoom(11);
   };
 
   return InfoControl;

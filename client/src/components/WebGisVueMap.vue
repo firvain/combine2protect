@@ -154,17 +154,7 @@
             </vl-feature>
           </vl-source-vector>
         </vl-layer-vector> -->
-        <template v-if="featureInfo.crs">
-          <vl-feature
-            v-for="feature in featureInfo.features"
-            :id="feature.id"
-            :key="feature.id"
-            :properties="feature.properties"
-          >
-            <vl-geom-multi-polygon
-              :coordinates="feature.geometry.coordinates"
-            ></vl-geom-multi-polygon> </vl-feature
-        ></template>
+
         <!-- DRAW INTERACTION -->
         <vl-interaction-draw
           v-if="mapStatus === 'draw'"
@@ -174,7 +164,7 @@
         ></vl-interaction-draw>
         <!-- MEASURE INTERACTION -->
         <vl-interaction-draw
-          v-if="mapStatus === 'measure'"
+          v-if="mapStatus === 'measure' && measureType"
           source="draw-target"
           :type="measureType"
           :stop-click="true"
@@ -183,15 +173,15 @@
         ></vl-interaction-draw>
 
         <!-- SELECT INTERACTION -->
-        <vl-interaction-select
+        <!-- <vl-interaction-select
           v-if="mapStatus === 'info'"
           :features.sync="selectedFeatures"
           :multi="false"
           :filter="filterF"
           :hit-tolerance="20"
-        >
-          <!-- select styles -->
-          <vl-style-box>
+        > -->
+        <!-- select styles -->
+        <!-- <vl-style-box>
             <vl-style-stroke color="#423e9e" :width="7"></vl-style-stroke>
             <vl-style-fill :color="[254, 178, 76, 0.7]"></vl-style-fill>
             <vl-style-circle :radius="5">
@@ -204,9 +194,9 @@
             <vl-style-circle :radius="5">
               <vl-style-stroke color="#d43f45" :width="2"></vl-style-stroke>
             </vl-style-circle>
-          </vl-style-box>
-          <!--// select styles -->
-        </vl-interaction-select>
+          </vl-style-box> -->
+        <!--// select styles -->
+        <!-- </vl-interaction-select> -->
         <vl-geoloc
           v-if="mapStatus === 'geolocation'"
           ref="geoloc"
@@ -229,11 +219,30 @@
             </vl-feature>
           </template>
         </vl-geoloc>
+        <vl-layer-vector ref="featureInfo" key="10000" :z-index="100000">
+          <vl-source-vector
+            v-if="featureInfo.crs"
+            :features="featureInfo.features"
+            @update:features="onFeatureInfoUpdate"
+          >
+            <!-- <template>
+              <vl-feature
+                v-for="feature in featureInfo.features"
+                :id="feature.id"
+                :key="feature.id"
+                :properties="feature.properties"
+              >
+                <vl-geom-multi-polygon
+                  :coordinates="feature.geometry.coordinates"
+                ></vl-geom-multi-polygon> </vl-feature
+            ></template> -->
+          </vl-source-vector>
+        </vl-layer-vector>
       </vl-map>
       <div class="map-panel">
         <v-card class="mx-auto elevation-10" height="100%" width="300">
           <v-toolbar color="secondary darken-2 white--text" flat
-            ><v-toolbar-title>{{ mapStatus.toUpperCase() }}</v-toolbar-title>
+            ><v-toolbar-title>{{ panelInfo.toUpperCase() }}</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items class="hidden-sm-and-down">
               <v-btn icon small @click="$emit('change:showpanel', !showPanel)"
@@ -250,7 +259,7 @@
           </v-toolbar>
           <template v-if="showPanel">
             <template v-if="mapStatus === 'display'">
-              <v-card-text>
+              <v-card-text class="full">
                 {{ panelText.display }}
               </v-card-text>
               <v-card-actions>
@@ -280,8 +289,32 @@
                     </li>
                   </ul>
                 </div>
-                <div v-else>{{ panelText.info }}</div>
+                <div v-else>
+                  <div class="full">{{ panelText.info }}</div>
+                  <v-select
+                    v-model="selectedLayer"
+                    :items="availableForSelectionLayers"
+                    item-text="title"
+                    item-value="id"
+                    label="Select Layer to Query"
+                    dense
+                    flat
+                  ></v-select>
+                </div>
               </v-card-text>
+              <v-card-actions
+                ><v-spacer></v-spacer
+                ><v-btn
+                  v-if="
+                    Object.keys(featureInfo).length !== 0 &&
+                      featureInfo.constructor === Object
+                  "
+                  small
+                  flat
+                  @click="clearInfo"
+                  >Clear</v-btn
+                >
+              </v-card-actions>
             </template>
             <template v-if="mapStatus === 'print'">
               <v-card-text>{{ panelText.print }}</v-card-text>
@@ -301,6 +334,13 @@
                   icon
                   @click="setMeasureType('Polygon')"
                   ><v-icon>mdi-texture-box</v-icon></v-btn
+                >
+                <v-btn
+                  color="secondary"
+                  flat
+                  icon
+                  @click="setMeasureType('Point')"
+                  ><v-icon>mdi-target</v-icon></v-btn
                 >
                 <v-select
                   v-if="measureType === 'LineString'"
@@ -333,22 +373,38 @@
                   {{ measureOutput + " " + areaUnit }}
                 </p></v-card-text
               >
-            </template>
-            <template v-if="mapStatus === 'geolocation'">
-              <v-card-text v-if="!deviceCoordinate">{{
-                panelText.geolocation
-              }}</v-card-text>
-              <v-card-text v-else class="subheading text-xs-center">
-                {{ Number(Math.round(deviceCoordinate[0] + "e3") + "e-3") }}
-                {{ Number(Math.round(deviceCoordinate[1] + "e3") + "e-3") }}
-                <Strong>
+              <v-card-text
+                v-if="measureOutput !== '' && measureType === 'Point'"
+                class="subheading text-xs-center"
+                ><p>
+                  {{ measureOutput[0] }} , {{ measureOutput[1] }}
                   {{
                     this.$refs.map.$map
                       .getView()
                       .getProjection()
                       .getCode()
-                  }}</Strong
-                ></v-card-text
+                  }}
+                </p></v-card-text
+              >
+              <v-card-actions v-if="measureOutput !== ''">
+                <v-spacer></v-spacer>
+                <v-btn small flat @click="clearMeasure">clear</v-btn>
+              </v-card-actions>
+            </template>
+            <template v-if="mapStatus === 'geolocation'">
+              <v-card-text v-if="!deviceCoordinate" class="full">{{
+                panelText.geolocation
+              }}</v-card-text>
+              <v-card-text v-else class="subheading text-xs-center">
+                {{ Number(Math.round(deviceCoordinate[0] + "e3") + "e-3") }}
+                {{ Number(Math.round(deviceCoordinate[1] + "e3") + "e-3") }}
+
+                {{
+                  this.$refs.map.$map
+                    .getView()
+                    .getProjection()
+                    .getCode()
+                }}</v-card-text
               >
 
               <v-card-actions
@@ -377,12 +433,13 @@ import MousePosition from "ol/control/MousePosition";
 // import ZoomSlider from "ol/control/ZoomSlider";
 import ZoomToExtent from "ol/control/ZoomToExtent";
 import { getArea, getLength } from "ol/sphere.js";
-import { Polygon } from "ol/geom.js";
+import { Polygon, LineString } from "ol/geom.js";
 // import { transform } from "ol/proj";
 // import KML from "ol/format/KML";
-// import TileLayer from "ol/layer/Tile";
+import TileLayer from "ol/layer/Tile";
 // import OSM from "ol/source/OSM";
 import * as olExt from "vuelayers/lib/ol-ext";
+import { unByKey } from "ol/Observable";
 import { createStringXY } from "ol/coordinate";
 import {
   GeolocatioControl,
@@ -435,7 +492,7 @@ export default {
       extent: [21.4, 39.5, 23.65, 41.8],
       printSize: [(297 * 72) / 25.4, (210 * 72) / 25.4],
       deviceCoordinate: undefined,
-      measureType: "LineString",
+      measureType: undefined,
       drawType: "Point",
       lengthUnit: "meters",
       lengthUnits: ["meters", "miles", "yards", "feet"],
@@ -493,7 +550,7 @@ export default {
       },
       measureOutput: "",
       panelText: {
-        display: `Lorem Ipsumis simply dummy text of the
+        display: `Lorem Ipsum is simply dummy text of the
                 printing and typesetting industry. Lorem Ipsum has been the
                 industry's standard dummy text ever since the 1500s, when an
                 unknown printer took a galley of type and scrambled it to make a
@@ -503,34 +560,51 @@ export default {
                 Letraset sheets containing Lorem Ipsum passages, and more
                 recently with desktop publishing software like Aldus PageMaker
                 including versions of Lorem Ipsum.`,
-        info: `Click some feature on the map`,
+        info: `First select a Visible Layer from the layer tree under 'Map Layers' and then Click on the map.`,
         print: `Please wait preparing map for print`,
         geolocation: `Please wait trying to locate.
         Be informed that geolocation is provided by your ISP.`
-      }
+      },
+      evtKey: {},
+      panelInfo: "",
+      selectedLayer: null
     };
   },
   computed: {
-    // convertedOutput() {
-    //   this.convertOutput() ;
-    // }
+    availableForSelectionLayers() {
+      return this.vectorLayers.filter(x => {
+        if (x.cmp === "vl-layer-tile" && x.quearable && x.visible) {
+          return true;
+        }
+      });
+    }
   },
   watch: {
     mapStatus(newValue) {
       switch (newValue) {
         case "print":
+          this.panelInfo = "print map";
+          this.selectedLayer = null;
           this.print();
           break;
         case "info":
-          // this.info();
+          this.selectedLayer = null;
+          this.panelInfo = "Get Fearure Info";
+          this.info();
+          break;
+        case "geolocation":
+          this.selectedLayer = null;
+          this.panelInfo = "geolocation";
+          break;
+        case "measure":
+          this.selectedLayer = null;
+          this.panelInfo = "measure";
           break;
         default:
+          this.selectedLayer = null;
+          unByKey(this.evtKey);
+          this.panelInfo = "general info";
           break;
-      }
-    },
-    featureInfo(newValue) {
-      if (newValue.features && newValue.features[0].geometry) {
-        console.log(newValue.features[0].geometry.coordinates);
       }
     },
     lengthUnit: {
@@ -580,11 +654,12 @@ export default {
         new MeasureControl()
       ]);
     },
-    filterF(feature, layer) {
-      if (layer.get("id") === this.activeTreeItem) return true;
-      return false;
-    },
+    // filterF(feature, layer) {
+    //   if (layer.get("id") === this.activeTreeItem) return true;
+    //   return false;
+    // },
     print() {
+      unByKey(this.evtKey);
       const map = this.$refs.map.$map;
       const size = map.getSize();
       const extent = map.getView().calculateExtent(size);
@@ -606,9 +681,7 @@ export default {
       map.setSize(this.printSize);
       map.getView().fit(extent, { size: this.printSize });
     },
-    info() {
-      if (!this.activeTreeItem) alert("Please select a layer from the tree");
-    },
+
     formatLength(line) {
       const length = getLength(line.transform("EPSG:4326", "EPSG:3857"));
 
@@ -632,6 +705,13 @@ export default {
       this.measureOutput = output;
       return;
     },
+    formatCoords(point) {
+      const coordinates = point.getCoordinates();
+      this.measureOutput = [
+        Number(Math.round(coordinates[0] + "e3") + "e-3"),
+        Number(Math.round(coordinates[1] + "e3") + "e-3")
+      ];
+    },
     measureDrawStart() {
       // console.log(this.$refs);
       this.$refs.draw.getSource().clear();
@@ -640,8 +720,10 @@ export default {
       let geom = evt.feature.getGeometry();
       if (geom instanceof Polygon) {
         this.formatArea(geom);
-      } else {
+      } else if (geom instanceof LineString) {
         this.formatLength(geom);
+      } else {
+        this.formatCoords(geom);
       }
     },
     panelButton() {
@@ -691,6 +773,47 @@ export default {
     clearGeolocation() {
       this.$emit("geolocation:clear");
       this.deviceCoordinate = undefined;
+    },
+    clearMeasure() {
+      this.$emit("measure:clear");
+      this.measureType = undefined;
+      this.measureOutput = "";
+    },
+    info() {
+      const map = this.$refs.map.$map;
+      const evtKey = map.on("singleclick", evt => {
+        const viewResolution = map.getView().getResolution();
+        map.forEachLayerAtPixel(evt.pixel, layer => {
+          if (
+            layer instanceof TileLayer &&
+            typeof layer.getSource().getParams === "function" &&
+            layer.values_.id === this.selectedLayer
+          ) {
+            const url = layer
+              .getSource()
+              .getGetFeatureInfoUrl(
+                evt.coordinate,
+                viewResolution,
+                map.getView().getProjection(),
+                { INFO_FORMAT: "application/json" }
+              );
+            this.$emit("info:get", url);
+          }
+        });
+      });
+      // console.log(evtKey);
+      this.evtKey = evtKey;
+    },
+    clearInfo() {
+      this.$emit("info:clear");
+    },
+    onFeatureInfoUpdate(e) {
+      if (e.length > 0) {
+        const extent = this.$refs.featureInfo.getSource().getExtent();
+        this.$refs.map.$map.getView().fit(extent);
+      }
+
+      // alert(extent);
     }
   }
 };
@@ -711,7 +834,9 @@ export default {
   top: 0.5em;
   right: 0.5em;
 }
-
+::v-deep .v-toolbar__title {
+  font-size: 1em;
+}
 ::v-deep .mouse-position {
   background-color: #454545;
   color: #fff;
@@ -797,5 +922,9 @@ export default {
   padding: 0.4em;
   border: 2px solid black;
   border-radius: 5px;
+}
+.full {
+  text-align: justify;
+  text-justify: inter-word;
 }
 </style>

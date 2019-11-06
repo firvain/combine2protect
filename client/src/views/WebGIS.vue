@@ -60,7 +60,10 @@
                     :active-tree-item="selectedLayer"
                     @export:pdf="exportPDF"
                     @change:showpanel="changeShowPanel"
-                    @geolocation:clear="clearGeolocation"
+                    @geolocation:clear="setDisplay"
+                    @measure:clear="setDisplay"
+                    @info:clear="clearInfo"
+                    @info:get="getFeatureFromGeoserver"
                   ></VueMap>
                 </v-flex>
               </v-layout>
@@ -244,6 +247,7 @@ export default {
           title: "Image Example (AUTH)",
           cmp: "vl-layer-tile",
           visible: false,
+          quearable: true,
           source: {
             cmp: "vl-source-wms",
             url: process.env.VUE_APP_GEOSERVER_URL,
@@ -259,6 +263,7 @@ export default {
           title: "Shapefile Example (AUTH)",
           cmp: "vl-layer-tile",
           visible: true,
+          quearable: true,
           source: {
             cmp: "vl-source-wms",
             url: process.env.VUE_APP_GEOSERVER_URL,
@@ -324,8 +329,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions("webgis", ["updateMapStatus"]),
-    ...mapMutations("webgis", ["SET_SHOWPANEL"]),
+    ...mapActions("webgis", ["updateMapStatus", "getFeatureInfo"]),
+    ...mapMutations("webgis", ["SET_SHOWPANEL", "SET_FEATURE_INFO"]),
     async exportPDF(data) {
       const myPromise = new Promise((resolve, reject) => {
         if (data) resolve(data);
@@ -398,8 +403,15 @@ export default {
       console.log(e);
       this.SET_SHOWPANEL(e);
     },
-    clearGeolocation() {
+    setDisplay() {
       this.updateMapStatus("display");
+    },
+    async getFeatureFromGeoserver(url) {
+      await this.getFeatureInfo({ url });
+    },
+    clearInfo() {
+      this.updateMapStatus("display");
+      this.SET_FEATURE_INFO({});
     }
   }
 };
