@@ -63,7 +63,9 @@
                     @geolocation:clear="setDisplay"
                     @measure:clear="setDisplay"
                     @info:clear="clearInfo"
+                    @info:cancel="cancelInfo"
                     @info:get="getFeatureFromGeoserver"
+                    @draw:cancel="setDisplay"
                   ></VueMap>
                 </v-flex>
               </v-layout>
@@ -279,15 +281,31 @@ export default {
       utilityLayers: [
         {
           id: 1000,
-          target: "draw-target",
           ref: "draw",
           title: "Draw",
           cmp: "vl-layer-vector",
+          target: "draw-target",
           visible: true,
           source: {
-            cmp: "vl-source-vector"
+            cmp: "vl-source-vector",
+            ident: "draw-target",
+            features: "drawnFeatures"
           },
-          zIndex: 1000
+          zIndex: 9000001
+        },
+        {
+          id: 1001,
+          ref: "measure",
+          title: "Measure",
+          cmp: "vl-layer-vector",
+          target: "measure-target",
+          visible: true,
+          source: {
+            cmp: "vl-source-vector",
+            ident: "measure-target",
+            features: "measuredFeatures"
+          },
+          zIndex: 9000002
         }
       ],
       pdfOptions: {
@@ -307,12 +325,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("webgis", [
-      "mapStatus",
-      "drawType",
-      "featureInfo",
-      "showPanel"
-    ]),
+    ...mapGetters("webgis", ["mapStatus", "featureInfo", "showPanel"]),
     currentDate: {
       get() {
         return this.date;
@@ -410,8 +423,11 @@ export default {
       await this.getFeatureInfo({ url });
     },
     clearInfo() {
-      this.updateMapStatus("display");
       this.SET_FEATURE_INFO({});
+    },
+    cancelInfo() {
+      this.clearInfo();
+      this.setDisplay();
     }
   }
 };

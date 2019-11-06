@@ -81,50 +81,38 @@
         </component>
 
         <!-- UTILITY LAYERS -->
-        <component
-          :is="layer.cmp"
-          v-for="layer in utilityLayers"
-          :id="layer.target"
-          :key="layer.id"
-          :visible="layer.visible"
-          v-bind="layer"
+        <vl-layer-vector
+          :id="utilityLayers[0].id"
+          :ref="utilityLayers[0].ref"
+          :visible="utilityLayers[0].visible"
+          :z-index="utilityLayers[0].zIndex"
         >
-          <component
-            :is="layer.source.cmp"
-            v-bind="layer.source"
-            :ident="layer.target"
+          <vl-source-vector
+            :ident="utilityLayers[0].source.ident"
             :features.sync="drawnFeatures"
           >
-          </component>
-          <div v-if="layer.style">
-            <component
-              :is="style.cmp"
-              v-for="(style, i) in layer.style"
-              :key="i"
-              v-bind="style"
-            >
-              <!-- create inner style components: vl-style-circle, vl-style-icon, vl-style-fill, vl-style-stroke & etc -->
-              <div v-if="layer.style">
-                <component
-                  :is="cmp"
-                  v-for="(st, cmp) in style.styles"
-                  :key="cmp"
-                  v-bind="st"
-                >
-                  <!-- vl-style-fill, vl-style-stroke if provided -->
-                  <vl-style-fill
-                    v-if="st.fill"
-                    v-bind="st.fill"
-                  ></vl-style-fill>
-                  <vl-style-stroke
-                    v-if="st.stroke"
-                    v-bind="st.stroke"
-                  ></vl-style-stroke>
-                </component>
-              </div>
-            </component>
-          </div>
-        </component>
+            <vl-style-box>
+              <vl-style-fill :color="[255, 204, 51, 0.2]"></vl-style-fill>
+              <vl-style-stroke color="#ffcc33" :width="2"></vl-style-stroke>
+              <vl-style-circle :radius="4">
+                <vl-style-fill :color="[255, 204, 51, 0.2]"></vl-style-fill>
+                <vl-style-stroke color="#ffcc33" :width="2"></vl-style-stroke>
+              </vl-style-circle>
+            </vl-style-box>
+          </vl-source-vector>
+        </vl-layer-vector>
+
+        <vl-layer-vector
+          :id="utilityLayers[1].id"
+          :ref="utilityLayers[1].ref"
+          :visible="utilityLayers[1].visible"
+          :z-index="utilityLayers[1].zIndex"
+        >
+          <vl-source-vector
+            :ident="utilityLayers[1].source.ident"
+            :features.sync="measuredFeatures"
+          ></vl-source-vector>
+        </vl-layer-vector>
         <!-- INFO POPOUP -->
         <!-- <vl-layer-vector
           v-if="mapStatus === 'info' && selectedFeatures !== 'undefined'"
@@ -158,45 +146,38 @@
         <!-- DRAW INTERACTION -->
         <vl-interaction-draw
           v-if="mapStatus === 'draw'"
+          ref="drawInteraction"
           source="draw-target"
           :type="drawType"
           :stop-click="true"
-        ></vl-interaction-draw>
+        >
+          <vl-style-box>
+            <vl-style-fill :color="[255, 255, 255, 0.2]"></vl-style-fill>
+            <vl-style-stroke
+              :color="[0, 0, 0, 0.5]"
+              :width="2"
+              :line-dash="[10, 10]"
+            ></vl-style-stroke>
+            <vl-style-circle :radius="4">
+              <vl-style-fill :color="[255, 255, 255, 0.2]"></vl-style-fill>
+              <vl-style-stroke
+                color="[0, 0, 0, 0.7]"
+                :width="2"
+              ></vl-style-stroke>
+            </vl-style-circle>
+          </vl-style-box>
+        </vl-interaction-draw>
         <!-- MEASURE INTERACTION -->
         <vl-interaction-draw
           v-if="mapStatus === 'measure' && measureType"
-          source="draw-target"
+          ref="measureInteraction"
+          source="measure-target"
           :type="measureType"
           :stop-click="true"
           @drawstart="measureDrawStart"
           @drawend="measureDrawEnd"
         ></vl-interaction-draw>
 
-        <!-- SELECT INTERACTION -->
-        <!-- <vl-interaction-select
-          v-if="mapStatus === 'info'"
-          :features.sync="selectedFeatures"
-          :multi="false"
-          :filter="filterF"
-          :hit-tolerance="20"
-        > -->
-        <!-- select styles -->
-        <!-- <vl-style-box>
-            <vl-style-stroke color="#423e9e" :width="7"></vl-style-stroke>
-            <vl-style-fill :color="[254, 178, 76, 0.7]"></vl-style-fill>
-            <vl-style-circle :radius="5">
-              <vl-style-stroke color="#423e9e" :width="7"></vl-style-stroke>
-              <vl-style-fill :color="[254, 178, 76, 0.7]"></vl-style-fill>
-            </vl-style-circle>
-          </vl-style-box>
-          <vl-style-box :z-index="1">
-            <vl-style-stroke color="#d43f45" :width="2"></vl-style-stroke>
-            <vl-style-circle :radius="5">
-              <vl-style-stroke color="#d43f45" :width="2"></vl-style-stroke>
-            </vl-style-circle>
-          </vl-style-box> -->
-        <!--// select styles -->
-        <!-- </vl-interaction-select> -->
         <vl-geoloc
           v-if="mapStatus === 'geolocation'"
           ref="geoloc"
@@ -225,17 +206,6 @@
             :features="featureInfo.features"
             @update:features="onFeatureInfoUpdate"
           >
-            <!-- <template>
-              <vl-feature
-                v-for="feature in featureInfo.features"
-                :id="feature.id"
-                :key="feature.id"
-                :properties="feature.properties"
-              >
-                <vl-geom-multi-polygon
-                  :coordinates="feature.geometry.coordinates"
-                ></vl-geom-multi-polygon> </vl-feature
-            ></template> -->
           </vl-source-vector>
         </vl-layer-vector>
       </vl-map>
@@ -265,6 +235,33 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn small @click="panelButton">Click me</v-btn>
+              </v-card-actions>
+            </template>
+            <template v-if="mapStatus === 'geolocation'">
+              <v-card-text v-if="!deviceCoordinate" class="full">{{
+                panelText.geolocation
+              }}</v-card-text>
+              <v-card-text v-else class="subheading text-xs-center">
+                {{ Number(Math.round(deviceCoordinate[0] + "e3") + "e-3") }}
+                {{ Number(Math.round(deviceCoordinate[1] + "e3") + "e-3") }}
+
+                {{
+                  this.$refs.map.$map
+                    .getView()
+                    .getProjection()
+                    .getCode()
+                }}</v-card-text
+              >
+
+              <v-card-actions
+                ><v-spacer></v-spacer
+                ><v-btn
+                  v-if="deviceCoordinate"
+                  small
+                  flat
+                  @click="clearGeolocation"
+                  >cancel</v-btn
+                >
               </v-card-actions>
             </template>
             <template v-if="mapStatus === 'info'">
@@ -312,8 +309,9 @@
                   small
                   flat
                   @click="clearInfo"
-                  >Clear</v-btn
+                  >clear</v-btn
                 >
+                <v-btn small flat @click="cancelInfo">cancel</v-btn>
               </v-card-actions>
             </template>
             <template v-if="mapStatus === 'print'">
@@ -388,34 +386,26 @@
               >
               <v-card-actions v-if="measureOutput !== ''">
                 <v-spacer></v-spacer>
-                <v-btn small flat @click="clearMeasure">clear</v-btn>
+                <v-btn small flat @click="clearMeasure">cancel</v-btn>
               </v-card-actions>
             </template>
-            <template v-if="mapStatus === 'geolocation'">
-              <v-card-text v-if="!deviceCoordinate" class="full">{{
-                panelText.geolocation
-              }}</v-card-text>
-              <v-card-text v-else class="subheading text-xs-center">
-                {{ Number(Math.round(deviceCoordinate[0] + "e3") + "e-3") }}
-                {{ Number(Math.round(deviceCoordinate[1] + "e3") + "e-3") }}
-
-                {{
-                  this.$refs.map.$map
-                    .getView()
-                    .getProjection()
-                    .getCode()
-                }}</v-card-text
-              >
-
-              <v-card-actions
-                ><v-spacer></v-spacer
-                ><v-btn
-                  v-if="deviceCoordinate"
-                  small
+            <template v-if="mapStatus === 'draw'">
+              <v-card-text>
+                <!-- <div class="full">{{ panelText.draw }}</div> -->
+                <v-select
+                  v-model="drawType"
+                  :items="drawTypes"
+                  item-text="label"
+                  item-value="value"
+                  :label="panelText.draw"
+                  dense
                   flat
-                  @click="clearGeolocation"
-                  >Clear</v-btn
-                >
+                ></v-select
+              ></v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn small flat @click="clearDraw">clear</v-btn>
+                <v-btn small flat @click="cancelDraw">cancel</v-btn>
               </v-card-actions>
             </template>
           </template>
@@ -433,7 +423,7 @@ import MousePosition from "ol/control/MousePosition";
 // import ZoomSlider from "ol/control/ZoomSlider";
 import ZoomToExtent from "ol/control/ZoomToExtent";
 import { getArea, getLength } from "ol/sphere.js";
-import { Polygon, LineString } from "ol/geom.js";
+import { Polygon, LineString, Point } from "ol/geom.js";
 // import { transform } from "ol/proj";
 // import KML from "ol/format/KML";
 import TileLayer from "ol/layer/Tile";
@@ -445,7 +435,8 @@ import {
   GeolocatioControl,
   InfoControl,
   PrintControl,
-  MeasureControl
+  MeasureControl,
+  DrawControl
 } from "../extra/index.js";
 export default {
   name: "VueMap",
@@ -487,13 +478,30 @@ export default {
       zoom: 7,
       maxzoom: 15,
       rotation: 0,
-      selectedFeatures: [],
       drawnFeatures: [],
+      measuredFeatures: [],
       extent: [21.4, 39.5, 23.65, 41.8],
       printSize: [(297 * 72) / 25.4, (210 * 72) / 25.4],
       deviceCoordinate: undefined,
       measureType: undefined,
       drawType: "Point",
+      drawTypes: [
+        {
+          id: 1,
+          label: "Point",
+          value: "Point"
+        },
+        {
+          id: 2,
+          label: "Line",
+          value: "LineString"
+        },
+        {
+          id: 3,
+          label: "Polygon",
+          value: "Polygon"
+        }
+      ],
       lengthUnit: "meters",
       lengthUnits: ["meters", "miles", "yards", "feet"],
       areaUnit: "sq. meters",
@@ -560,13 +568,14 @@ export default {
                 Letraset sheets containing Lorem Ipsum passages, and more
                 recently with desktop publishing software like Aldus PageMaker
                 including versions of Lorem Ipsum.`,
+        geolocation: `Please wait trying to locate.
+        Be informed that geolocation is provided by your ISP.`,
         info: `First select a Visible Layer from the layer tree under 'Map Layers' and then Click on the map.`,
         print: `Please wait preparing map for print`,
-        geolocation: `Please wait trying to locate.
-        Be informed that geolocation is provided by your ISP.`
+        draw: `Please Select type of feature to draw`
       },
       evtKey: {},
-      panelInfo: "",
+      panelInfo: "general info",
       selectedLayer: null
     };
   },
@@ -584,24 +593,28 @@ export default {
       switch (newValue) {
         case "print":
           this.panelInfo = "print map";
-          this.selectedLayer = null;
+          // this.selectedLayer = null;
           this.print();
           break;
         case "info":
-          this.selectedLayer = null;
+          // this.selectedLayer = null;
           this.panelInfo = "Get Fearure Info";
           this.info();
           break;
         case "geolocation":
-          this.selectedLayer = null;
+          // this.selectedLayer = null;
           this.panelInfo = "geolocation";
           break;
         case "measure":
-          this.selectedLayer = null;
+          // this.selectedLayer = null;
           this.panelInfo = "measure";
           break;
+        case "draw":
+          // this.selectedLayer = null;
+          this.panelInfo = "Draw Features on map";
+          break;
         default:
-          this.selectedLayer = null;
+          // this.selectedLayer = null;
           unByKey(this.evtKey);
           this.panelInfo = "general info";
           break;
@@ -651,13 +664,10 @@ export default {
         new GeolocatioControl(),
         new InfoControl(),
         new PrintControl(),
-        new MeasureControl()
+        new MeasureControl(),
+        new DrawControl()
       ]);
     },
-    // filterF(feature, layer) {
-    //   if (layer.get("id") === this.activeTreeItem) return true;
-    //   return false;
-    // },
     print() {
       unByKey(this.evtKey);
       const map = this.$refs.map.$map;
@@ -683,7 +693,9 @@ export default {
     },
 
     formatLength(line) {
-      const length = getLength(line.transform("EPSG:4326", "EPSG:3857"));
+      const length = getLength(
+        line.clone().transform("EPSG:4326", "EPSG:3857")
+      );
 
       let output;
       output =
@@ -692,10 +704,9 @@ export default {
         ) / 100;
 
       this.measureOutput = output;
-      return;
     },
     formatArea(polygon) {
-      const area = getArea(polygon.transform("EPSG:4326", "EPSG:3857"));
+      const area = getArea(polygon.clone().transform("EPSG:4326", "EPSG:3857"));
       // alert(area);
       let output;
       output =
@@ -703,18 +714,16 @@ export default {
           area * this.convertLength["sq. meters"][this.areaUnit] * 100
         ) / 100;
       this.measureOutput = output;
-      return;
     },
     formatCoords(point) {
-      const coordinates = point.getCoordinates();
+      const coordinates = point.clone().getCoordinates();
       this.measureOutput = [
         Number(Math.round(coordinates[0] + "e3") + "e-3"),
         Number(Math.round(coordinates[1] + "e3") + "e-3")
       ];
     },
     measureDrawStart() {
-      // console.log(this.$refs);
-      this.$refs.draw.getSource().clear();
+      this.$refs.measure.getSource().clear();
     },
     measureDrawEnd(evt) {
       let geom = evt.feature.getGeometry();
@@ -722,12 +731,15 @@ export default {
         this.formatArea(geom);
       } else if (geom instanceof LineString) {
         this.formatLength(geom);
-      } else {
+      } else if (geom instanceof Point) {
         this.formatCoords(geom);
       }
+      return;
     },
     panelButton() {
-      alert("This Panel can be used for user information and interaction");
+      alert(
+        "This Panel can be used for user/project information and general interaction"
+      );
     },
     onUpdatePosition(coordinate) {
       // alert(coordinate);
@@ -776,6 +788,7 @@ export default {
     },
     clearMeasure() {
       this.$emit("measure:clear");
+
       this.measureType = undefined;
       this.measureOutput = "";
     },
@@ -807,6 +820,10 @@ export default {
     clearInfo() {
       this.$emit("info:clear");
     },
+    cancelInfo() {
+      this.$emit("info:cancel");
+      this.selectedLayer = null;
+    },
     onFeatureInfoUpdate(e) {
       if (e.length > 0) {
         const extent = this.$refs.featureInfo.getSource().getExtent();
@@ -814,6 +831,14 @@ export default {
       }
 
       // alert(extent);
+    },
+    clearDraw() {
+      this.$refs.draw.getSource().clear();
+    },
+    cancelDraw() {
+      this.$emit("draw:cancel");
+      this.drawType = "Point";
+      this.clearDraw();
     }
   }
 };
@@ -914,6 +939,17 @@ export default {
 }
 ::v-deep .ol-touch .measureBtn {
   top: 13.71em;
+}
+::v-deep .drawBtn {
+  top: 17em;
+  left: 0.5em;
+  .v-icon {
+    line-height: 0.5em;
+    width: 0.5em;
+  }
+}
+::v-deep .ol-touch .drawBtn {
+  top: 15.71em;
 }
 .here {
   background-color: white;

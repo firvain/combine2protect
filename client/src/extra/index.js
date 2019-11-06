@@ -149,7 +149,6 @@ export const InfoControl = (function (Control) {
     //     });
     //   });
     // });
-
   };
 
   return InfoControl;
@@ -235,4 +234,34 @@ export const MeasureControl = (function (Control) {
   };
 
   return MeasureControl;
+})(Control);
+
+export const DrawControl = (function (Control) {
+  function DrawControl(opt_options) {
+    const options = opt_options || {};
+
+    const button = document.createElement("button");
+    button.innerHTML = "<i class='mdi mdi-square-edit-outline' i>"
+
+    const element = document.createElement("div");
+    element.className = "drawBtn ol-unselectable ol-control";
+    element.appendChild(button);
+
+    Control.call(this, {
+      element: element,
+      target: options.target
+    });
+
+    button.addEventListener("click", this.handleDrawControl.bind(this), false);
+  }
+
+  if (Control) DrawControl.__proto__ = Control;
+  DrawControl.prototype = Object.create(Control && Control.prototype);
+  DrawControl.prototype.constructor = DrawControl;
+
+  DrawControl.prototype.handleDrawControl = function handleDrawControl() {
+    store.dispatch("webgis/updateMapStatus", "draw");
+  };
+
+  return DrawControl;
 })(Control);

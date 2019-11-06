@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap align-center fill-height align-content-center>
-    <v-flex d-flex shrink>
+    <!-- <v-flex d-flex shrink>
       <v-btn
         icon
         :color="mapStatus === 'draw' ? 'red' : 'white'"
@@ -8,7 +8,7 @@
       >
         <v-icon>mdi-square-edit-outline</v-icon>
       </v-btn>
-    </v-flex>
+    </v-flex> -->
     <!-- <v-flex d-flex shrink>
       <v-btn
         icon
@@ -36,7 +36,7 @@
         <v-icon>mdi-printer</v-icon>
       </v-btn>
     </v-flex> -->
-    <v-flex
+    <!-- <v-flex
       v-if="mapStatus !== 'display'"
       d-flex
       grow
@@ -60,8 +60,8 @@
               dark
             ></v-radio>
           </v-radio-group>
-        </v-flex>
-        <!-- <v-flex v-if="mapStatus === 'measure'" d-flex xs12 pl-1>
+        </v-flex> -->
+    <!-- <v-flex v-if="mapStatus === 'measure'" d-flex xs12 pl-1>
           <v-radio-group
             ref="drawTypeRadioPicker"
             v-model="radioGroupMeasure"
@@ -78,8 +78,8 @@
             ></v-radio>
           </v-radio-group>
         </v-flex> -->
-      </v-layout>
-    </v-flex>
+    <!-- </v-layout>
+    </v-flex> -->
   </v-layout>
 </template>
 <script>
