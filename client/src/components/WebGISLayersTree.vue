@@ -47,6 +47,14 @@
               "
             ></v-icon
           ></template>
+          <template v-slot:append="{ item, activeTreeItem }">
+            <v-icon
+              v-if="!item.children && item.quearable"
+              @click="downloadKml(item)"
+            >
+              mdi-download
+            </v-icon>
+          </template>
           <!-- <template v-slot:append="{ item, activeTreeItem }">
             <v-icon
               v-if="showDown(item)"
@@ -71,6 +79,7 @@
   </v-layout>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "LayersTree",
   props: {
@@ -123,6 +132,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions("webgis", ["downloadLayer"]),
     changeVisibility(item) {
       const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
       if (isBaselayer !== -1) {
@@ -165,6 +175,15 @@ export default {
     },
     moveDown(id) {
       this.$emit("change:moveDown", id);
+    },
+    async downloadKml(item) {
+      const layerName = item.source.layers;
+      const baseUrl = process.env.VUE_APP_GEOSERVER_URL_KML;
+      this.downloadLayer({
+        type: "kml",
+        layerName: layerName,
+        baseUrl: baseUrl
+      });
     }
   }
 };

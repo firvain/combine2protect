@@ -6,7 +6,7 @@ import {
   SET_FEATURE_INFO,
   SET_SHOWPANEL
 } from "../../mutation-types";
-import { fetchFeatureInfo } from "../../../api";
+import { fetchFeatureInfo, fetchLayerKml } from "../../../api";
 const state = {
   mapStatus: "display",
   drawType: "Point",
@@ -53,6 +53,9 @@ const actions = {
     const info = await fetchFeatureInfo(payload);
     commit("SET_FEATURE_INFO", info);
     commit("SET_SHOWPANEL", true);
+  },
+  async downloadLayer({ commit }, { type, layerName, baseUrl }) {
+    await fetchLayerKml({ type, layerName, baseUrl });
   }
 };
 export default {
