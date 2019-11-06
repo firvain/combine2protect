@@ -178,7 +178,7 @@ export default {
     },
     async downloadKml(item) {
       const layerName = item.source.layers;
-      const baseUrl = process.env.VUE_APP_GEOSERVER_URL_KML;
+      const baseUrl = process.env.VUE_APP_GEOSERVER_URL + "/kml";
       this.downloadLayer({
         type: "kml",
         layerName: layerName,
