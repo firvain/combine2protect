@@ -298,6 +298,22 @@
                     flat
                   ></v-select>
                 </div>
+                <div
+                  v-if="
+                    Object.keys(featureInfo).length !== 0 &&
+                      featureInfo.constructor === Object &&
+                      featureInfo.crs
+                  "
+                >
+                  <v-btn small depressed @click="downloadKml">
+                    <v-icon left small>mdi-cloud-download-outline</v-icon>
+                    kml</v-btn
+                  >
+                  <v-btn small flat @click="downloadGeojson">
+                    <v-icon left small>mdi-cloud-download-outline</v-icon
+                    >geojson
+                  </v-btn>
+                </div>
               </v-card-text>
               <v-card-actions
                 ><v-spacer></v-spacer
@@ -431,6 +447,7 @@ import TileLayer from "ol/layer/Tile";
 import * as olExt from "vuelayers/lib/ol-ext";
 import { unByKey } from "ol/Observable";
 import { createStringXY } from "ol/coordinate";
+import KML from "ol/format/KML";
 import {
   GeolocatioControl,
   InfoControl,
@@ -438,6 +455,8 @@ import {
   MeasureControl,
   DrawControl
 } from "../extra/index.js";
+
+import { saveAs } from "file-saver";
 export default {
   name: "VueMap",
   props: {
@@ -570,7 +589,7 @@ export default {
                 including versions of Lorem Ipsum.`,
         geolocation: `Please wait trying to locate.
         Be informed that geolocation is provided by your ISP.`,
-        info: `First select a Visible Layer from the layer tree under 'Map Layers' and then Click on the map.`,
+        info: `First select a Layer and then Click on the map.`,
         print: `Please wait preparing map for print`,
         draw: `Please Select type of feature to draw`
       },
@@ -839,6 +858,41 @@ export default {
       this.$emit("draw:cancel");
       this.drawType = "Point";
       this.clearDraw();
+    },
+    downloadKml() {
+      const source = this.$refs.featureInfo.getSource();
+      if (source) {
+        const features = source.getFeatures();
+        if (features && features.length > 0) {
+          console.log(features[0].getId());
+          const writer = new KML();
+          const kml = writer.writeFeatures(features, {
+            featureProjection: "EPSG:4326"
+          });
+          const data = new Blob([kml], {
+            type: "application/vnd.google-earth.kml+xml"
+          });
+
+          saveAs(data, "features");
+        }
+      }
+    },
+    downloadGeojson() {
+      const source = this.$refs.featureInfo.getSource();
+      if (source) {
+        const features = source.getFeatures();
+        if (features && features.length > 0) {
+          console.log(features);
+          const writer = source.getFormat();
+          const geojson = writer.writeFeatures(features, {
+            featureProjection: "EPSG:4326"
+          });
+          const data = new Blob([geojson], {
+            type: "application/json"
+          });
+          saveAs(data, "features.json");
+        }
+      }
     }
   }
 };

@@ -55,6 +55,7 @@ const actions = {
     commit("SET_SHOWPANEL", true);
   },
   async downloadLayer({ commit }, { type, layerName, baseUrl }) {
+    commit("app/SET_LOADING", true, { root: true });
     await fetchLayerKml({ type, layerName, baseUrl });
   }
 };
