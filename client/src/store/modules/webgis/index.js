@@ -56,7 +56,7 @@ const actions = {
   },
   async downloadLayer({ commit }, { type, layerName, baseUrl }) {
     commit("app/SET_LOADING", true, { root: true });
-    await fetchLayerKml({ type, layerName, baseUrl });
+    if (type === 'kml') await fetchLayerKml({ layerName, baseUrl });
   }
 };
 export default {

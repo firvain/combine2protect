@@ -8,15 +8,14 @@ export async function fetchFeatureInfo({ url }) {
   });
   return new Promise(resolve => resolve(info.data));
 }
-export async function fetchLayerKml({ type, layerName, baseUrl }) {
+export async function fetchLayerKml({ layerName, baseUrl }) {
   const info = await axios({
     method: "get",
-    url: `${baseUrl}?layers=${layerName}`,
+    url: `${baseUrl}?layers=${layerName}&mode=download`,
     responseType: "blob"
   });
   // const url = `${baseUrl}?layers=${layerName}`
   // console.log(url);
-  console.log(info.data);
   saveAs(
     new Blob([info.data], { type: "application/vnd.google-earth.kml+xml" }),
     layerName
