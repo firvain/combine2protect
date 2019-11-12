@@ -200,11 +200,22 @@
             </vl-feature>
           </template>
         </vl-geoloc>
-        <vl-layer-vector ref="featureInfo" key="10000" :z-index="100000">
+        <vl-layer-vector ref="featureInfo" key="9000001" :z-index="9000003">
           <vl-source-vector
             v-if="featureInfo.crs"
             :features="featureInfo.features"
             @update:features="onFeatureInfoUpdate"
+          >
+          </vl-source-vector>
+        </vl-layer-vector>
+        <vl-layer-vector
+          ref="uploadedFeatures"
+          render-mode="image"
+          :z-index="lastZindex"
+        >
+          <vl-source-vector
+            ref="uploadedFeaturesSource"
+            :features.sync="uploadedFeatures"
           >
           </vl-source-vector>
         </vl-layer-vector>
@@ -271,7 +282,11 @@
                     Object.keys(featureInfo).length !== 0 &&
                       featureInfo.constructor === Object
                   "
-                  class="overlayWrapper"
+                  :class="
+                    $vuetify.breakpoint.xs === true
+                      ? 'overlayWrapper-xs'
+                      : 'overlayWrapper'
+                  "
                 >
                   <Strong>{{ featureInfo.features[0].id }}</Strong>
 
@@ -298,36 +313,57 @@
                     flat
                   ></v-select>
                 </div>
-                <div
-                  v-if="
-                    Object.keys(featureInfo).length !== 0 &&
-                      featureInfo.constructor === Object &&
-                      featureInfo.crs
-                  "
-                >
-                  <v-btn small depressed @click="downloadKml">
-                    <v-icon left small>mdi-cloud-download-outline</v-icon>
-                    kml</v-btn
-                  >
-                  <v-btn small flat @click="downloadGeojson">
-                    <v-icon left small>mdi-cloud-download-outline</v-icon
-                    >geojson
-                  </v-btn>
-                </div>
               </v-card-text>
-              <v-card-actions
-                ><v-spacer></v-spacer
-                ><v-btn
-                  v-if="
-                    Object.keys(featureInfo).length !== 0 &&
-                      featureInfo.constructor === Object
-                  "
-                  small
-                  flat
-                  @click="clearInfo"
-                  >clear</v-btn
-                >
-                <v-btn small flat @click="cancelInfo">cancel</v-btn>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-layout row wrap justify-center>
+                  <v-flex
+                    v-if="
+                      Object.keys(featureInfo).length !== 0 &&
+                        featureInfo.constructor === Object &&
+                        featureInfo.crs
+                    "
+                    d-flex
+                    xs12
+                  >
+                    <v-layout row wrap justify-center>
+                      <v-flex d-flex xs12 md6>
+                        <v-btn small flat @click="downloadKml">
+                          <v-icon left small>mdi-cloud-download-outline</v-icon>
+                          kml</v-btn
+                        ></v-flex
+                      >
+                      <v-flex d-flex xs12 md6>
+                        <v-btn small flat @click="downloadGeojson">
+                          <v-icon left small>mdi-cloud-download-outline</v-icon
+                          >geojson
+                        </v-btn>
+                      </v-flex>
+                      <v-flex d-flex xs12 md6>
+                        <v-btn small flat @click="downloadTopoJSON">
+                          <v-icon left small>mdi-cloud-download-outline</v-icon
+                          >topojson
+                        </v-btn>
+                      </v-flex>
+                    </v-layout>
+                  </v-flex>
+
+                  <v-flex d-flex xs6>
+                    <v-btn
+                      v-if="
+                        Object.keys(featureInfo).length !== 0 &&
+                          featureInfo.constructor === Object
+                      "
+                      small
+                      flat
+                      @click="clearInfo"
+                      >clear</v-btn
+                    >
+                  </v-flex>
+                  <v-flex d-flex xs6>
+                    <v-btn small flat @click="cancelInfo">cancel</v-btn>
+                  </v-flex>
+                </v-layout>
               </v-card-actions>
             </template>
             <template v-if="mapStatus === 'print'">
@@ -336,21 +372,23 @@
             <template v-if="mapStatus === 'measure'">
               <v-card-actions>
                 <v-btn
-                  color="secondary"
                   flat
                   icon
+                  :color="
+                    measureType === 'LineString' ? 'primary' : 'secondary'
+                  "
                   @click="setMeasureType('LineString')"
                   ><v-icon>mdi-tape-measure</v-icon></v-btn
                 >
                 <v-btn
-                  color="secondary"
+                  :color="measureType === 'Polygon' ? 'primary' : 'secondary'"
                   flat
                   icon
                   @click="setMeasureType('Polygon')"
                   ><v-icon>mdi-texture-box</v-icon></v-btn
                 >
                 <v-btn
-                  color="secondary"
+                  :color="measureType === 'Point' ? 'primary' : 'secondary'"
                   flat
                   icon
                   @click="setMeasureType('Point')"
@@ -424,6 +462,37 @@
                 <v-btn small flat @click="cancelDraw">cancel</v-btn>
               </v-card-actions>
             </template>
+            <template v-if="mapStatus === 'dragdrop'">
+              <v-card-text
+                v-if="
+                  Object.keys(selectedFeature).length === 0 &&
+                    selectedFeature.constructor === Object
+                "
+              >
+                {{ panelText.dragdrop }}
+              </v-card-text>
+              <v-card-text v-else>
+                <div v-if="selectedFeature.valid" class="overlayWrapper">
+                  <Strong>{{ selectedFeature.id }}</Strong>
+                  <ul>
+                    <li
+                      v-for="k in Object.keys(selectedFeature.properties)"
+                      :key="k"
+                    >
+                      {{ k }} : {{ selectedFeature.properties[k] }}
+                    </li>
+                  </ul>
+                </div>
+                <div v-else>
+                  <p>{{ panelText.invalid }}</p>
+                </div>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn small flat @click="clearUploaded">clear uploaded</v-btn>
+                <v-btn small flat @click="cancelUploaded">cancel</v-btn>
+              </v-card-actions>
+            </template>
           </template>
         </v-card>
       </div>
@@ -442,21 +511,24 @@ import { getArea, getLength } from "ol/sphere.js";
 import { Polygon, LineString, Point } from "ol/geom.js";
 // import { transform } from "ol/proj";
 // import KML from "ol/format/KML";
-import TileLayer from "ol/layer/Tile";
+// import TileLayer from "ol/layer/Tile";
 // import OSM from "ol/source/OSM";
-import * as olExt from "vuelayers/lib/ol-ext";
+import { findPointOnSurface, createStyle } from "vuelayers/lib/ol-ext";
 import { unByKey } from "ol/Observable";
 import { createStringXY } from "ol/coordinate";
-import KML from "ol/format/KML";
+import { DragAndDrop } from "ol/interaction.js";
+import { GPX, GeoJSON, IGC, KML, TopoJSON } from "ol/format";
 import {
   GeolocatioControl,
   InfoControl,
   PrintControl,
   MeasureControl,
-  DrawControl
-} from "../extra/index.js";
-
+  DrawControl,
+  DragAndDropControl
+} from "../extra/ol-custom-controls.js";
 import { saveAs } from "file-saver";
+import { omit } from "../extra/utils";
+import { topology } from "topojson-server";
 export default {
   name: "VueMap",
   props: {
@@ -499,6 +571,7 @@ export default {
       rotation: 0,
       drawnFeatures: [],
       measuredFeatures: [],
+      uploadedFeatures: [],
       extent: [21.4, 39.5, 23.65, 41.8],
       printSize: [(297 * 72) / 25.4, (210 * 72) / 25.4],
       deviceCoordinate: undefined,
@@ -591,11 +664,14 @@ export default {
         Be informed that geolocation is provided by your ISP.`,
         info: `First select a Layer and then Click on the map.`,
         print: `Please wait preparing map for print`,
-        draw: `Please Select type of feature to draw`
+        draw: `Please Select type of feature to draw`,
+        dragdrop: `Select of file type and drag and drop file on to the map. Data projection must be EPSG:4326 or EPSG:3857.`,
+        invalid: `Invalid File Type`
       },
       evtKey: {},
       panelInfo: "general info",
-      selectedLayer: null
+      selectedLayer: null,
+      selectedFeature: {}
     };
   },
   computed: {
@@ -605,32 +681,47 @@ export default {
           return true;
         }
       });
+    },
+    lastZindex() {
+      return 200 + this.vectorLayers.length + 1;
     }
   },
   watch: {
     mapStatus(newValue) {
       switch (newValue) {
         case "print":
+          unByKey(this.evtKey);
           this.panelInfo = "print map";
+
           // this.selectedLayer = null;
           this.print();
           break;
         case "info":
+          unByKey(this.evtKey);
           // this.selectedLayer = null;
           this.panelInfo = "Get Fearure Info";
           this.info();
           break;
         case "geolocation":
+          unByKey(this.evtKey);
           // this.selectedLayer = null;
           this.panelInfo = "geolocation";
           break;
         case "measure":
+          unByKey(this.evtKey);
           // this.selectedLayer = null;
           this.panelInfo = "measure";
           break;
         case "draw":
+          unByKey(this.evtKey);
           // this.selectedLayer = null;
           this.panelInfo = "Draw Features on map";
+          break;
+        case "dragdrop":
+          unByKey(this.evtKey);
+          // this.selectedLayer = null;
+          this.panelInfo = "Drag and Drop";
+          this.dragAndDrop();
           break;
         default:
           // this.selectedLayer = null;
@@ -666,7 +757,7 @@ export default {
   },
 
   methods: {
-    pointOnSurface: olExt.findPointOnSurface,
+    pointOnSurface: findPointOnSurface,
     onMapMounted() {
       // now ol.Map instance is ready and we can work with it directly
       this.$refs.map.$map.getControls().extend([
@@ -684,11 +775,11 @@ export default {
         new InfoControl(),
         new PrintControl(),
         new MeasureControl(),
-        new DrawControl()
+        new DrawControl(),
+        new DragAndDropControl()
       ]);
     },
     print() {
-      unByKey(this.evtKey);
       const map = this.$refs.map.$map;
       const size = map.getSize();
       const extent = map.getView().calculateExtent(size);
@@ -782,7 +873,7 @@ export default {
       const opacity = easeInOut(1 - elapsedRatio);
       const fillOpacity = easeInOut(0.5 - elapsedRatio);
       vectorContext.setStyle(
-        olExt.createStyle({
+        createStyle({
           imageRadius: radius,
           fillColor: [119, 170, 203, fillOpacity],
           strokeColor: [119, 170, 203, opacity],
@@ -807,7 +898,7 @@ export default {
     },
     clearMeasure() {
       this.$emit("measure:clear");
-
+      this.$refs.measure.getSource().clear();
       this.measureType = undefined;
       this.measureOutput = "";
     },
@@ -815,12 +906,15 @@ export default {
       const map = this.$refs.map.$map;
       const evtKey = map.on("singleclick", evt => {
         const viewResolution = map.getView().getResolution();
-        map.forEachLayerAtPixel(evt.pixel, layer => {
-          if (
-            layer instanceof TileLayer &&
-            typeof layer.getSource().getParams === "function" &&
-            layer.values_.id === this.selectedLayer
-          ) {
+        map.forEachLayerAtPixel(
+          evt.pixel,
+          layer => {
+            // if (
+            //   layer instanceof TileLayer &&
+            //   typeof layer.getSource().getParams === "function" &&
+            //   layer.values_.id === this.selectedLayer
+            // )
+            // {
             const url = layer
               .getSource()
               .getGetFeatureInfoUrl(
@@ -830,8 +924,12 @@ export default {
                 { INFO_FORMAT: "application/json" }
               );
             this.$emit("info:get", url);
+            // }
+          },
+          {
+            layerFilter: layer => layer.values_.id === this.selectedLayer
           }
-        });
+        );
       });
       // console.log(evtKey);
       this.evtKey = evtKey;
@@ -848,8 +946,6 @@ export default {
         const extent = this.$refs.featureInfo.getSource().getExtent();
         this.$refs.map.$map.getView().fit(extent);
       }
-
-      // alert(extent);
     },
     clearDraw() {
       this.$refs.draw.getSource().clear();
@@ -864,7 +960,6 @@ export default {
       if (source) {
         const features = source.getFeatures();
         if (features && features.length > 0) {
-          console.log(features[0].getId());
           const writer = new KML();
           const kml = writer.writeFeatures(features, {
             featureProjection: "EPSG:4326"
@@ -890,9 +985,108 @@ export default {
           const data = new Blob([geojson], {
             type: "application/json"
           });
-          saveAs(data, "features.json");
+          saveAs(data, "features");
         }
       }
+    },
+    downloadTopoJSON() {
+      const source = this.$refs.featureInfo.getSource();
+      if (source) {
+        const features = source.getFeatures();
+        if (features && features.length > 0) {
+          const writer = source.getFormat();
+          const geojson = writer.writeFeaturesObject(features, {
+            featureProjection: "EPSG:4326"
+          });
+          const topo = topology({ foo: geojson });
+          const data = new Blob([JSON.stringify(topo)], {
+            type: "application/json"
+          });
+
+          saveAs(data, "features");
+        }
+      }
+    },
+    dragAndDrop() {
+      const map = this.$refs.map.$map;
+      const dd = new DragAndDrop({
+        formatConstructors: [GPX, GeoJSON, IGC, KML, TopoJSON]
+      });
+      map.getInteractions().forEach(int => {
+        if (int instanceof DragAndDrop) map.removeInteraction(int);
+      });
+
+      map.addInteraction(dd);
+      dd.on("addfeatures", evt => {
+        this.$refs.uploadedFeaturesSource.$source.clear();
+        if (!evt.features) {
+          this.selectedFeature = Object.assign(
+            {},
+            { id: null },
+            { properties: {} },
+            { valid: false }
+          );
+          return;
+        }
+        this.$refs.uploadedFeaturesSource.addFeatures(evt.features);
+        const extent = this.$refs.uploadedFeaturesSource.$source.getExtent();
+        map.getView().fit(extent);
+        const file = evt.file;
+        unByKey(this.evtKey);
+        const evtKey = map.on("singleclick", evt => {
+          map.forEachFeatureAtPixel(
+            evt.pixel,
+            feature => {
+              const id = feature.getId();
+              const featureProps = feature.getProperties();
+              const realProps = omit(featureProps, ["geometry"]);
+              if (file.type === "application/vnd.google-earth.kml+xml") {
+                let filtered = {};
+                realProps.description
+                  .split("\n")
+                  .filter(el => {
+                    return el.includes("<li>");
+                  })
+                  .map(el => {
+                    const line = el
+                      .replace(/<[^>]*>/g, "")
+                      .trim()
+                      .split(":");
+                    let k = line[0];
+                    let v = line[1];
+                    const object = { [k]: v };
+                    filtered = { ...filtered, ...object };
+                  });
+                this.selectedFeature = Object.assign(
+                  {},
+                  { id },
+                  { properties: filtered },
+                  { valid: true }
+                );
+              } else if (file.type === "application/json") {
+                this.selectedFeature = Object.assign(
+                  {},
+                  { id },
+                  { properties: realProps },
+                  { valid: true }
+                );
+              }
+            },
+            {
+              layerFilter: layer => layer === this.$refs.uploadedFeatures.$layer
+            }
+          );
+        });
+        this.evtKey = evtKey;
+      });
+    },
+    clearUploaded() {
+      this.$refs.uploadedFeaturesSource.clear();
+      this.selectedFeature = {};
+    },
+    cancelUploaded() {
+      this.$emit("upload:cancel");
+      this.clearUploaded();
     }
   }
 };
@@ -939,8 +1133,13 @@ export default {
   color: black;
   overflow: auto;
   max-height: 15em;
-  // border-radius: 10px;
-  // border: 1px solid #cccccc;
+}
+.overlayWrapper-xs {
+  background: #fff;
+  padding: 2px;
+  color: black;
+  overflow: auto;
+  max-height: 5em;
 }
 ::v-deep .ol-control button {
   background-color: #454545;
@@ -963,7 +1162,7 @@ export default {
   left: 0.5em;
 }
 ::v-deep .ol-touch .geolocation {
-  top: 5.71em;
+  top: 7.21em;
 }
 ::v-deep .infobtn {
   top: 9.5em;
@@ -992,7 +1191,7 @@ export default {
   }
 }
 ::v-deep .ol-touch .measureBtn {
-  top: 13.71em;
+  top: 13.21em;
 }
 ::v-deep .drawBtn {
   top: 17em;
@@ -1004,6 +1203,17 @@ export default {
 }
 ::v-deep .ol-touch .drawBtn {
   top: 15.71em;
+}
+::v-deep .dragAndDropBtn {
+  top: 19.5em;
+  left: 0.5em;
+  .v-icon {
+    line-height: 0.5em;
+    width: 0.5em;
+  }
+}
+::v-deep .ol-touch .dragAndDropBtn {
+  top: 15.21em;
 }
 .here {
   background-color: white;

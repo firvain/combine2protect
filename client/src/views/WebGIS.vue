@@ -66,6 +66,7 @@
                     @info:cancel="cancelInfo"
                     @info:get="getFeatureFromGeoserver"
                     @draw:cancel="setDisplay"
+                    @upload:cancel="setDisplay"
                   ></VueMap>
                 </v-flex>
               </v-layout>
@@ -145,107 +146,8 @@ export default {
         }
       ],
       vectorLayers: [
-        // {
-        //   id: 200,
-        //   title: "Bird Directive GREEN",
-        //   cmp: "vl-layer-vector",
-        //   visible: false,
-        //   renderMode: "image",
-        //   source: {
-        //     cmp: "vl-source-vector",
-        //     features: [],
-        //     url(extent, resolution, projection) {
-        //       return (
-        //         "https://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/EUNIS_Website_Dyna_WM/MapServer/7/query?" +
-        //         "&geometryType=esriGeometryEnvelope" +
-        //         "&geometry=" +
-        //         extent.join(",") +
-        //         "&spatialRel=esriSpatialRelEnvelopeIntersects" +
-        //         "&inSR=" +
-        //         projection.split(":")[1] +
-        //         "&outFields=*&f=geojson"
-        //       );
-        //     },
-        //     strategyFactory() {
-        //       return loadingBBox;
-        //     }
-        //   },
-        //   style: [
-        //     {
-        //       cmp: "vl-style-box",
-        //       styles: {
-        //         "vl-style-fill": {
-        //           color: "green"
-        //         },
-        //         "vl-style-stroke": {
-        //           color: "#8f209b",
-        //           width: 2
-        //         }
-        //       }
-        //     }
-        //   ]
-        // },
-        // {
-        //   id: 201,
-        //   title: "DEMO DATA blue",
-        //   cmp: "vl-layer-vector",
-        //   visible: false,
-        //   renderMode: "image",
-        //   source: {
-        //     cmp: "vl-source-vector",
-        //     features: [],
-        //     strategyFactory() {
-        //       return loadingBBox;
-        //     },
-        //     loaderFactory
-        //   },
-        //   style: [
-        //     {
-        //       cmp: "vl-style-box",
-        //       styles: {
-        //         "vl-style-fill": {
-        //           color: "blue"
-        //         },
-        //         "vl-style-stroke": {
-        //           color: "#219e46",
-        //           width: 2
-        //         }
-        //       }
-        //     }
-        //   ]
-        // },
-        // {
-        //   id: 202,
-        //   title: "DEMO DATA2 red",
-        //   cmp: "vl-layer-vector",
-        //   visible: false,
-        //   renderMode: "image",
-        //   source: {
-        //     cmp: "vl-source-vector",
-        //     features: [],
-        //     strategyFactory() {
-        //       return loadingBBox;
-        //     },
-        //     loaderFactory
-        //   },
-        //   style: [
-        //     {
-        //       cmp: "vl-style-box",
-        //       styles: {
-        //         "vl-style-fill": {
-        //           color: "red"
-        //         },
-        //         "vl-style-stroke": {
-        //           color: "#219e46",
-        //           width: 2
-        //         }
-        //       }
-        //     }
-        //   ]
-        // },
-
         {
-          id: 203,
+          id: 200,
           title: "Image Example (AUTH)",
           cmp: "vl-layer-tile",
           visible: false,
@@ -258,10 +160,10 @@ export default {
             serverType: "geoserver",
             crossOrigin: "anonymous"
           },
-          zIndex: 203
+          zIndex: 200
         },
         {
-          id: 204,
+          id: 201,
           title: "Shapefile Example (AUTH)",
           cmp: "vl-layer-tile",
           visible: true,
@@ -275,12 +177,12 @@ export default {
             crossOrigin: "anonymous",
             projection: "EPSG:4326"
           },
-          zIndex: 204
+          zIndex: 201
         }
       ],
       utilityLayers: [
         {
-          id: 1000,
+          id: 9000001,
           ref: "draw",
           title: "Draw",
           cmp: "vl-layer-vector",
@@ -294,7 +196,7 @@ export default {
           zIndex: 9000001
         },
         {
-          id: 1001,
+          id: 9000002,
           ref: "measure",
           title: "Measure",
           cmp: "vl-layer-vector",

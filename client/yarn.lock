@@ -755,6 +755,11 @@
     error-stack-parser "^2.0.0"
     string-width "^2.0.0"
 
+"@tmcw/togeojson@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tmcw/togeojson/-/togeojson-3.0.1.tgz#f5dc5f1d85f2308fdf23bfb1545563335ff96b88"
+  integrity sha512-aFPD/YIHRHOkqgvsikrN6AUB4ifHnqYUHbVLr8HsbrWfvjiTEDE9I4Zra+fPL4UamfiYIvMjkHJecZ3eqph/FQ==
+
 "@turf/bbox@^5.1.5":
   version "5.1.5"
   resolved "https://registry.yarnpkg.com/@turf/bbox/-/bbox-5.1.5.tgz#3051df514ad4c50f4a4f9b8a2d15fd8b6840eda3"
@@ -2697,6 +2702,11 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
+commander@2, commander@^2.18.0, commander@^2.19.0, commander@^2.20.0, commander@~2.20.3:
+  version "2.20.3"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
+  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
+
 commander@2.15.1:
   version "2.15.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
@@ -2706,11 +2716,6 @@ commander@2.17.x:
   version "2.17.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
   integrity sha512-wPMUt6FnH2yzG95SA6mzjQOEKUU3aLaDEmzs1ti+1E9h+CsrZghRlqEM/EJ4KscsQVG8uNN4uVreUeT8+drlgg==
-
-commander@^2.18.0, commander@^2.19.0, commander@^2.20.0, commander@~2.20.3:
-  version "2.20.3"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
-  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
 commander@~2.19.0:
   version "2.19.0"
@@ -10115,6 +10120,13 @@ toidentifier@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
+
+topojson-server@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/topojson-server/-/topojson-server-3.0.1.tgz#d2b3ec095b6732299be76a48406111b3201a34f5"
+  integrity sha512-/VS9j/ffKr2XAOjlZ9CgyyeLmgJ9dMwq6Y0YEON8O7p/tGGk+dCWnrE03zEdu7i4L7YsFZLEPZPzCvcB7lEEXw==
+  dependencies:
+    commander "2"
 
 toposort@^1.0.0:
   version "1.0.7"

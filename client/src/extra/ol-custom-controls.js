@@ -241,7 +241,7 @@ export const DrawControl = (function (Control) {
     const options = opt_options || {};
 
     const button = document.createElement("button");
-    button.innerHTML = "<i class='mdi mdi-square-edit-outline' i>"
+    button.innerHTML = "<i class='mdi mdi-square-edit-outline' i>";
 
     const element = document.createElement("div");
     element.className = "drawBtn ol-unselectable ol-control";
@@ -264,4 +264,38 @@ export const DrawControl = (function (Control) {
   };
 
   return DrawControl;
+})(Control);
+
+export const DragAndDropControl = (function (Control) {
+  function DragAndDropControl(opt_options) {
+    const options = opt_options || {};
+
+    const button = document.createElement("button");
+    button.innerHTML = "<i class='mdi mdi-file-code-outline' i>";
+
+    const element = document.createElement("div");
+    element.className = "dragAndDropBtn ol-unselectable ol-control";
+    element.appendChild(button);
+
+    Control.call(this, {
+      element: element,
+      target: options.target
+    });
+
+    button.addEventListener(
+      "click",
+      this.handleDragAndDropControl.bind(this),
+      false
+    );
+  }
+
+  if (Control) DragAndDropControl.__proto__ = Control;
+  DragAndDropControl.prototype = Object.create(Control && Control.prototype);
+  DragAndDropControl.prototype.constructor = DragAndDropControl;
+
+  DragAndDropControl.prototype.handleDragAndDropControl = function handleDragAndDropControl() {
+    store.dispatch("webgis/updateMapStatus", "dragdrop");
+  };
+
+  return DragAndDropControl;
 })(Control);
