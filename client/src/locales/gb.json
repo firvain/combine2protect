@@ -69,7 +69,7 @@
             "info": "First select a Layer and then Click on the map.",
             "print": "Please wait preparing map for print",
             "draw": "Please Select type of feature to draw",
-            "dragdrop": "Select of file type and drag and drop file on to the map. Data projection must be EPSG:4326 or EPSG:3857.",
+            "dragdrop": "Drag and Drop a file (KML, GeoJSON or TopoJSON) onto the map. Data projection must be EPSG:4326 or EPSG:3857.",
             "invalid": "Invalid File Type"
           }
         },
