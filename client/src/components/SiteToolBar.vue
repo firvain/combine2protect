@@ -31,7 +31,6 @@
           <v-list-tile
             v-for="lang in langs"
             :key="lang.iso"
-            href="#"
             :class="{ smallLettersList: $vuetify.breakpoint.lgAndDown }"
           >
             <v-list-tile-action @click="changeLocal(lang.iso)">

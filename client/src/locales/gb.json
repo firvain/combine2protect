@@ -60,7 +60,44 @@
     {
       "title": "Gis Platform",
       "route": "webgis",
-      "subpages": []
+      "subpages": [],
+      "content": [
+        {
+          "panelText": {
+            "display": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            "geolocation": "Please wait trying to locate. Be informed that geolocation is provided by your ISP.",
+            "info": "First select a Layer and then Click on the map.",
+            "print": "Please wait preparing map for print",
+            "draw": "Please Select type of feature to draw",
+            "dragdrop": "Select of file type and drag and drop file on to the map. Data projection must be EPSG:4326 or EPSG:3857.",
+            "invalid": "Invalid File Type"
+          }
+        },
+        {
+          "labels": {
+            "selectToQuety": "Select Layer to Query",
+            "lengthUnit": "Length Unit",
+            "areaUnit": "Area Unit",
+            "clear": "clear",
+            "cancel": "cancel",
+            "clearUploaded": "clear uploaded",
+            "panelTitle": {
+              "general": "general Info",
+              "featureInfo": " get feature info",
+              "measure": "measure",
+              "draw": "draw",
+              "print": "print",
+              "geolocation": "geolocation",
+              "draganddrop": "file upload"
+            },
+            "drawTypes": {
+              "point": "Point",
+              "linestring": "LineString",
+              "polygon": "Polygon"
+            }
+          }
+        }
+      ]
     },
     {
       "title": "Branding and Awards",

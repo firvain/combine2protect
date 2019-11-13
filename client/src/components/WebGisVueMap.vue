@@ -241,7 +241,7 @@
           <template v-if="showPanel">
             <template v-if="mapStatus === 'display'">
               <v-card-text class="full">
-                {{ panelText.display }}
+                {{ $t("pages[4].content[0].panelText.display") }}
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -250,7 +250,7 @@
             </template>
             <template v-if="mapStatus === 'geolocation'">
               <v-card-text v-if="!deviceCoordinate" class="full">{{
-                panelText.geolocation
+                $t("pages[4].content[0].panelText.geolocation")
               }}</v-card-text>
               <v-card-text v-else class="subheading text-xs-center">
                 {{ Number(Math.round(deviceCoordinate[0] + "e3") + "e-3") }}
@@ -302,13 +302,15 @@
                   </ul>
                 </div>
                 <div v-else>
-                  <div class="full">{{ panelText.info }}</div>
+                  <div class="full">
+                    {{ $t("pages[4].content[0].panelText.info") }}
+                  </div>
                   <v-select
                     v-model="selectedLayer"
                     :items="availableForSelectionLayers"
                     item-text="title"
                     item-value="id"
-                    label="Select Layer to Query"
+                    :label="$t('pages[4].content[1].labels.selectToQuety')"
                     dense
                     flat
                   ></v-select>
@@ -357,17 +359,21 @@
                       small
                       flat
                       @click="clearInfo"
-                      >clear</v-btn
+                      >{{ $t("pages[4].content[1].labels.clear") }}</v-btn
                     >
                   </v-flex>
                   <v-flex d-flex xs6>
-                    <v-btn small flat @click="cancelInfo">cancel</v-btn>
+                    <v-btn small flat @click="cancelInfo">{{
+                      $t("pages[4].content[1].labels.cancel")
+                    }}</v-btn>
                   </v-flex>
                 </v-layout>
               </v-card-actions>
             </template>
             <template v-if="mapStatus === 'print'">
-              <v-card-text>{{ panelText.print }}</v-card-text>
+              <v-card-text>{{
+                $t("pages[4].content[0].panelText.print")
+              }}</v-card-text>
             </template>
             <template v-if="mapStatus === 'measure'">
               <v-card-actions>
@@ -398,7 +404,7 @@
                   v-if="measureType === 'LineString'"
                   v-model="lengthUnit"
                   :items="lengthUnits"
-                  label="Length Unit"
+                  :label="$t('pages[4].content[1].labels.lengthUnit')"
                   dense
                   flat
                 ></v-select>
@@ -406,7 +412,7 @@
                   v-if="measureType === 'Polygon'"
                   v-model="areaUnit"
                   :items="areaUnits"
-                  label="Area Unit"
+                  :label="$t('pages[4].content[1].labels.areaUnit')"
                   dense
                   flat
                 ></v-select>
@@ -440,7 +446,9 @@
               >
               <v-card-actions v-if="measureOutput !== ''">
                 <v-spacer></v-spacer>
-                <v-btn small flat @click="clearMeasure">cancel</v-btn>
+                <v-btn small flat @click="clearMeasure">{{
+                  $t("pages[4].content[1].labels.cancel")
+                }}</v-btn>
               </v-card-actions>
             </template>
             <template v-if="mapStatus === 'draw'">
@@ -451,15 +459,19 @@
                   :items="drawTypes"
                   item-text="label"
                   item-value="value"
-                  :label="panelText.draw"
+                  :label="$t('pages[4].content[0].panelText.draw')"
                   dense
                   flat
                 ></v-select
               ></v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn small flat @click="clearDraw">clear</v-btn>
-                <v-btn small flat @click="cancelDraw">cancel</v-btn>
+                <v-btn small flat @click="clearDraw">{{
+                  $t("pages[4].content[1].labels.clear")
+                }}</v-btn>
+                <v-btn small flat @click="cancelDraw">{{
+                  $t("pages[4].content[1].labels.cancel")
+                }}</v-btn>
               </v-card-actions>
             </template>
             <template v-if="mapStatus === 'dragdrop'">
@@ -469,7 +481,7 @@
                     selectedFeature.constructor === Object
                 "
               >
-                {{ panelText.dragdrop }}
+                {{ $t("pages[4].content[0].panelText.dragdrop") }}
               </v-card-text>
               <v-card-text v-else>
                 <div v-if="selectedFeature.valid" class="overlayWrapper">
@@ -484,13 +496,17 @@
                   </ul>
                 </div>
                 <div v-else>
-                  <p>{{ panelText.invalid }}</p>
+                  <p>{{ $t("pages[4].content[0].panelText.invalid") }}</p>
                 </div>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn small flat @click="clearUploaded">clear uploaded</v-btn>
-                <v-btn small flat @click="cancelUploaded">cancel</v-btn>
+                <v-btn small flat @click="clearUploaded">{{
+                  $t("pages[4].content[1].labels.clearUploaded")
+                }}</v-btn>
+                <v-btn small flat @click="cancelUploaded">{{
+                  $t("pages[4].content[1].labels.cancel")
+                }}</v-btn>
               </v-card-actions>
             </template>
           </template>
@@ -500,20 +516,10 @@
   </v-layout>
 </template>
 <script>
-// import { mapGetters } from "vuex";
 import ScaleLine from "ol/control/ScaleLine";
 import MousePosition from "ol/control/MousePosition";
-// import FullScreen from "ol/control/FullScreen";
-// import OverviewMap from "ol/control/OverviewMap";
-// import ZoomSlider from "ol/control/ZoomSlider";
 import ZoomToExtent from "ol/control/ZoomToExtent";
 import { getArea, getLength } from "ol/sphere.js";
-import { Polygon, LineString, Point } from "ol/geom.js";
-// import { transform } from "ol/proj";
-// import KML from "ol/format/KML";
-// import TileLayer from "ol/layer/Tile";
-// import OSM from "ol/source/OSM";
-import { findPointOnSurface, createStyle } from "vuelayers/lib/ol-ext";
 import { unByKey } from "ol/Observable";
 import { createStringXY } from "ol/coordinate";
 import { DragAndDrop } from "ol/interaction.js";
@@ -526,9 +532,15 @@ import {
   DrawControl,
   DragAndDropControl
 } from "../extra/ol-custom-controls.js";
+import { Polygon, LineString, Point } from "ol/geom.js";
+
+import { findPointOnSurface, createStyle } from "vuelayers/lib/ol-ext";
+
 import { saveAs } from "file-saver";
 import { omit } from "../extra/utils";
+
 import { topology } from "topojson-server";
+
 export default {
   name: "VueMap",
   props: {
@@ -577,23 +589,6 @@ export default {
       deviceCoordinate: undefined,
       measureType: undefined,
       drawType: "Point",
-      drawTypes: [
-        {
-          id: 1,
-          label: "Point",
-          value: "Point"
-        },
-        {
-          id: 2,
-          label: "Line",
-          value: "LineString"
-        },
-        {
-          id: 3,
-          label: "Polygon",
-          value: "Polygon"
-        }
-      ],
       lengthUnit: "meters",
       lengthUnits: ["meters", "miles", "yards", "feet"],
       areaUnit: "sq. meters",
@@ -649,27 +644,7 @@ export default {
         }
       },
       measureOutput: "",
-      panelText: {
-        display: `Lorem Ipsum is simply dummy text of the
-                printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an
-                unknown printer took a galley of type and scrambled it to make a
-                type specimen book. It has survived not only five centuries, but
-                also the leap into electronic typesetting, remaining essentially
-                unchanged. It was popularised in the 1960s with the release of
-                Letraset sheets containing Lorem Ipsum passages, and more
-                recently with desktop publishing software like Aldus PageMaker
-                including versions of Lorem Ipsum.`,
-        geolocation: `Please wait trying to locate.
-        Be informed that geolocation is provided by your ISP.`,
-        info: `First select a Layer and then Click on the map.`,
-        print: `Please wait preparing map for print`,
-        draw: `Please Select type of feature to draw`,
-        dragdrop: `Select of file type and drag and drop file on to the map. Data projection must be EPSG:4326 or EPSG:3857.`,
-        invalid: `Invalid File Type`
-      },
       evtKey: {},
-      panelInfo: "general info",
       selectedLayer: null,
       selectedFeature: {}
     };
@@ -684,6 +659,56 @@ export default {
     },
     lastZindex() {
       return 200 + this.vectorLayers.length + 1;
+    },
+    panelInfo() {
+      let msg;
+      switch (this.mapStatus) {
+        case "display":
+          msg = this.$t("pages[4].content[1].labels.panelTitle.general");
+          break;
+        case "info":
+          msg = this.$t("pages[4].content[1].labels.panelTitle.featureInfo");
+          break;
+        case "draw":
+          msg = this.$t("pages[4].content[1].labels.panelTitle.draw");
+          break;
+        case "measure":
+          msg = this.$t("pages[4].content[1].labels.panelTitle.measure");
+          break;
+        case "geolocation":
+          msg = this.$t("pages[4].content[1].labels.panelTitle.geolocation");
+          break;
+        case "print":
+          msg = this.$t("pages[4].content[1].labels.panelTitle.print");
+          break;
+        case "dragdrop":
+          msg = this.$t("pages[4].content[1].labels.panelTitle.draganddrop");
+          break;
+        default:
+          msg = this.$t("pages[4].content[1].labels.panelTitle.general");
+          break;
+      }
+      return msg;
+    },
+
+    drawTypes() {
+      return [
+        {
+          id: 1,
+          label: this.$t("pages[4].content[1].labels.drawTypes.point"),
+          value: "Point"
+        },
+        {
+          id: 2,
+          label: this.$t("pages[4].content[1].labels.drawTypes.linestring"),
+          value: "LineString"
+        },
+        {
+          id: 3,
+          label: this.$t("pages[4].content[1].labels.drawTypes.polygon"),
+          value: "Polygon"
+        }
+      ];
     }
   },
   watch: {
@@ -691,42 +716,27 @@ export default {
       switch (newValue) {
         case "print":
           unByKey(this.evtKey);
-          this.panelInfo = "print map";
-
-          // this.selectedLayer = null;
           this.print();
           break;
         case "info":
           unByKey(this.evtKey);
-          // this.selectedLayer = null;
-          this.panelInfo = "Get Fearure Info";
           this.info();
           break;
         case "geolocation":
           unByKey(this.evtKey);
-          // this.selectedLayer = null;
-          this.panelInfo = "geolocation";
           break;
         case "measure":
           unByKey(this.evtKey);
-          // this.selectedLayer = null;
-          this.panelInfo = "measure";
           break;
         case "draw":
           unByKey(this.evtKey);
-          // this.selectedLayer = null;
-          this.panelInfo = "Draw Features on map";
           break;
         case "dragdrop":
           unByKey(this.evtKey);
-          // this.selectedLayer = null;
-          this.panelInfo = "Drag and Drop";
           this.dragAndDrop();
           break;
         default:
-          // this.selectedLayer = null;
           unByKey(this.evtKey);
-          this.panelInfo = "general info";
           break;
       }
     },
@@ -852,7 +862,6 @@ export default {
       );
     },
     onUpdatePosition(coordinate) {
-      // alert(coordinate);
       this.deviceCoordinate = coordinate;
       this.$refs.map.$map.getView().animate({
         center: coordinate,
