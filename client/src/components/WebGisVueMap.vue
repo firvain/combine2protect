@@ -316,7 +316,13 @@
                   ></v-select>
                 </div>
               </v-card-text>
-              <v-divider></v-divider>
+              <v-divider
+                v-if="
+                  Object.keys(featureInfo).length !== 0 &&
+                    featureInfo.constructor === Object &&
+                    featureInfo.crs
+                "
+              ></v-divider>
               <v-card-actions>
                 <v-layout row wrap justify-center>
                   <v-flex
@@ -986,7 +992,7 @@ export default {
       if (source) {
         const features = source.getFeatures();
         if (features && features.length > 0) {
-          console.log(features);
+          // console.log(features);
           const writer = source.getFormat();
           const geojson = writer.writeFeatures(features, {
             featureProjection: "EPSG:4326"

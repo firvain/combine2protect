@@ -315,7 +315,7 @@ export default {
       }
     },
     changeShowPanel(e) {
-      console.log(e);
+      // console.log(e);
       this.SET_SHOWPANEL(e);
     },
     setDisplay() {

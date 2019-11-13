@@ -2,7 +2,7 @@ import { Control } from "ol/control";
 // import { fromLonLat, transform } from "ol/proj";
 import store from "../store";
 
-export const RotateNorthControl = (function (Control) {
+export const RotateNorthControl = (function(Control) {
   function RotateNorthControl(opt_options) {
     const options = opt_options || {};
 
@@ -34,7 +34,7 @@ export const RotateNorthControl = (function (Control) {
   return RotateNorthControl;
 })(Control);
 
-export const GeolocatioControl = (function (Control) {
+export const GeolocatioControl = (function(Control) {
   function GeolocatioControl(opt_options) {
     const options = opt_options || {};
 
@@ -101,7 +101,7 @@ export const GeolocatioControl = (function (Control) {
   return GeolocatioControl;
 })(Control);
 
-export const InfoControl = (function (Control) {
+export const InfoControl = (function(Control) {
   function InfoControl(opt_options) {
     const options = opt_options || {};
 
@@ -154,7 +154,7 @@ export const InfoControl = (function (Control) {
   return InfoControl;
 })(Control);
 
-export const PrintControl = (function (Control) {
+export const PrintControl = (function(Control) {
   function PrintControl(opt_options) {
     const options = opt_options || {};
 
@@ -185,7 +185,7 @@ export const PrintControl = (function (Control) {
   return PrintControl;
 })(Control);
 
-export const MeasureControl = (function (Control) {
+export const MeasureControl = (function(Control) {
   function MeasureControl(opt_options) {
     const options = opt_options || {};
 
@@ -236,7 +236,7 @@ export const MeasureControl = (function (Control) {
   return MeasureControl;
 })(Control);
 
-export const DrawControl = (function (Control) {
+export const DrawControl = (function(Control) {
   function DrawControl(opt_options) {
     const options = opt_options || {};
 
@@ -266,7 +266,7 @@ export const DrawControl = (function (Control) {
   return DrawControl;
 })(Control);
 
-export const DragAndDropControl = (function (Control) {
+export const DragAndDropControl = (function(Control) {
   function DragAndDropControl(opt_options) {
     const options = opt_options || {};
 

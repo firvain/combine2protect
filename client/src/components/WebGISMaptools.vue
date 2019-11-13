@@ -117,7 +117,7 @@ export default {
         return this.drawType;
       },
       set(value) {
-        console.log(value);
+        // console.log(value);
         this.SET_DRAW_TYPE(value);
       }
     },
