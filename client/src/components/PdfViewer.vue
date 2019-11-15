@@ -116,7 +116,7 @@ export default {
       // Using promise to fetch the page
       const page = await this.pdfDoc.getPage(num);
       const viewport = page.getViewport({ scale: this.compuscale });
-      console.log(viewport);
+      // console.log(viewport);
       canvas.height = viewport.height;
       canvas.width = viewport.width;
 

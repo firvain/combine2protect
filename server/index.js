@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
-router.route("/").get(function(req, res, next) {
+router.route("/").get(function (req, res, next) {
   res.send("api");
 });
 router.route("/pages").get(async (req, res, next) => {
@@ -20,7 +20,7 @@ router
   .get(async (req, res, next) => {
     const { layerName } = req.params;
     const { xmin, ymin, xmax, ymax } = req.params;
-    console.log(xmin, ymin, xmax, ymax);
+    // console.log(xmin, ymin, xmax, ymax);
     try {
       console.time("concatenation");
       const data = await db.layers.all(layerName, xmin, ymin, xmax, ymax);

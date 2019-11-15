@@ -54,11 +54,19 @@
                     :base-layers="baseLayers"
                     :vector-layers="vectorLayers"
                     :utility-layers="utilityLayers"
+                    :feature-info="featureInfo"
+                    :show-panel="showPanel"
                     :map-status="mapStatus"
-                    :draw-type="drawType"
-                    :measure-type="measureType"
                     :active-tree-item="selectedLayer"
                     @export:pdf="exportPDF"
+                    @change:showpanel="changeShowPanel"
+                    @geolocation:clear="setDisplay"
+                    @measure:clear="setDisplay"
+                    @info:clear="clearInfo"
+                    @info:cancel="cancelInfo"
+                    @info:get="getFeatureFromGeoserver"
+                    @draw:cancel="setDisplay"
+                    @upload:cancel="setDisplay"
                   ></VueMap>
                 </v-flex>
               </v-layout>
@@ -73,11 +81,12 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
+import { mapMutations } from "vuex";
 import MapTools from "@/components/WebGISMaptools.vue";
 import LayersTree from "@/components/WebGISLayersTree.vue";
 import VueMap from "@/components/WebGisVueMap.vue";
-import { loadingBBox } from "vuelayers/lib/ol-ext";
-import { loaderFactory } from "../services/api.js";
+// import { loadingBBox } from "vuelayers/lib/ol-ext";
+// import { loaderFactory } from "../services/api.js";
 import * as jsPDF from "jspdf";
 export default {
   name: "WebGIS",
@@ -92,134 +101,113 @@ export default {
         {
           id: 100,
           name: "osm",
-          title: "OpenStreetMap",
+          title: "Carto Light",
           visible: true,
           crossOrigin: "anonymous",
-          preload: Infinity
+          preload: Infinity,
+          url:
+            "https://cartodb-basemaps-{1-4}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+          attributions:
+            "Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL.",
+          zIndex: 0
         },
         {
           id: 101,
+          name: "osm",
+          title: "OpenStreetMap",
+          visible: false,
+          crossOrigin: "anonymous",
+          preload: Infinity,
+          zIndex: 1
+        },
+        {
+          id: 102,
           name: "bingmaps",
-          title: "Bing Maps",
+          title: "Bing Maps (Aerial with Labels)",
           apiKey:
             "Ap3sskZ5BccP6TvBr0FoLc9orA4_R1uh-8UjpOKYciXL1hNMtAJr_BdxMjTJNkpv",
           imagerySet: "AerialWithLabelsOnDemand",
           visible: false,
           crossOrigin: "anonymous",
-          preload: Infinity
+          preload: Infinity,
+          zIndex: 2
+        },
+        {
+          id: 103,
+          name: "bingmaps",
+          title: "Bing Maps (Roads)",
+          apiKey:
+            "Ap3sskZ5BccP6TvBr0FoLc9orA4_R1uh-8UjpOKYciXL1hNMtAJr_BdxMjTJNkpv",
+          imagerySet: "CanvasLight",
+          visible: false,
+          crossOrigin: "anonymous",
+          preload: Infinity,
+          zIndex: 3
         }
       ],
       vectorLayers: [
         {
           id: 200,
-          title: "Bird Directive GREEN",
-          cmp: "vl-layer-vector",
-          visible: true,
-          renderMode: "image",
+          title: "Image Example (AUTH)",
+          cmp: "vl-layer-tile",
+          visible: false,
+          quearable: true,
           source: {
-            cmp: "vl-source-vector",
-            features: [],
-            url(extent, resolution, projection) {
-              return (
-                "https://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/EUNIS_Website_Dyna_WM/MapServer/7/query?" +
-                "&geometryType=esriGeometryEnvelope" +
-                "&geometry=" +
-                extent.join(",") +
-                "&spatialRel=esriSpatialRelEnvelopeIntersects" +
-                "&inSR=" +
-                projection.split(":")[1] +
-                "&outFields=*&f=geojson"
-              );
-            },
-            strategyFactory() {
-              return loadingBBox;
-            }
+            cmp: "vl-source-wms",
+            url: process.env.VUE_APP_GEOSERVER_URL,
+            layers: "combine2protect:Acip_brev",
+            extParams: { TILED: true },
+            serverType: "geoserver",
+            crossOrigin: "anonymous"
           },
-          style: [
-            {
-              cmp: "vl-style-box",
-              styles: {
-                "vl-style-fill": {
-                  color: "green"
-                },
-                "vl-style-stroke": {
-                  color: "#8f209b",
-                  width: 2
-                }
-              }
-            }
-          ]
+          zIndex: 200
         },
         {
           id: 201,
-          title: "DEMO DATA blue",
-          cmp: "vl-layer-vector",
+          title: "Shapefile Example (AUTH)",
+          cmp: "vl-layer-tile",
           visible: true,
-          renderMode: "image",
+          quearable: true,
           source: {
-            cmp: "vl-source-vector",
-            features: [],
-            strategyFactory() {
-              return loadingBBox;
-            },
-            loaderFactory
+            cmp: "vl-source-wms",
+            url: process.env.VUE_APP_GEOSERVER_URL,
+            layers: "combine2protect:WDPA_cleaning",
+            extParams: { TILED: true },
+            serverType: "geoserver",
+            crossOrigin: "anonymous",
+            projection: "EPSG:4326"
           },
-          style: [
-            {
-              cmp: "vl-style-box",
-              styles: {
-                "vl-style-fill": {
-                  color: "blue"
-                },
-                "vl-style-stroke": {
-                  color: "#219e46",
-                  width: 2
-                }
-              }
-            }
-          ]
-        },
-        {
-          id: 202,
-          title: "DEMO DATA2 red",
-          cmp: "vl-layer-vector",
-          visible: true,
-          renderMode: "image",
-          source: {
-            cmp: "vl-source-vector",
-            features: [],
-            strategyFactory() {
-              return loadingBBox;
-            },
-            loaderFactory
-          },
-          style: [
-            {
-              cmp: "vl-style-box",
-              styles: {
-                "vl-style-fill": {
-                  color: "red"
-                },
-                "vl-style-stroke": {
-                  color: "#219e46",
-                  width: 2
-                }
-              }
-            }
-          ]
+          zIndex: 201
         }
       ],
       utilityLayers: [
         {
-          id: 1000,
-          target: "draw-target",
+          id: 9000001,
           ref: "draw",
           title: "Draw",
           cmp: "vl-layer-vector",
+          target: "draw-target",
           visible: true,
           source: {
-            cmp: "vl-source-vector"
-          }
+            cmp: "vl-source-vector",
+            ident: "draw-target",
+            features: "drawnFeatures"
+          },
+          zIndex: 9000001
+        },
+        {
+          id: 9000002,
+          ref: "measure",
+          title: "Measure",
+          cmp: "vl-layer-vector",
+          target: "measure-target",
+          visible: true,
+          source: {
+            cmp: "vl-source-vector",
+            ident: "measure-target",
+            features: "measuredFeatures"
+          },
+          zIndex: 9000002
         }
       ],
       pdfOptions: {
@@ -239,7 +227,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("webgis", ["mapStatus", "drawType", "measureType"]),
+    ...mapGetters("webgis", ["mapStatus", "featureInfo", "showPanel"]),
     currentDate: {
       get() {
         return this.date;
@@ -256,7 +244,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions("webgis", ["updateMapStatus"]),
+    ...mapActions("webgis", ["updateMapStatus", "getFeatureInfo"]),
+    ...mapMutations("webgis", ["SET_SHOWPANEL", "SET_FEATURE_INFO"]),
     async exportPDF(data) {
       const myPromise = new Promise((resolve, reject) => {
         if (data) resolve(data);
@@ -324,6 +313,23 @@ export default {
       } else {
         this.selectedLayer = null;
       }
+    },
+    changeShowPanel(e) {
+      // console.log(e);
+      this.SET_SHOWPANEL(e);
+    },
+    setDisplay() {
+      this.updateMapStatus("display");
+    },
+    async getFeatureFromGeoserver(url) {
+      await this.getFeatureInfo({ url });
+    },
+    clearInfo() {
+      this.SET_FEATURE_INFO({});
+    },
+    cancelInfo() {
+      this.clearInfo();
+      this.setDisplay();
     }
   }
 };
@@ -341,7 +347,7 @@ export default {
   // background-color: green;
   flex: 1 1 auto;
   .maptools {
-    background-color: blue;
+    background-color: #454545;
     min-height: 56px;
     flex: 0 1 auto;
     width: 100%;

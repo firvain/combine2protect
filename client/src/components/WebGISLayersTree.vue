@@ -1,7 +1,7 @@
 <template>
   <v-layout class="layersTree" fill-height>
     <v-card class="mx-auto" width="100%">
-      <v-sheet class="pa-3 secondary">
+      <v-sheet class="pa-3 secondary darken-2">
         <v-text-field
           v-model="search"
           label="search"
@@ -49,6 +49,14 @@
           ></template>
           <template v-slot:append="{ item, activeTreeItem }">
             <v-icon
+              v-if="!item.children && item.quearable"
+              @click="downloadKml(item)"
+            >
+              mdi-download
+            </v-icon>
+          </template>
+          <!-- <template v-slot:append="{ item, activeTreeItem }">
+            <v-icon
               v-if="showDown(item)"
               small
               :color="activeTreeItem ? 'accent' : ''"
@@ -64,13 +72,14 @@
             >
               mdi-arrow-up
             </v-icon>
-          </template>
+          </template> -->
         </v-treeview>
       </v-card-text>
     </v-card>
   </v-layout>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "LayersTree",
   props: {
@@ -104,7 +113,7 @@ export default {
         },
         {
           id: 2,
-          title: "Vector Layers",
+          title: "Map Layers",
           children: this.vectorLayersReversed
         }
       ];
@@ -123,7 +132,19 @@ export default {
     }
   },
   methods: {
+    ...mapActions("webgis", ["downloadLayer"]),
     changeVisibility(item) {
+      const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
+      if (isBaselayer !== -1) {
+        this.baseLayers.map(x => {
+          if (x.id === item.id) {
+            this.$emit("change:visible", { id, visible: !visible });
+          } else {
+            this.$emit("change:visible", { id: x.id, visible: !!visible });
+          }
+        });
+      }
+
       const { id, visible } = item;
       this.$emit("change:visible", { id, visible: !visible });
     },
@@ -154,6 +175,15 @@ export default {
     },
     moveDown(id) {
       this.$emit("change:moveDown", id);
+    },
+    async downloadKml(item) {
+      const layerName = item.source.layers;
+      const baseUrl = process.env.VUE_APP_GEOSERVER_URL + "/kml";
+      this.downloadLayer({
+        type: "kml",
+        layerName: layerName,
+        baseUrl: baseUrl
+      });
     }
   }
 };
