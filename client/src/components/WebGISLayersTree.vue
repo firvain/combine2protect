@@ -19,7 +19,7 @@
           label="case sensitive"
         ></v-checkbox>
       </v-sheet>
-      <v-card-text>
+      <v-card-text class="scroll" style="height:500px">
         <v-treeview
           :active.sync="activeTreeItem"
           :items="mapLayers"
@@ -33,7 +33,6 @@
           selected-color="accent"
           open-on-click
           :open-all="true"
-          class="text-no-wrap"
         >
           <template v-slot:prepend="{ item, activeTreeItem }">
             <v-icon
@@ -113,7 +112,7 @@ export default {
         },
         {
           id: 2,
-          title: "Map Layers",
+          title: "Map Layers (" + this.vectorLayersReversed.length + ")",
           children: this.vectorLayersReversed
         }
       ];
@@ -190,11 +189,16 @@ export default {
 </script>
 <style lang="scss" scoped>
 /* fix for overflowing text in v-treeview */
-
-.v-treeview-node__content,
-::v-deep .v-treeview-node__label {
+.scroll {
+  overflow-y: auto;
+}
+::v-deep
+  .v-treeview-node--leaf
+  > .v-treeview-node__root
+  > .v-treeview-node__content
+  > .v-treeview-node__label {
   flex-shrink: 1;
-  font-size: 1em;
+  font-size: 0.6em;
 }
 ::v-deep .v-treeview-node--leaf {
   margin-left: 1em;
