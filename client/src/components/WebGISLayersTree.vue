@@ -104,6 +104,24 @@ export default {
       return [...this.vectorLayers].reverse();
     },
     mapLayers() {
+      const groupBy = (array, key) => {
+        // Return the end result
+        return array.reduce((result, currentValue) => {
+          // If an array already present for key, push it to the array. Else create an array and push the object
+          (result[currentValue[key]] = result[currentValue[key]] || []).push(
+            currentValue
+          );
+          // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
+          return result;
+        }, {}); // empty object is the initial value for result object
+      };
+      const a = groupBy(this.vectorLayersReversed, "group");
+      // const subgroups = [];
+      // subgroups.push(a["AUTH"]);
+      // console.log(subgroups);
+      // Object.keys(a).map(k => {
+      //   subgroups.push(a["AUTH"]);
+      // });
       return [
         {
           id: 1,
@@ -113,7 +131,37 @@ export default {
         {
           id: 2,
           title: "Map Layers (" + this.vectorLayersReversed.length + ")",
-          children: this.vectorLayersReversed
+          children: [
+            {
+              id: 3,
+              title: "AUTH (" + a["AUTH"].length + ")",
+              children: a["AUTH"]
+            },
+            {
+              id: 4,
+              title:
+                "1990 Soil Study of Prespa Lake (" +
+                a["1990 Soil Study of Prespa Lake"].length +
+                ")",
+              children: a["1990 Soil Study of Prespa Lake"]
+            },
+            {
+              id: 5,
+              title:
+                "1961 Soil Study of Florina Plain (" +
+                a["1961 Soil Study of Florina Plain"].length +
+                ")",
+              children: a["1961 Soil Study of Florina Plain"]
+            },
+            {
+              id: 6,
+              title:
+                "1960 Soil Study of Chimaditida (" +
+                a["1960 Soil Study of Chimaditida"].length +
+                ")",
+              children: a["1960 Soil Study of Chimaditida"]
+            }
+          ]
         }
       ];
     },
@@ -198,10 +246,13 @@ export default {
   > .v-treeview-node__content
   > .v-treeview-node__label {
   flex-shrink: 1;
-  font-size: 0.6em;
+  font-size: 0.9em;
 }
 ::v-deep .v-treeview-node--leaf {
-  margin-left: 1em;
+  margin-left: 0em;
+}
+::v-deep .v-treeview-node {
+  margin-left: 0.5em;
 }
 ::v-deep .v-treeview-node__root {
   height: auto !important;

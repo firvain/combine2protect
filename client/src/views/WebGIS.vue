@@ -5,7 +5,7 @@
         <v-flex d-flex class="webgis">
           <v-layout row wrap>
             <v-flex
-              xs3
+              xs4
               d-flex
               class="layerstreeWrapper"
               align-start
@@ -21,7 +21,7 @@
                 @change:activeTreeItem="activeTreeItem"
               ></LayersTree>
             </v-flex>
-            <v-flex xs9 d-flex class="mapview">
+            <v-flex xs8 d-flex class="mapview">
               <v-layout
                 align-center
                 justify-center
