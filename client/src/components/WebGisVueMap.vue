@@ -529,7 +529,7 @@ import { getArea, getLength } from "ol/sphere.js";
 import { unByKey } from "ol/Observable";
 import { createStringXY } from "ol/coordinate";
 import { DragAndDrop } from "ol/interaction.js";
-import { GPX, GeoJSON, IGC, KML, TopoJSON } from "ol/format";
+import { GPX, GeoJSON, IGC, KML, TopoJSON, WMSCapabilities } from "ol/format";
 import {
   GeolocatioControl,
   InfoControl,
@@ -546,6 +546,7 @@ import { saveAs } from "file-saver";
 import { omit } from "../extra/utils";
 
 import { topology } from "topojson-server";
+import axios from "axios";
 
 export default {
   name: "VueMap",
@@ -583,8 +584,8 @@ export default {
   data() {
     return {
       center: [22.920227, 40.736851],
-      minZoom: 5,
-      zoom: 7,
+      minZoom: 3,
+      zoom: 5,
       maxzoom: 15,
       rotation: 0,
       drawnFeatures: [],
@@ -769,6 +770,34 @@ export default {
           ) / 100;
       },
       deep: true
+    },
+    selectedLayer(newValue) {
+      const map = this.$refs.map.$map;
+      const parser = new WMSCapabilities();
+      map.getLayers().forEach(l => {
+        if (newValue === l.get("id")) {
+          const selectedLayerName = l
+            .getSource()
+            .getParams()
+            .LAYERS.split(":")[1];
+          axios
+            .get(
+              process.env.VUE_APP_GEOSERVER_URL +
+                "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities"
+            )
+            .then(r => {
+              const result = parser.read(r.data);
+              if (result) {
+                const extent = result.Capability.Layer.Layer.find(
+                  l => l.Name === selectedLayerName
+                ).EX_GeographicBoundingBox;
+                map.getView().fit(extent);
+              }
+            });
+        }
+      });
+
+      // console.log(selectedExtent);
     }
   },
 
@@ -924,12 +953,6 @@ export default {
         map.forEachLayerAtPixel(
           evt.pixel,
           layer => {
-            // if (
-            //   layer instanceof TileLayer &&
-            //   typeof layer.getSource().getParams === "function" &&
-            //   layer.values_.id === this.selectedLayer
-            // )
-            // {
             const url = layer
               .getSource()
               .getGetFeatureInfoUrl(
