@@ -3,13 +3,13 @@
     <v-card id="mycard" class="mx-auto" width="100%">
       <v-sheet class="pa-3 secondary darken-2">
         <v-text-field
+          id="mysearch"
           v-model="search"
           label="search"
           dark
           flat
           solo-inverted
           hide-details
-          id="mysearch"
           clearable
           clear-icon="mdi-close-circle-outline"
         ></v-text-field>
@@ -116,13 +116,18 @@ export default {
           return result;
         }, {}); // empty object is the initial value for result object
       };
-      const a = groupBy(this.vectorLayersReversed, "group");
-      // const subgroups = [];
-      // subgroups.push(a["AUTH"]);
-      // console.log(subgroups);
-      // Object.keys(a).map(k => {
-      //   subgroups.push(a["AUTH"]);
-      // });
+      const mapGroups = groupBy(this.vectorLayersReversed, "group");
+      const subgroups = [];
+      let i = 1;
+      Object.keys(mapGroups).map(k => {
+        const child = {
+          id: i,
+          title: k + " (" + mapGroups[k].length + ")",
+          children: mapGroups[k]
+        };
+        subgroups.push(child);
+        i++;
+      });
       return [
         {
           id: 1,
@@ -132,37 +137,7 @@ export default {
         {
           id: 2,
           title: "Map Layers (" + this.vectorLayersReversed.length + ")",
-          children: [
-            {
-              id: 3,
-              title: "AUTH (" + a["AUTH"].length + ")",
-              children: a["AUTH"]
-            },
-            {
-              id: 4,
-              title:
-                "1990 Soil Study of Prespa Lake (" +
-                a["1990 Soil Study of Prespa Lake"].length +
-                ")",
-              children: a["1990 Soil Study of Prespa Lake"]
-            },
-            {
-              id: 5,
-              title:
-                "1961 Soil Study of Florina Plain (" +
-                a["1961 Soil Study of Florina Plain"].length +
-                ")",
-              children: a["1961 Soil Study of Florina Plain"]
-            },
-            {
-              id: 6,
-              title:
-                "1960 Soil Study of Chimaditida (" +
-                a["1960 Soil Study of Chimaditida"].length +
-                ")",
-              children: a["1960 Soil Study of Chimaditida"]
-            }
-          ]
+          children: subgroups
         }
       ];
     },
@@ -178,6 +153,12 @@ export default {
         this.$emit("change:activeTreeItem", newValue);
       } else this.$emit("change:activeTreeItem", null);
     }
+  },
+  mounted() {
+    const height1 = document.getElementById("mycard").clientHeight;
+    const height2 = document.getElementById("mysearch").clientHeight;
+    document.getElementById("mylayers").style.height =
+      height1 - height2 - 92 + "px";
   },
   methods: {
     ...mapActions("webgis", ["downloadLayer"]),
@@ -233,15 +214,6 @@ export default {
         baseUrl: baseUrl
       });
     }
-  },
-  mounted() {
-    const height1 = document.getElementById("mycard").clientHeight;
-    const height2 = document.getElementById("mysearch").clientHeight;
-    console.log(height1);
-    console.log(height2);
-    console.log(height1 - height2);
-    document.getElementById("mylayers").style.height =
-      height1 - height2 - 92 + "px";
   }
 };
 </script>
