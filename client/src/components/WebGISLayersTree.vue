@@ -1,6 +1,6 @@
 <template>
   <v-layout class="layersTree" fill-height>
-    <v-card class="mx-auto" width="100%">
+    <v-card id="mycard" class="mx-auto" width="100%">
       <v-sheet class="pa-3 secondary darken-2">
         <v-text-field
           v-model="search"
@@ -9,6 +9,7 @@
           flat
           solo-inverted
           hide-details
+          id="mysearch"
           clearable
           clear-icon="mdi-close-circle-outline"
         ></v-text-field>
@@ -19,7 +20,7 @@
           label="case sensitive"
         ></v-checkbox>
       </v-sheet>
-      <v-card-text class="scroll" style="height:500px">
+      <v-card-text id="mylayers" class="scroll">
         <v-treeview
           :active.sync="activeTreeItem"
           :items="mapLayers"
@@ -232,6 +233,15 @@ export default {
         baseUrl: baseUrl
       });
     }
+  },
+  mounted() {
+    const height1 = document.getElementById("mycard").clientHeight;
+    const height2 = document.getElementById("mysearch").clientHeight;
+    console.log(height1);
+    console.log(height2);
+    console.log(height1 - height2);
+    document.getElementById("mylayers").style.height =
+      height1 - height2 - 92 + "px";
   }
 };
 </script>
@@ -239,6 +249,7 @@ export default {
 /* fix for overflowing text in v-treeview */
 .scroll {
   overflow-y: auto;
+  // height: 500px;
 }
 ::v-deep
   .v-treeview-node--leaf
