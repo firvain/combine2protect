@@ -89,6 +89,7 @@ import VueMap from "@/components/WebGisVueMap.vue";
 // import { loaderFactory } from "../services/api.js";
 import * as jsPDF from "jspdf";
 import { mapLayers } from "../extra/layers.js";
+// import { fetchLayers } from "../services/api";
 export default {
   name: "WebGIS",
   components: {
@@ -209,6 +210,10 @@ export default {
         };
       }
     }
+  },
+  async mounted() {
+    // const a = await fetchLayers();
+    // console.log(a);
   },
   methods: {
     ...mapActions("webgis", ["updateMapStatus", "getFeatureInfo"]),

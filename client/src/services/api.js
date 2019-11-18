@@ -26,6 +26,7 @@ axios.interceptors.response.use(
 export const getPages = async () => {
   try {
     const response = await axios.get("/pages");
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -63,4 +64,23 @@ export function loaderFactory() {
       this.$emit("error", e);
     }
   };
+}
+export async function fetchLayers() {
+  const username = process.env.VUE_APP_GEOSERVER_USERNAME;
+  const password = process.env.VUE_APP_GEOSERVER_PASSWORD;
+  try {
+    const response = await axios({
+      method: "GET",
+      url:
+        process.env.VUE_APP_GEOSERVER_API +
+        "/workspaces/combine2protect/layers.json",
+      auth: {
+        username,
+        password
+      }
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
 }
