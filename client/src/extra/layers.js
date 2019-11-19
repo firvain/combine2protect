@@ -398,6 +398,24 @@ export const mapLayers = [
   },
   {
     id: 222,
+    title: "Unified Points",
+    cmp: "vl-layer-tile",
+    visible: false,
+    quearable: true,
+    group: "Other",
+    source: {
+      cmp: "vl-source-wms",
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      layers: "combine2protect:Unified",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous",
+      projection: "EPSG:4326"
+    },
+    zIndex: 222
+  },
+  {
+    id: 223,
     title: "Image Example (AUTH)",
     cmp: "vl-layer-tile",
     visible: false,
@@ -411,10 +429,10 @@ export const mapLayers = [
       serverType: "geoserver",
       crossOrigin: "anonymous"
     },
-    zIndex: 222
+    zIndex: 223
   },
   {
-    id: 223,
+    id: 224,
     title: "Shapefile Example (AUTH)",
     cmp: "vl-layer-tile",
     visible: false,
