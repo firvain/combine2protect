@@ -1,6 +1,6 @@
 import store from "../store/index";
 import axios from "axios";
-
+import { pages } from "../extra/pages";
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 axios.interceptors.request.use(
   config => {
@@ -26,13 +26,20 @@ axios.interceptors.response.use(
 export const getPages = async () => {
   try {
     const response = await axios.get("/pages");
-    // console.log(response.data);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
   }
 };
-
+export const getPagesLocal = () => {
+  try {
+    const response = pages;
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export function loaderFactory() {
   return async extent => {
     // let url = vm.$source.getUrl();

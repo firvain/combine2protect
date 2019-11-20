@@ -22,10 +22,10 @@ export default {
     ...mapGetters("app", ["loading", "pages"])
   },
   async created() {
-    await this.fetchPages();
+    await this.fetchPagesLocal();
   },
   methods: {
-    ...mapActions("app", ["fetchPages"])
+    ...mapActions("app", ["fetchPagesLocal"])
   }
 };
 </script>
