@@ -5,7 +5,7 @@
         <v-flex d-flex class="webgis">
           <v-layout row wrap>
             <v-flex
-              xs3
+              xs4
               d-flex
               class="layerstreeWrapper"
               align-start
@@ -21,7 +21,7 @@
                 @change:activeTreeItem="activeTreeItem"
               ></LayersTree>
             </v-flex>
-            <v-flex xs9 d-flex class="mapview">
+            <v-flex xs8 d-flex class="mapview">
               <v-layout
                 align-center
                 justify-center
@@ -88,6 +88,8 @@ import VueMap from "@/components/WebGisVueMap.vue";
 // import { loadingBBox } from "vuelayers/lib/ol-ext";
 // import { loaderFactory } from "../services/api.js";
 import * as jsPDF from "jspdf";
+import { mapLayers } from "../extra/layers.js";
+// import { fetchLayers } from "../services/api";
 export default {
   name: "WebGIS",
   components: {
@@ -145,41 +147,7 @@ export default {
           zIndex: 3
         }
       ],
-      vectorLayers: [
-        {
-          id: 200,
-          title: "Image Example (AUTH)",
-          cmp: "vl-layer-tile",
-          visible: false,
-          quearable: true,
-          source: {
-            cmp: "vl-source-wms",
-            url: process.env.VUE_APP_GEOSERVER_URL,
-            layers: "combine2protect:Acip_brev",
-            extParams: { TILED: true },
-            serverType: "geoserver",
-            crossOrigin: "anonymous"
-          },
-          zIndex: 200
-        },
-        {
-          id: 201,
-          title: "Shapefile Example (AUTH)",
-          cmp: "vl-layer-tile",
-          visible: true,
-          quearable: true,
-          source: {
-            cmp: "vl-source-wms",
-            url: process.env.VUE_APP_GEOSERVER_URL,
-            layers: "combine2protect:WDPA_cleaning",
-            extParams: { TILED: true },
-            serverType: "geoserver",
-            crossOrigin: "anonymous",
-            projection: "EPSG:4326"
-          },
-          zIndex: 201
-        }
-      ],
+      vectorLayers: mapLayers,
       utilityLayers: [
         {
           id: 9000001,
@@ -242,6 +210,10 @@ export default {
         };
       }
     }
+  },
+  async mounted() {
+    // const a = await fetchLayers();
+    // console.log(a);
   },
   methods: {
     ...mapActions("webgis", ["updateMapStatus", "getFeatureInfo"]),

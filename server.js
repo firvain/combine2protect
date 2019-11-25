@@ -15,16 +15,16 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(compression());
 // API
-const api = require("./server/");
-app.use("/api", api);
+// const api = require("./server/");
+// app.use("/api", api);
 
 // UI
 app.use(serveStatic(path.join(__dirname, "./client/dist")));
 app.use(
   history({
     disableDotRule: true,
-    verbose: true,
-    rewrites: [{ from: /\/api/, to: "/api" }]
+    verbose: true
+    // rewrites: [{ from: /\/api/, to: "/api" }]
   })
 );
 
