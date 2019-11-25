@@ -1,9 +1,9 @@
 import { mapGettersFromStates } from "../../helpers";
-import i18n from "../../../plugins/i18n";
-console.log(i18n.t("pages[2].subpages[0].title"));
+// import i18n from "../../../plugins/i18n";
+// console.log(i18n.t("pages[2].subpages[0].title"));
 import { SET_LANGUAGE, SET_LOADING, SET_PAGES } from "../../mutation-types";
 
-import { getPages } from "../../../services/api.js";
+import { getPagesLocal, getPages } from "../../../services/api.js";
 
 const state = {
   pages: [],
@@ -32,6 +32,16 @@ const actions = {
   async fetchPages({ commit }) {
     try {
       const pages = await getPages();
+      console.log(pages);
+      commit("SET_PAGES", pages);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  fetchPagesLocal({ commit }) {
+    try {
+      const pages = getPagesLocal();
+      // console.log(pages);
       commit("SET_PAGES", pages);
     } catch (error) {
       console.log(error);

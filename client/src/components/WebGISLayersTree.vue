@@ -1,8 +1,9 @@
 <template>
   <v-layout class="layersTree" fill-height>
-    <v-card class="mx-auto" width="100%">
-      <v-sheet class="pa-3 secondary">
+    <v-card id="mycard" class="mx-auto" width="100%">
+      <v-sheet class="pa-3 secondary darken-2">
         <v-text-field
+          id="mysearch"
           v-model="search"
           label="search"
           dark
@@ -19,7 +20,7 @@
           label="case sensitive"
         ></v-checkbox>
       </v-sheet>
-      <v-card-text>
+      <v-card-text id="mylayers" class="scroll">
         <v-treeview
           :active.sync="activeTreeItem"
           :items="mapLayers"
@@ -33,7 +34,6 @@
           selected-color="accent"
           open-on-click
           :open-all="true"
-          class="text-no-wrap"
         >
           <template v-slot:prepend="{ item, activeTreeItem }">
             <v-icon
@@ -48,6 +48,14 @@
             ></v-icon
           ></template>
           <template v-slot:append="{ item, activeTreeItem }">
+            <v-icon
+              v-if="!item.children && item.quearable"
+              @click="downloadKml(item)"
+            >
+              mdi-download
+            </v-icon>
+          </template>
+          <!-- <template v-slot:append="{ item, activeTreeItem }">
             <v-icon
               v-if="showDown(item)"
               small
@@ -64,13 +72,14 @@
             >
               mdi-arrow-up
             </v-icon>
-          </template>
+          </template> -->
         </v-treeview>
       </v-card-text>
     </v-card>
   </v-layout>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "LayersTree",
   props: {
@@ -96,6 +105,29 @@ export default {
       return [...this.vectorLayers].reverse();
     },
     mapLayers() {
+      const groupBy = (array, key) => {
+        // Return the end result
+        return array.reduce((result, currentValue) => {
+          // If an array already present for key, push it to the array. Else create an array and push the object
+          (result[currentValue[key]] = result[currentValue[key]] || []).push(
+            currentValue
+          );
+          // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
+          return result;
+        }, {}); // empty object is the initial value for result object
+      };
+      const mapGroups = groupBy(this.vectorLayersReversed, "group");
+      const subgroups = [];
+      let i = 1;
+      Object.keys(mapGroups).map(k => {
+        const child = {
+          id: i,
+          title: k + " (" + mapGroups[k].length + ")",
+          children: mapGroups[k]
+        };
+        subgroups.push(child);
+        i++;
+      });
       return [
         {
           id: 1,
@@ -104,8 +136,8 @@ export default {
         },
         {
           id: 2,
-          title: "Vector Layers",
-          children: this.vectorLayersReversed
+          title: "Map Layers (" + this.vectorLayersReversed.length + ")",
+          children: subgroups
         }
       ];
     },
@@ -115,8 +147,33 @@ export default {
         : undefined;
     }
   },
+  watch: {
+    activeTreeItem(newValue) {
+      if (newValue && newValue.length > 0) {
+        this.$emit("change:activeTreeItem", newValue);
+      } else this.$emit("change:activeTreeItem", null);
+    }
+  },
+  mounted() {
+    const height1 = document.getElementById("mycard").clientHeight;
+    const height2 = document.getElementById("mysearch").clientHeight;
+    document.getElementById("mylayers").style.height =
+      height1 - height2 - 92 + "px";
+  },
   methods: {
+    ...mapActions("webgis", ["downloadLayer"]),
     changeVisibility(item) {
+      const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
+      if (isBaselayer !== -1) {
+        this.baseLayers.map(x => {
+          if (x.id === item.id) {
+            this.$emit("change:visible", { id, visible: !visible });
+          } else {
+            this.$emit("change:visible", { id: x.id, visible: !!visible });
+          }
+        });
+      }
+
       const { id, visible } = item;
       this.$emit("change:visible", { id, visible: !visible });
     },
@@ -147,20 +204,38 @@ export default {
     },
     moveDown(id) {
       this.$emit("change:moveDown", id);
+    },
+    async downloadKml(item) {
+      const layerName = item.source.layers;
+      const baseUrl = process.env.VUE_APP_GEOSERVER_URL + "/kml";
+      this.downloadLayer({
+        type: "kml",
+        layerName: layerName,
+        baseUrl: baseUrl
+      });
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 /* fix for overflowing text in v-treeview */
-
-.v-treeview-node__content,
-::v-deep .v-treeview-node__label {
+.scroll {
+  overflow-y: auto;
+  // height: 500px;
+}
+::v-deep
+  .v-treeview-node--leaf
+  > .v-treeview-node__root
+  > .v-treeview-node__content
+  > .v-treeview-node__label {
   flex-shrink: 1;
-  font-size: 1em;
+  font-size: 0.9em;
 }
 ::v-deep .v-treeview-node--leaf {
-  margin-left: 1em;
+  margin-left: 0em;
+}
+::v-deep .v-treeview-node {
+  margin-left: 0.5em;
 }
 ::v-deep .v-treeview-node__root {
   height: auto !important;

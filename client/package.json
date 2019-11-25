@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -12,10 +12,12 @@
     "postinstall": "npm run build"
   },
   "dependencies": {
+    "@tmcw/togeojson": "^3.0.1",
     "axios": "^0.19.0",
     "core-js": "^2.6.9",
     "jspdf": "^1.5.3",
     "pdfjs-dist": "^2.1.266",
+    "topojson-server": "^3.0.1",
     "vue": "^2.6.10",
     "vue-country-flag": "^1.2.3",
     "vue-flag-icon": "^1.0.6",
@@ -23,7 +25,6 @@
     "vue-read-more": "^1.1.1",
     "vue-router": "^3.0.7",
     "vuelayers": "^0.11.4",
-    "vueperslides": "^1.19.1",
     "vuetify": "^1.5.16",
     "vuex": "^3.1.1"
   },

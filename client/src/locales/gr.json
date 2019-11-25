@@ -52,7 +52,44 @@
     },
     {
       "title": "Πλατφορμα Gis",
-      "subpages": []
+      "subpages": [],
+      "content": [
+        {
+          "panelText": {
+            "display": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            "geolocation": "Περιμένετε προσπαθούμε να σας εντοπίσουμε. Το  γεωγραφικό σας στίγμα παρέχεται από τον Διαδυκτιακό σας Παροχο.",
+            "info": "Πρώτα επιλέξτε ένα Επίπεδο και στη συνέχεια, κάντε κλικ στο χάρτη.",
+            "print": "Παρακαλώ περιμένετε ο χάρτης ετοιμάζεται για εκτύπωση",
+            "draw": "Επιλέξτε τι θελετε να σχεδιάσετε",
+            "dragdrop": "Σύρετε και αφήστε ένα αρχείο (KML, GeoJSON ή TopoJSON) στο χάρτη. Η γεωγραφική προβολή των δεδομένων πρέπει να είναι EPSG: 4326 ή EPSG: 3857.",
+            "invalid": "Μη έγκυρος τύπος αρχείου"
+          }
+        },
+        {
+          "labels": {
+            "selectToQuety": "Επιλέξτε Επίπεδο για αναζήτηση",
+            "lengthUnit": "Μονάδα Μήκους",
+            "areaUnit": "Μονάδα Επιφάνειας",
+            "clear": "καθαρισμος",
+            "cancel": "ακυρωση",
+            "clearUploaded": "καθαρισμος αρχειου",
+            "panelTitle": {
+              "general": "γενικές πληροφοριες",
+              "featureInfo": "πληροφοριες οντοτητας",
+              "measure": "μετρηση",
+              "draw": "σχεδιασμος",
+              "print": "εκτυπωση",
+              "geolocation": "γεωγραφικη θεση",
+              "draganddrop": "ανεβασμα αρχειου"
+            },
+            "drawTypes": {
+              "point": "Σημείο",
+              "linestring": "Γραμμη",
+              "polygon": "Πολυγωνο"
+            }
+          }
+        }
+      ]
     },
     {
       "title": "Επωνυμια και βραβεια",
@@ -90,7 +127,6 @@
       "more": "περισσότερα",
       "less": "λιγότερα"
     },
-
     "back": "πισω"
   }
 }
