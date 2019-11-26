@@ -118,7 +118,7 @@ export default {
       };
       const mapGroups = groupBy(this.vectorLayersReversed, "group");
       const subgroups = [];
-      let i = 1;
+      let i = 10000;
       Object.keys(mapGroups).map(k => {
         const child = {
           id: i,
@@ -126,8 +126,9 @@ export default {
           children: mapGroups[k]
         };
         subgroups.push(child);
-        i++;
+        i = i + 1000;
       });
+      // console.log(subgroups);
       return [
         {
           id: 1,
@@ -142,8 +143,11 @@ export default {
       ];
     },
     filter() {
+      // console.log(this.mapLayers);
       return this.caseSensitive
-        ? (item, search, textKey) => item[textKey].indexOf(search) > -1
+        ? (item, search, textKey) => {
+            return item[textKey].indexOf(search) > -1;
+          }
         : undefined;
     }
   },
