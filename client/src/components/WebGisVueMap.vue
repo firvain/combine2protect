@@ -245,7 +245,13 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn small @click="panelButton">Click me</v-btn>
+                <v-btn
+                  small
+                  href="https://res.cloudinary.com/firvain/image/upload/v1574771231/Combine2Protect_GIS_Platform_End-User_Manual.pdf"
+                  target="_blank"
+                >
+                  {{ $t("pages[4].content[1].labels.manual") }}</v-btn
+                >
               </v-card-actions>
             </template>
             <template v-if="mapStatus === 'geolocation'">
@@ -1080,21 +1086,25 @@ export default {
               const realProps = omit(featureProps, ["geometry"]);
               if (file.type === "application/vnd.google-earth.kml+xml") {
                 let filtered = {};
-                realProps.description
-                  .split("\n")
-                  .filter(el => {
-                    return el.includes("<li>");
-                  })
-                  .map(el => {
-                    const line = el
-                      .replace(/<[^>]*>/g, "")
-                      .trim()
-                      .split(":");
-                    let k = line[0];
-                    let v = line[1];
-                    const object = { [k]: v };
-                    filtered = { ...filtered, ...object };
-                  });
+                if (realProps.description) {
+                  realProps.description
+                    .split("\n")
+                    .filter(el => {
+                      return el.includes("<li>");
+                    })
+                    .map(el => {
+                      const line = el
+                        .replace(/<[^>]*>/g, "")
+                        .trim()
+                        .split(":");
+                      let k = line[0];
+                      let v = line[1];
+                      const object = { [k]: v };
+                      filtered = { ...filtered, ...object };
+                    });
+                } else {
+                  filtered = realProps;
+                }
                 this.selectedFeature = Object.assign(
                   {},
                   { id },
@@ -1124,6 +1134,10 @@ export default {
     },
     cancelUploaded() {
       this.$emit("upload:cancel");
+      const map = this.$refs.map.$map;
+      map.getInteractions().forEach(int => {
+        if (int instanceof DragAndDrop) map.removeInteraction(int);
+      });
       this.clearUploaded();
     }
   }
