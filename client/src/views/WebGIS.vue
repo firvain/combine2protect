@@ -259,6 +259,7 @@ export default {
       this.move(this.vectorLayers, old_index, new_index);
     },
     moveUp(id) {
+      console.log(id);
       const old_index = this.vectorLayers.findIndex(x => x.id === id);
       const new_index = old_index + 1;
       this.move(this.vectorLayers, old_index, new_index);

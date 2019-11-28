@@ -49,6 +49,22 @@
           ></template>
           <template v-slot:append="{ item, activeTreeItem }">
             <v-icon
+              v-if="showDown(item)"
+              small
+              :color="activeTreeItem ? 'accent' : ''"
+              @click="moveDown(item.id)"
+            >
+              mdi-arrow-down
+            </v-icon>
+            <v-icon
+              v-if="showUp(item)"
+              small
+              :color="activeTreeItem ? 'accent' : ''"
+              @click="moveUp(item.id)"
+            >
+              mdi-arrow-up
+            </v-icon>
+            <v-icon
               v-if="!item.children && item.quearable"
               @click="downloadKml(item)"
             >
@@ -185,23 +201,44 @@ export default {
       const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
       if (isBaselayer > -1) {
         return false;
-      } else if (
-        !item.children &&
-        item.id !== this.vectorLayersReversed[0].id
-      ) {
-        return true;
+      } else if (!item.children) {
+        return this.mapLayers[1].children.some(e => {
+          const first = e.children.findIndex(c => c.id === item.id);
+          // const last = e.children[e.children.length - 1].id === item.id;
+          // if (last) console.log(item.title);
+          if (first > 0) return true;
+          // if (last) return true;
+          return false;
+        });
       }
     },
+
     showDown(item) {
       const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
       if (isBaselayer > -1) {
         return false;
-      } else if (
-        !item.children &&
-        item.id !==
-          this.vectorLayersReversed[this.vectorLayersReversed.length - 1].id
-      )
-        return true;
+      } else if (!item.children) {
+        const a = this.mapLayers[1].children;
+        let b;
+        for (let element of a) {
+          const last = element.children[element.children.length - 1].id;
+          if (last === item.id) {
+            b = last === item.id;
+            break;
+          }
+        }
+        if (b) {
+          return false;
+        } else return true;
+      }
+      // const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
+      // if (isBaselayer > -1) {
+      //   return false;
+      // } else if (
+      //   !item.children &&
+      //   item.id !== this.mapLayers[this.mapLayers.length - 1].id
+      // )
+      //   return true;
     },
     moveUp(id) {
       this.$emit("change:moveUp", id);
