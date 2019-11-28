@@ -256,6 +256,7 @@ export default {
     moveDown(id) {
       const old_index = this.vectorLayers.findIndex(x => x.id === id);
       const new_index = old_index - 1;
+      console.log(old_index, new_index);
       this.move(this.vectorLayers, old_index, new_index);
     },
     moveUp(id) {
@@ -265,6 +266,8 @@ export default {
       this.move(this.vectorLayers, old_index, new_index);
     },
     move(arr, old_index, new_index) {
+      // console.log(arr[old_index].zIndex, arr[old_index].title);
+      // console.log(arr[new_index].zIndex, arr[new_index].title);
       while (old_index < 0) {
         old_index += arr.length;
       }
@@ -277,7 +280,23 @@ export default {
           arr.push(undefined);
         }
       }
+      if (old_index > new_index) {
+        arr[new_index].zIndex++;
+        arr[new_index].id++;
+        arr[old_index].zIndex--;
+        arr[old_index].id--;
+      } else {
+        arr[new_index].zIndex--;
+        arr[new_index].id--;
+        arr[old_index].zIndex++;
+        arr[old_index].id++;
+      }
+
       arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+      // arr[old_index].zIndex--;
+      // console.log(arr[old_index].zIndex, arr[old_index].title);
+      // console.log(arr[new_index].zIndex, arr[new_index].title);
+
       return arr;
     },
     activeTreeItem(e) {
