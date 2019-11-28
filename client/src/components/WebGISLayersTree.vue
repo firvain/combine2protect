@@ -49,6 +49,14 @@
           ></template>
           <template v-slot:append="{ item, activeTreeItem }">
             <v-icon
+              v-if="showOpacity(item)"
+              small
+              :color="item.opacity === 1 ? 'primary' : 'secondary'"
+              @click="changeOpacity(item)"
+            >
+              mdi-opacity
+            </v-icon>
+            <v-icon
               v-if="showDown(item)"
               small
               :color="activeTreeItem ? 'accent' : ''"
@@ -254,6 +262,22 @@ export default {
         layerName: layerName,
         baseUrl: baseUrl
       });
+    },
+    showOpacity(item) {
+      const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
+      if (isBaselayer > -1) {
+        return false;
+      } else if (!item.children && item.visible) {
+        return true;
+      }
+    },
+
+    changeOpacity(item) {
+      if (item.opacity === 1) {
+        item.opacity = 0.5;
+      } else {
+        item.opacity = 1;
+      }
     }
   }
 };
