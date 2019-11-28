@@ -274,7 +274,7 @@ export default {
 
     changeOpacity(item) {
       if (item.opacity === 1) {
-        item.opacity = 0.5;
+        item.opacity = 0.3;
       } else {
         item.opacity = 1;
       }
