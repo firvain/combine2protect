@@ -5,6 +5,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1960 Soil Study of Chimaditida",
     source: {
       cmp: "vl-source-wms",
@@ -23,6 +24,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1960 Soil Study of Chimaditida",
     source: {
       cmp: "vl-source-wms",
@@ -42,6 +44,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1960 Soil Study of Chimaditida",
     source: {
       cmp: "vl-source-wms",
@@ -60,6 +63,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1960 Soil Study of Chimaditida",
     source: {
       cmp: "vl-source-wms",
@@ -78,6 +82,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1960 Soil Study of Chimaditida",
     source: {
       cmp: "vl-source-wms",
@@ -96,6 +101,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1960 Soil Study of Chimaditida",
     source: {
       cmp: "vl-source-wms",
@@ -114,6 +120,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1960 Soil Study of Chimaditida",
     source: {
       cmp: "vl-source-wms",
@@ -132,6 +139,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1960 Soil Study of Chimaditida",
     source: {
       cmp: "vl-source-wms",
@@ -150,6 +158,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1961 Soil Study of Florina Plain",
     source: {
       cmp: "vl-source-wms",
@@ -168,6 +177,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1961 Soil Study of Florina Plain",
     source: {
       cmp: "vl-source-wms",
@@ -186,6 +196,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1961 Soil Study of Florina Plain",
     source: {
       cmp: "vl-source-wms",
@@ -204,6 +215,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1961 Soil Study of Florina Plain",
     source: {
       cmp: "vl-source-wms",
@@ -222,6 +234,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1961 Soil Study of Florina Plain",
     source: {
       cmp: "vl-source-wms",
@@ -240,6 +253,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1961 Soil Study of Florina Plain",
     source: {
       cmp: "vl-source-wms",
@@ -258,6 +272,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1961 Soil Study of Florina Plain",
     source: {
       cmp: "vl-source-wms",
@@ -276,6 +291,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1961 Soil Study of Florina Plain",
     source: {
       cmp: "vl-source-wms",
@@ -294,6 +310,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1961 Soil Study of Florina Plain",
     source: {
       cmp: "vl-source-wms",
@@ -312,6 +329,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1990 Soil Study of Prespa Lake",
     source: {
       cmp: "vl-source-wms",
@@ -330,6 +348,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1990 Soil Study of Prespa Lake",
     source: {
       cmp: "vl-source-wms",
@@ -348,6 +367,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1990 Soil Study of Prespa Lake",
     source: {
       cmp: "vl-source-wms",
@@ -366,6 +386,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1990 Soil Study of Prespa Lake",
     source: {
       cmp: "vl-source-wms",
@@ -384,6 +405,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "1990 Soil Study of Prespa Lake",
     source: {
       cmp: "vl-source-wms",
@@ -402,6 +424,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "Other",
     source: {
       cmp: "vl-source-wms",
@@ -420,6 +443,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "AUTH",
     source: {
       cmp: "vl-source-wms",
@@ -437,6 +461,7 @@ export const mapLayers = [
     cmp: "vl-layer-tile",
     visible: false,
     quearable: true,
+    opacity: 1,
     group: "AUTH",
     source: {
       cmp: "vl-source-wms",
@@ -447,6 +472,6 @@ export const mapLayers = [
       crossOrigin: "anonymous",
       projection: "EPSG:4326"
     },
-    zIndex: 223
+    zIndex: 224
   }
 ];

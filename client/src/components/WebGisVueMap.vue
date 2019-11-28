@@ -8,7 +8,6 @@
         :load-tiles-while-animating="false"
         :load-tiles-while-interacting="false"
         :default-controls="{ attribution: true, rotate: false, zoom: true }"
-        extent="extent"
         @mounted="onMapMounted"
         @postcompose="onMapPostCompose"
       >
@@ -18,6 +17,7 @@
           :max-zoom="maxzoom"
           :center.sync="center"
           :rotation.sync="rotation"
+          :extent="extent"
           projection="EPSG:4326"
         ></vl-view>
 
@@ -247,7 +247,7 @@
                 <v-spacer></v-spacer>
                 <v-btn
                   small
-                  href="https://res.cloudinary.com/firvain/image/upload/v1574771231/Combine2Protect_GIS_Platform_End-User_Manual.pdf"
+                  href="https://res.cloudinary.com/firvain/image/upload/v1574936982/Combine2Protect_GIS_Platform_End-User_Manual_v1.1.0.pdf"
                   target="_blank"
                 >
                   {{ $t("pages[4].content[1].labels.manual") }}</v-btn
@@ -589,9 +589,9 @@ export default {
   },
   data() {
     return {
-      center: [22.920227, 40.736851],
+      center: [22.525, 40.65],
       minZoom: 3,
-      zoom: 5,
+      zoom: 8,
       maxzoom: 15,
       rotation: 0,
       drawnFeatures: [],
