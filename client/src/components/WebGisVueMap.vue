@@ -247,7 +247,7 @@
                 <v-spacer></v-spacer>
                 <v-btn
                   small
-                  href="https://res.cloudinary.com/firvain/image/upload/v1574771231/Combine2Protect_GIS_Platform_End-User_Manual.pdf"
+                  href="https://res.cloudinary.com/firvain/image/upload/v1574936982/Combine2Protect_GIS_Platform_End-User_Manual_v1.1.0.pdf"
                   target="_blank"
                 >
                   {{ $t("pages[4].content[1].labels.manual") }}</v-btn
