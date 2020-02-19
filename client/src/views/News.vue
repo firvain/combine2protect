@@ -73,7 +73,7 @@ export default {
       news: [
         {
           title: "New 1",
-          date: "01-01-0000",
+          date: "01-01-0001",
           text: `quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci sagittis eu volutpat odio facilisis mauris sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec et`,
           linκ: "https://ekloges.ypes.gr/current/v/home/",
           img:
@@ -81,7 +81,7 @@ export default {
         },
         {
           title: "New 2",
-          date: "01-01-0000",
+          date: "01-01-0002",
           text: `quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci sagittis eu volutpat odio facilisis mauris sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec et`,
           linκ: "https://ekloges.ypes.gr/current/v/home/",
           img:
@@ -89,7 +89,7 @@ export default {
         },
         {
           title: "New 3",
-          date: "01-01-0000",
+          date: "01-01-0003",
           text: `quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci sagittis eu volutpat odio facilisis mauris sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec et`,
           linκ: "https://ekloges.ypes.gr/current/v/home/",
           img:
@@ -97,7 +97,7 @@ export default {
         },
         {
           title: "New 4",
-          date: "01-01-0000",
+          date: "01-01-0004",
           text: `quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci sagittis eu volutpat odio facilisis mauris sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec et`,
           linκ: "https://ekloges.ypes.gr/current/v/home/",
           img:
@@ -105,7 +105,7 @@ export default {
         },
         {
           title: "New 5",
-          date: "01-01-0000",
+          date: "01-01-0005",
           text: `quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci sagittis eu volutpat odio facilisis mauris sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec et`,
           linκ: "https://ekloges.ypes.gr/current/v/home/",
           img:
