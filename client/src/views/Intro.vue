@@ -31,12 +31,6 @@
                 </v-carousel-item>
               </v-carousel>
             </v-flex>
-            <v-flex xs12>
-              <cookie-consent
-                message="This website might use cookies to ensure you get the best experience. If you continue we assume that you agree with that."
-                href="https://en.pdm.gov.gr/privacy-policy/"
-              ></cookie-consent>
-            </v-flex>
             <v-flex xs12 d-flex class="bottomNav">
               <BottomNav :show="true"></BottomNav>
             </v-flex>
@@ -52,13 +46,11 @@ import BottomNav from "@/components/BottomNav.vue";
 
 // Since v. 1.6.0, you need to include Vueper Slides CSS file for default styles.
 // import "vueperslides/dist/vueperslides.css";
-import CookieConsent from "vue-cookieconsent-component";
 
 export default {
   name: "Intro",
   components: {
-    BottomNav,
-    CookieConsent
+    BottomNav
   },
   data() {
     return {
@@ -115,20 +107,5 @@ export default {
   // flex: 0 1 auto;
   width: 100%;
   height: 64px;
-}
-::v-deep .cookie-consent-message {
-  padding-right: 1em;
-}
-::v-deep .cookie-consent-compliance {
-  background-color: #4caf50;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
 }
 </style>

@@ -2784,6 +2784,11 @@ vue-cookieconsent-component@^1.2.0:
   dependencies:
     vue "^2.5.2"
 
+vue-ribbon@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue-ribbon/-/vue-ribbon-1.0.1.tgz#777ba7c8c5ece9202def5408e980f3a77a655b2b"
+  integrity sha512-2YPMujiCsZcNa4MZXGQmg9IOkZQMShUHRGnbZycRYrBLJ2PoCJGl22jf9ld+B7PrSbmKCQqdkyXCtjih5gfuYw==
+
 vue@^2.5.2:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
