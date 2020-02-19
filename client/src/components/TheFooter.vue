@@ -4,14 +4,8 @@
       <v-layout row wrap justify-center align-center>
         <v-flex xs6 class="text-xs-center white--text">
           <v-layout row wrap>
-            <v-flex xs4>
-              <span>Name</span>
-            </v-flex>
-            <v-flex xs4>
-              <span>Address</span>
-            </v-flex>
-            <v-flex xs4>
-              <span>email@email.com</span>
+            <v-flex xs3>
+              <span>email[at]email.com</span>
             </v-flex>
           </v-layout>
         </v-flex>
