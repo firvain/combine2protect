@@ -26,7 +26,7 @@ axios.interceptors.response.use(
 export const getPages = async () => {
   try {
     const response = await axios.get("/pages");
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);

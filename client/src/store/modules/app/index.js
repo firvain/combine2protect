@@ -32,7 +32,7 @@ const actions = {
   async fetchPages({ commit }) {
     try {
       const pages = await getPages();
-      console.log(pages);
+      // console.log(pages);
       commit("SET_PAGES", pages);
     } catch (error) {
       console.log(error);
