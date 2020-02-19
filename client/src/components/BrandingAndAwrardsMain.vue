@@ -4,64 +4,60 @@
       <v-flex xs12>
         <v-card elevetion="0">
           <v-card-text primary-title>
-            <div class="full">{{ cardText }}</div>
+            <div class="full">{{ $t(`pages[5].content[0].msg`) }}</div>
           </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12>
         <v-container fluid
           ><v-layout row wrap align-center justify-center>
-            <v-flex xs12 md3>
+            <v-flex xs12 md4>
               <v-card height="300">
                 <v-img
                   src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
                   height="250px"
                 ></v-img>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" flat to="/BSP" class="text-none">
+                <v-card-actions d-flex style="justify-content: center;">
+                  <v-btn small color="primary" flat to="/BSP" class="text-none">
                     {{ $t(`pages[5].subpages[0].title`) }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
-            <v-flex xs12 md3>
+            <v-flex xs12 md4>
               <v-card height="300">
                 <v-img
                   src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
                   height="250px"
                 ></v-img>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" flat to="/BSS" class="text-none">
+                <v-card-actions d-flex style="justify-content: center;">
+                  <v-btn small color="primary" flat to="/BSS" class="text-none">
                     {{ $t(`pages[5].subpages[1].title`) }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
-            <v-flex xs12 md3>
+            <v-flex xs12 md4>
               <v-card height="300">
                 <v-img
                   src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
                   height="250px"
                 ></v-img>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" flat to="/DEA" class="text-none">
+                <v-card-actions d-flex style="justify-content: center;">
+                  <v-btn small color="primary" flat to="/DEA" class="text-none">
                     {{ $t(`pages[5].subpages[2].title`) }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
-            <v-flex xs12 md3>
+            <v-flex xs12 md4>
               <v-card height="300">
                 <v-img
                   src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
                   height="250px"
                 ></v-img>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" flat to="/TGN" class="text-none">
+                <v-card-actions d-flex style="justify-content: center;">
+                  <v-btn small color="primary" flat to="/TGN" class="text-none">
                     {{ $t(`pages[5].subpages[3].title`) }}
                   </v-btn>
                 </v-card-actions>

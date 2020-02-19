@@ -28,7 +28,7 @@
 <script>
 // import PDFJS from "./pdf/pdf.js";
 import PDFJS from "pdfjs-dist/webpack";
-console.log(PDFJS);
+// console.log(PDFJS);
 export default {
   name: "CPdf",
   props: {
