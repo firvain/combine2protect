@@ -46,6 +46,7 @@ import BottomNav from "@/components/BottomNav.vue";
 
 // Since v. 1.6.0, you need to include Vueper Slides CSS file for default styles.
 // import "vueperslides/dist/vueperslides.css";
+
 export default {
   name: "Intro",
   components: {
@@ -86,6 +87,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "./node_modules/vue-cookieconsent-component/src/scss/_cookie-consent.scss";
+@import "./node_modules/vue-cookieconsent-component/src/scss/_cookie-consent-bottom";
 .textLabel {
   height: 56px;
 }

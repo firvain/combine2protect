@@ -19,9 +19,9 @@ function loadLocaleMessages() {
   });
   return messages;
 }
-
+console.log(localStorage.getItem("lang"));
 export default new VueI18n({
-  locale: process.env.VUE_APP_I18N_LOCALE || "gb",
+  locale: localStorage.getItem("lang") || "gb",
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "gb",
   messages: loadLocaleMessages()
 });
