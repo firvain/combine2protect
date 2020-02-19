@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap align-center fill-height align-content-center justify-end>
-    <v-flex xs1>v1.1.1</v-flex>
+    <v-flex xs1>v1.1.2</v-flex>
     <!-- <v-flex d-flex shrink>
       <v-btn
         icon
