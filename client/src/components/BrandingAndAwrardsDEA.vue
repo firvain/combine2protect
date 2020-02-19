@@ -64,27 +64,27 @@ export default {
         {
           name: "A Link",
           ref:
-            "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
+            "https://res.cloudinary.com/firvain/image/upload/v1582107143/placeholder.pdf"
         },
         {
           name: "A Link",
           ref:
-            "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
+            "https://res.cloudinary.com/firvain/image/upload/v1582107143/placeholder.pdf"
         },
         {
           name: "A Link",
           ref:
-            "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
+            "https://res.cloudinary.com/firvain/image/upload/v1582107143/placeholder.pdf"
         },
         {
           name: "A Link",
           ref:
-            "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
+            "https://res.cloudinary.com/firvain/image/upload/v1582107143/placeholder.pdf"
         },
         {
           name: "A Link",
           ref:
-            "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1322261/pdf/bmj33101540.pdf"
+            "https://res.cloudinary.com/firvain/image/upload/v1582107143/placeholder.pdf"
         }
       ]
     };

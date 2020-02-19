@@ -1,7 +1,7 @@
 <template>
   <v-toolbar color="primary" dark fixed clipped-left app dense>
     <img
-      src="https://via.placeholder.com/160x40"
+      src="https://res.cloudinary.com/firvain/image/upload/v1582102708/combine2protect/43146029_550959865361662_1546593418069671936_o.png.png"
       width="160"
       height="40"
       alt="COMBINE2PROTECT logo"

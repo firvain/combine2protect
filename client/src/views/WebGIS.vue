@@ -1,88 +1,86 @@
 <template>
-  <v-content>
-    <v-container fluid fill-height pa-0 ma-0>
-      <v-layout column>
-        <v-flex d-flex class="webgis">
-          <v-layout row wrap>
-            <v-flex
-              xs4
-              d-flex
-              class="layerstreeWrapper"
-              align-start
+  <v-container fluid fill-height pa-0 ma-0>
+    <v-layout column>
+      <v-flex d-flex class="webgis">
+        <v-layout row wrap>
+          <v-flex
+            xs4
+            d-flex
+            class="layerstreeWrapper"
+            align-start
+            justify-center
+            pa-1
+          >
+            <LayersTree
+              :base-layers="baseLayers"
+              :vector-layers="vectorLayers"
+              @change:visible="setVisibility"
+              @change:moveUp="moveUp"
+              @change:moveDown="moveDown"
+              @change:activeTreeItem="activeTreeItem"
+            ></LayersTree>
+          </v-flex>
+          <v-flex xs8 d-flex class="mapview">
+            <v-layout
+              align-center
               justify-center
-              pa-1
+              column
+              fill-height
+              align-items-start
+              pt-1
+              pl-1p
+              pr-1
+              pb-0
             >
-              <LayersTree
-                :base-layers="baseLayers"
-                :vector-layers="vectorLayers"
-                @change:visible="setVisibility"
-                @change:moveUp="moveUp"
-                @change:moveDown="moveDown"
-                @change:activeTreeItem="activeTreeItem"
-              ></LayersTree>
-            </v-flex>
-            <v-flex xs8 d-flex class="mapview">
-              <v-layout
+              <!-- <v-flex
+                d-flex
+                class="maptools"
                 align-center
                 justify-center
-                column
-                fill-height
-                align-items-start
-                pt-1
-                pl-1p
-                pr-1
-                pb-0
+                white--text
+                pa-1
               >
-                <v-flex
-                  d-flex
-                  class="maptools"
-                  align-center
-                  justify-center
-                  white--text
-                  pa-1
-                >
-                  <MapTools></MapTools>
-                </v-flex>
-                <v-flex
-                  d-flex
-                  class="vuemap"
-                  align-center
-                  justify-center
-                  white--text
-                >
-                  <VueMap
-                    :base-layers="baseLayers"
-                    :vector-layers="vectorLayers"
-                    :utility-layers="utilityLayers"
-                    :feature-info="featureInfo"
-                    :show-panel="showPanel"
-                    :map-status="mapStatus"
-                    :active-tree-item="selectedLayer"
-                    @export:pdf="exportPDF"
-                    @change:showpanel="changeShowPanel"
-                    @geolocation:clear="setDisplay"
-                    @measure:clear="setDisplay"
-                    @info:clear="clearInfo"
-                    @info:cancel="cancelInfo"
-                    @info:get="getFeatureFromGeoserver"
-                    @draw:cancel="setDisplay"
-                    @upload:cancel="setDisplay"
-                  ></VueMap>
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </v-content>
+                <MapTools></MapTools>
+              </v-flex> -->
+              <v-flex
+                d-flex
+                class="vuemap"
+                align-center
+                justify-center
+                white--text
+              >
+                <VueMap
+                  :base-layers="baseLayers"
+                  :vector-layers="vectorLayers"
+                  :utility-layers="utilityLayers"
+                  :feature-info="featureInfo"
+                  :show-panel="showPanel"
+                  :map-status="mapStatus"
+                  :active-tree-item="selectedLayer"
+                  @export:pdf="exportPDF"
+                  @change:showpanel="changeShowPanel"
+                  @geolocation:clear="setDisplay"
+                  @measure:clear="setDisplay"
+                  @info:clear="clearInfo"
+                  @info:cancel="cancelInfo"
+                  @info:get="getFeatureFromGeoserver"
+                  @draw:cancel="setDisplay"
+                  @upload:cancel="setDisplay"
+                ></VueMap>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 import { mapMutations } from "vuex";
-import MapTools from "@/components/WebGISMaptools.vue";
+// import MapTools from "@/components/WebGISMaptools.vue";
 import LayersTree from "@/components/WebGISLayersTree.vue";
 import VueMap from "@/components/WebGisVueMap.vue";
 // import { loadingBBox } from "vuelayers/lib/ol-ext";
@@ -93,7 +91,7 @@ import { mapLayers } from "../extra/layers.js";
 export default {
   name: "WebGIS",
   components: {
-    MapTools,
+    // MapTools,
     LayersTree,
     VueMap
   },
@@ -328,7 +326,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .webgis {
-  min-height: calc(100vh - 165px);
+  max-height: calc(100vh - 156px);
   // background-color: #da7033;
 }
 .layerstreeWrapper {
