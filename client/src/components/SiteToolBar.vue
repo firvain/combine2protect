@@ -9,7 +9,7 @@
       @click="$router.push('/')"
     />
     <v-spacer></v-spacer>
-    <div class="search">
+    <!-- <div class="search">
       <v-text-field
         v-model="search"
         class="pt-0"
@@ -18,7 +18,7 @@
         placeholder="Search for WHAT??????"
       >
       </v-text-field>
-    </div>
+    </div> -->
     <v-toolbar-items>
       <v-menu open-on-hover offset-y full-width>
         <template v-slot:activator="{ on }">
@@ -42,7 +42,6 @@
       </v-menu></v-toolbar-items
     >
     <template v-slot:extension>
-      <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn
           flat
