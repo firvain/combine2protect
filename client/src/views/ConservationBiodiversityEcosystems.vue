@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <v-navigation-drawer
       fixed
       app
@@ -33,10 +33,10 @@
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
-    <v-content>
+    <div>
       <router-view></router-view>
-    </v-content>
-  </div>
+    </div>
+  </v-container>
 </template>
 <script>
 export default {

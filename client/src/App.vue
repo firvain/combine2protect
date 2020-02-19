@@ -2,7 +2,9 @@
   <v-app>
     <!-- <ToolBar :show="showToolbar"></ToolBar> -->
     <TheLoader></TheLoader>
-    <router-view :pages="pages"></router-view>
+    <v-content>
+      <router-view :pages="pages"></router-view>
+    </v-content>
   </v-app>
 </template>
 <script>

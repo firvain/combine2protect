@@ -2,7 +2,7 @@
   <v-container grid-list-lg fluid fill-height>
     <v-layout row wrap justify-center align-center>
       <v-flex xs12 text-xs-center>
-        <span>SOON???</span>
+        <span>SOON...</span>
       </v-flex>
     </v-layout>
   </v-container>

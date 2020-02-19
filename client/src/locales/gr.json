@@ -80,7 +80,7 @@
               "draw": "σχεδιασμος",
               "print": "εκτυπωση",
               "geolocation": "γεωγραφικη θεση",
-              "draganddrop": "ανεβασμα αρχειου"
+              "draganddrop": "απεικονιση αρχειου"
             },
             "drawTypes": {
               "point": "Σημείο",

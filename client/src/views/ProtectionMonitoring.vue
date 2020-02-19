@@ -1,52 +1,50 @@
 <template>
-  <v-content>
-    <v-container grid-list-lg fluid fill-height>
-      <v-layout row wrap jalign-center justify-center fill-height>
-        <v-flex d-flex xs12>
-          <v-card elevation-24>
-            <v-card-text>
-              <read-more
-                :more-str="$t(`comps.readmore.more`)"
-                :text="lorem"
-                link="#"
-                :less-str="$t('comps.readmore.less')"
-                :max-chars="1200"
-                class="full"
-              ></read-more>
-            </v-card-text>
-          </v-card>
-        </v-flex>
-        <v-flex v-for="msg in msgs" :key="msg.title" d-flex xs12>
-          <v-card flat>
-            <v-card-title
-              primary-title
-              class="justify-center title font-weight-medium"
-            >
-              {{ msg.title }}
-            </v-card-title>
-            <v-flex d-flex xs12><v-divider></v-divider> </v-flex>
-            <v-card-text>
-              <read-more
-                :more-str="$t(`comps.readmore.more`)"
-                :text="msg.text"
-                link="#"
-                :less-str="$t('comps.readmore.less')"
-                :max-chars="800"
-                class="full"
-              ></read-more>
-            </v-card-text>
-          </v-card>
-          <!-- <v-flex d-flex xs12 class="text-xs-center accent ">
+  <v-container grid-list-lg fluid fill-height>
+    <v-layout row wrap jalign-center justify-center fill-height>
+      <v-flex d-flex xs12>
+        <v-card elevation-24>
+          <v-card-text>
+            <read-more
+              :more-str="$t(`comps.readmore.more`)"
+              :text="lorem"
+              link="#"
+              :less-str="$t('comps.readmore.less')"
+              :max-chars="1200"
+              class="full"
+            ></read-more>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex v-for="msg in msgs" :key="msg.title" d-flex xs12>
+        <v-card flat>
+          <v-card-title
+            primary-title
+            class="justify-center title font-weight-medium"
+          >
+            {{ msg.title }}
+          </v-card-title>
+          <v-flex d-flex xs12><v-divider></v-divider> </v-flex>
+          <v-card-text>
+            <read-more
+              :more-str="$t(`comps.readmore.more`)"
+              :text="msg.text"
+              link="#"
+              :less-str="$t('comps.readmore.less')"
+              :max-chars="800"
+              class="full"
+            ></read-more>
+          </v-card-text>
+        </v-card>
+        <!-- <v-flex d-flex xs12 class="text-xs-center accent ">
               <div class="title font-weight-medium white--text">
                 {{ msg.title }}
               </div>
             </v-flex>
             <v-flex d-flex xs12> </v-flex> -->
-          <!-- <v-flex d-flex xs12><v-divider></v-divider> </v-flex> -->
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </v-content>
+        <!-- <v-flex d-flex xs12><v-divider></v-divider> </v-flex> -->
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 <script>
 export default {
