@@ -1,5 +1,22 @@
 <template>
   <v-toolbar color="primary" dark fixed clipped-left app dense>
+    <div v-if="$vuetify.breakpoint.mdAndDown">
+      <v-menu>
+        <template v-slot:activator="{ on }">
+          <v-btn small flat v-on="on">
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-tile v-for="(page, i) in pages" :key="i" :to="page.route">
+            {{ $t("pages[" + i + "].title") }}
+          </v-list-tile>
+          <!-- <v-list-tile>
+            {{ $t("pages[1].title") }}
+          </v-list-tile> -->
+        </v-list>
+      </v-menu>
+    </div>
     <img
       src="https://res.cloudinary.com/firvain/image/upload/v1582102708/combine2protect/43146029_550959865361662_1546593418069671936_o.png.png"
       height="44"
@@ -42,7 +59,7 @@
         </v-list>
       </v-menu></v-toolbar-items
     >
-    <template v-slot:extension>
+    <template v-if="$vuetify.breakpoint.mdAndUp" v-slot:extension>
       <v-toolbar-items>
         <v-btn
           flat
@@ -171,6 +188,9 @@ export default {
       return this.$i18n.locale;
     }
   },
+  created() {
+    console.log(this.pages);
+  },
   methods: {
     changeLocal(e) {
       this.$i18n.locale = e;
@@ -190,7 +210,7 @@ export default {
   min-width: 66px;
 }
 .smallLettersList {
-  font-size: 10px;
+  font-size: 8px;
   .v-list__tile__content,
   .v-list__tile__action {
     height: 10px;

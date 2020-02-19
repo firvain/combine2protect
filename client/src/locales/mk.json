@@ -80,7 +80,7 @@
             "areaUnit": "Површинска единица",
             "clear": "јасно",
             "cancel": "откажете",
-            "clearUploaded": "јасно поставете",
+            "clearUploaded": "чиста датотека",
             "panelTitle": {
               "general": "генерални информации",
               "featureInfo": "добијте информации за карактеристики",
@@ -88,7 +88,7 @@
               "draw": "црта",
               "print": "печати",
               "geolocation": "геолокација",
-              "draganddrop": "поставете датотека"
+              "draganddrop": "визуелизира датотека"
             },
             "drawTypes": {
               "point": "Точка",
