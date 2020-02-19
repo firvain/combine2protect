@@ -73,6 +73,7 @@ export default {
   methods: {
     changeLocal(e) {
       this.$i18n.locale = e;
+      localStorage.setItem("lang", e);
     }
   }
 };

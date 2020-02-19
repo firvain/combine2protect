@@ -189,11 +189,12 @@ export default {
     }
   },
   created() {
-    console.log(this.pages);
+    // console.log(this.pages);
   },
   methods: {
     changeLocal(e) {
       this.$i18n.locale = e;
+      localStorage.setItem("lang", e);
     }
   }
 };
