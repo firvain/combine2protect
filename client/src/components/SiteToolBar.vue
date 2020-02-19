@@ -42,7 +42,6 @@
       </v-menu></v-toolbar-items
     >
     <template v-slot:extension>
-      <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn
           flat
