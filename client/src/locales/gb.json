@@ -80,7 +80,7 @@
             "areaUnit": "Area Unit",
             "clear": "clear",
             "cancel": "cancel",
-            "clearUploaded": "clear uploaded",
+            "clearUploaded": "clear file",
             "panelTitle": {
               "general": "general Info",
               "featureInfo": " get feature info",
@@ -88,7 +88,7 @@
               "draw": "draw",
               "print": "print",
               "geolocation": "geolocation",
-              "draganddrop": "file upload"
+              "draganddrop": "visualize file"
             },
             "drawTypes": {
               "point": "Point",

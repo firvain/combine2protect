@@ -57,74 +57,72 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-content>
-      <v-container fluid grid-list-lg fill-height>
-        <v-layout row wrap align-start justify-center fill-height>
-          <v-flex d-flex xs12 md10>
-            <v-layout row wrap>
-              <v-flex d-flex xs12>
-                <v-card id="partnership" flat>
-                  <v-card-title primary-title class="justify-center">
-                    <div class="headline font-weight-medium">
-                      {{ $t(`pages[0].content[0].title`) }}
-                    </div>
-                  </v-card-title>
-                  <v-card-text class="full">
-                    <read-more
-                      :more-str="$t(`comps.readmore.more`)"
-                      :text="msg"
-                      link="#"
-                      :less-str="$t('comps.readmore.less')"
-                      :max-chars="maxChars"
-                    ></read-more>
-                  </v-card-text>
-                </v-card>
-              </v-flex>
+    <v-container fluid grid-list-lg fill-height>
+      <v-layout row wrap align-start justify-center fill-height>
+        <v-flex d-flex xs12 md10>
+          <v-layout row wrap>
+            <v-flex d-flex xs12>
+              <v-card id="partnership" flat>
+                <v-card-title primary-title class="justify-center">
+                  <div class="headline font-weight-medium">
+                    {{ $t(`pages[0].content[0].title`) }}
+                  </div>
+                </v-card-title>
+                <v-card-text class="full">
+                  <read-more
+                    :more-str="$t(`comps.readmore.more`)"
+                    :text="msg"
+                    link="#"
+                    :less-str="$t('comps.readmore.less')"
+                    :max-chars="maxChars"
+                  ></read-more>
+                </v-card-text>
+              </v-card>
+            </v-flex>
 
-              <v-flex d-flex xs12>
-                <v-card id="partnership" flat>
-                  <v-card-title primary-title class="justify-center">
-                    <div class="headline font-weight-medium">
-                      {{ $t(`pages[0].content[1].title`) }}
-                    </div>
-                  </v-card-title>
-                  <v-card-text class="full">
-                    <read-more
-                      :more-str="$t(`comps.readmore.more`)"
-                      :text="msg"
-                      link="#"
-                      :less-str="$t('comps.readmore.less')"
-                      :max-chars="maxChars"
-                    ></read-more>
-                  </v-card-text>
-                </v-card>
-              </v-flex>
-              <v-flex d-flex xs12>
-                <v-card id="partnership" flat>
-                  <v-card-title primary-title class="justify-center">
-                    <div class="headline font-weight-medium">
-                      {{ $t(`pages[0].content[2].title`) }}
-                    </div>
-                  </v-card-title>
-                  <v-card-text class="full">
-                    <read-more
-                      :more-str="$t(`comps.readmore.more`)"
-                      :text="msg"
-                      link="#"
-                      :less-str="$t('comps.readmore.less')"
-                      :max-chars="maxChars"
-                    ></read-more>
-                  </v-card-text>
-                </v-card>
-              </v-flex>
-            </v-layout>
-          </v-flex>
-          <v-flex d-flex xs12 md2>
-            <HomeBanners></HomeBanners>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
+            <v-flex d-flex xs12>
+              <v-card id="partnership" flat>
+                <v-card-title primary-title class="justify-center">
+                  <div class="headline font-weight-medium">
+                    {{ $t(`pages[0].content[1].title`) }}
+                  </div>
+                </v-card-title>
+                <v-card-text class="full">
+                  <read-more
+                    :more-str="$t(`comps.readmore.more`)"
+                    :text="msg"
+                    link="#"
+                    :less-str="$t('comps.readmore.less')"
+                    :max-chars="maxChars"
+                  ></read-more>
+                </v-card-text>
+              </v-card>
+            </v-flex>
+            <v-flex d-flex xs12>
+              <v-card id="partnership" flat>
+                <v-card-title primary-title class="justify-center">
+                  <div class="headline font-weight-medium">
+                    {{ $t(`pages[0].content[2].title`) }}
+                  </div>
+                </v-card-title>
+                <v-card-text class="full">
+                  <read-more
+                    :more-str="$t(`comps.readmore.more`)"
+                    :text="msg"
+                    link="#"
+                    :less-str="$t('comps.readmore.less')"
+                    :max-chars="maxChars"
+                  ></read-more>
+                </v-card-text>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex d-flex xs12 md2>
+          <HomeBanners></HomeBanners>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 <script>
