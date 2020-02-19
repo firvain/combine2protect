@@ -1,5 +1,5 @@
 <template>
-  <v-footer app color="primary" height="60">
+  <v-footer app color="primary" height="auto">
     <v-container fluid pa-0 ma-0>
       <v-layout row wrap justify-center align-center>
         <v-flex xs6 class="text-xs-center white--text">
@@ -16,10 +16,11 @@
           </v-layout>
         </v-flex>
         <v-spacer></v-spacer>
-        <v-flex xs2 class="text-xs-center">
-          <img
+        <v-flex xs2 class="text-xs-center" pa-1>
+          <v-img
             src="https://res.cloudinary.com/firvain/image/upload/v1582102708/combine2protect/43146029_550959865361662_1546593418069671936_o.png.png"
-            height="40"
+            width="100%"
+            height="50"
             contain
             alt="COMBINE2PROTECT logo"
           />
