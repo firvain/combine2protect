@@ -299,3 +299,37 @@ export const DragAndDropControl = (function(Control) {
 
   return DragAndDropControl;
 })(Control);
+
+export const NomimatimControl = (function(Control) {
+  function NomimatimControl(opt_options) {
+    const options = opt_options || {};
+
+    const button = document.createElement("button");
+    button.innerHTML = "<i class='mdi mdi-globe-model' i>";
+
+    const element = document.createElement("div");
+    element.className = "nomimatimBtn ol-unselectable ol-control";
+    element.appendChild(button);
+
+    Control.call(this, {
+      element: element,
+      target: options.target
+    });
+
+    button.addEventListener(
+      "click",
+      this.handleNomimatimControl.bind(this),
+      false
+    );
+  }
+
+  if (Control) NomimatimControl.__proto__ = Control;
+  NomimatimControl.prototype = Object.create(Control && Control.prototype);
+  NomimatimControl.prototype.constructor = NomimatimControl;
+
+  NomimatimControl.prototype.handleNomimatimControl = function handleNomimatimControl() {
+    store.dispatch("webgis/updateMapStatus", "nomimatim");
+  };
+
+  return NomimatimControl;
+})(Control);

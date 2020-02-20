@@ -66,6 +66,7 @@
                   @info:get="getFeatureFromGeoserver"
                   @draw:cancel="setDisplay"
                   @upload:cancel="setDisplay"
+                  @nomimatim:cancel="setDisplay"
                 ></VueMap>
               </v-flex>
             </v-layout>

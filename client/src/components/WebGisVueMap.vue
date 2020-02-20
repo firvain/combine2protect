@@ -521,6 +521,67 @@
                 }}</v-btn>
               </v-card-actions>
             </template>
+            <template v-if="mapStatus === 'nomimatim'">
+              <v-card-text>
+                <v-text-field
+                  v-model="nomimatimInput"
+                  label="Powered by Nomimatim"
+                  placeholder="e.g. Florina"
+                ></v-text-field>
+                <div
+                  v-if="nomimatimResults.length > 0 && nomimatimInput"
+                  class="overlayWrapper"
+                >
+                  <v-list two-line dense>
+                    <template v-for="(result, i) in nomimatimResults">
+                      <v-list-tile
+                        :key="i"
+                        @click="
+                          zoomToNomimatimResult({
+                            extent: result.boundingbox
+                          })
+                        "
+                      >
+                        <v-list-tile-content>
+                          <v-list-tile-title>
+                            {{ result.class.toUpperCase() }}
+                          </v-list-tile-title>
+                          <v-list-tile-sub-title>
+                            {{
+                              result.display_name.trim()
+                            }}</v-list-tile-sub-title
+                          >
+                        </v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider :key="i"></v-divider>
+                    </template>
+                  </v-list>
+                  <!-- <ul>
+                    <li
+                      v-for="(result, i) in nomimatimResults"
+                      :key="i"
+                      class="nomimatimList"
+                      @click="
+                        zoomToNomimatimResult({
+                          extent: result.boundingbox
+                        })
+                      "
+                    >
+                      {{ result.display_name.trim() }}
+                    </li>
+                  </ul> -->
+                </div>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn v-if="nomimatimInput" small flat @click="searchNomimatim"
+                  >{{ $t("pages[4].content[1].labels.search") }}
+                </v-btn>
+                <v-btn small flat @click="cancelNomimatimSearch">
+                  {{ $t("pages[4].content[1].labels.cancel") }}
+                </v-btn>
+              </v-card-actions>
+            </template>
           </template>
         </v-card>
       </div>
@@ -542,7 +603,8 @@ import {
   PrintControl,
   MeasureControl,
   DrawControl,
-  DragAndDropControl
+  DragAndDropControl,
+  NomimatimControl
 } from "../extra/ol-custom-controls.js";
 import { Polygon, LineString, Point } from "ol/geom.js";
 
@@ -552,6 +614,7 @@ import { saveAs } from "file-saver";
 import { omit } from "../extra/utils";
 
 import { topology } from "topojson-server";
+
 import axios from "axios";
 
 export default {
@@ -659,7 +722,9 @@ export default {
       measureOutput: "",
       evtKey: {},
       selectedLayer: null,
-      selectedFeature: {}
+      selectedFeature: {},
+      nomimatimInput: "",
+      nomimatimResults: []
     };
   },
   computed: {
@@ -696,6 +761,9 @@ export default {
           break;
         case "dragdrop":
           msg = this.$t("pages[4].content[1].labels.panelTitle.draganddrop");
+          break;
+        case "nomimatim":
+          msg = this.$t("pages[4].content[1].labels.panelTitle.nomimatim");
           break;
         default:
           msg = this.$t("pages[4].content[1].labels.panelTitle.general");
@@ -747,6 +815,9 @@ export default {
         case "dragdrop":
           unByKey(this.evtKey);
           this.dragAndDrop();
+          break;
+        case "nomimatim":
+          unByKey(this.evtKey);
           break;
         default:
           unByKey(this.evtKey);
@@ -827,7 +898,8 @@ export default {
         new PrintControl(),
         new MeasureControl(),
         new DrawControl(),
-        new DragAndDropControl()
+        new DragAndDropControl(),
+        new NomimatimControl()
       ]);
     },
     print() {
@@ -1139,6 +1211,51 @@ export default {
         if (int instanceof DragAndDrop) map.removeInteraction(int);
       });
       this.clearUploaded();
+    },
+    async searchNomimatim() {
+      try {
+        const response = await axios({
+          type: "GET",
+          url: "https://nominatim.openstreetmap.org/search",
+          params: {
+            q: this.nomimatimInput,
+            format: "json",
+            viewbox:
+              this.extent[0] +
+              "," +
+              this.extent[1] +
+              "," +
+              this.extent[2] +
+              "," +
+              this.extent[3],
+            bounded: 1,
+            countrycodes: "gr,mk"
+          },
+          responseType: "json"
+        });
+
+        this.nomimatimResults = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    zoomToNomimatimResult({ extent }) {
+      const e = [
+        parseFloat(extent[2]),
+        parseFloat(extent[0]),
+        parseFloat(extent[3]),
+        parseFloat(extent[1])
+      ];
+      this.$refs.map.$map.getView().fit(e, this.$refs.map.$map.getSize());
+      // this.$refs.map.$map.getView().animate({
+      //   center: [lon, lat],
+      //   zoom: this.$refs.map.$map.getView().getZoom() + 12
+      // });
+    },
+    cancelNomimatimSearch() {
+      this.nomimatimResults = [];
+      this.nomimatimInput = "";
+      this.$emit("nomimatim:cancel");
     }
   }
 };
@@ -1267,6 +1384,18 @@ export default {
 ::v-deep .ol-touch .dragAndDropBtn {
   top: 15.21em;
 }
+
+::v-deep .nomimatimBtn {
+  top: 22em;
+  left: 0.5em;
+  .v-icon {
+    line-height: 0.5em;
+    width: 0.5em;
+  }
+}
+::v-deep .ol-touch .dragAndDropBtn {
+  top: 16.71em;
+}
 .here {
   background-color: white;
   font-size: 1em;
@@ -1278,5 +1407,10 @@ export default {
 .full {
   text-align: justify;
   text-justify: inter-word;
+}
+.nomimatimList:hover {
+  background-color: #454545;
+  color: white;
+  cursor: zoom-in;
 }
 </style>
