@@ -2,6 +2,7 @@
 import axios from "axios";
 import { saveAs } from "file-saver";
 export async function fetchFeatureInfo({ url }) {
+  console.log(url);
   const info = await axios({
     method: "get",
     url

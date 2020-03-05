@@ -67,6 +67,7 @@
                   @draw:cancel="setDisplay"
                   @upload:cancel="setDisplay"
                   @nomimatim:cancel="setDisplay"
+                  @map:loading="mapLoading"
                 ></VueMap>
               </v-flex>
             </v-layout>
@@ -175,6 +176,20 @@ export default {
             features: "measuredFeatures"
           },
           zIndex: 9000002
+        },
+        {
+          id: 9000003,
+          ref: "nomimatim",
+          title: "Nomimatim",
+          cmp: "vl-layer-vector",
+          target: "momimatim-target",
+          visible: true,
+          source: {
+            cmp: "vl-source-vector",
+            ident: "momimatim-target",
+            features: "momimatimResults"
+          },
+          zIndex: 9000003
         }
       ],
       pdfOptions: {
@@ -195,6 +210,7 @@ export default {
   },
   computed: {
     ...mapGetters("webgis", ["mapStatus", "featureInfo", "showPanel"]),
+    ...mapGetters("app", ["loading", "pages"]),
     currentDate: {
       get() {
         return this.date;
@@ -217,6 +233,7 @@ export default {
   methods: {
     ...mapActions("webgis", ["updateMapStatus", "getFeatureInfo"]),
     ...mapMutations("webgis", ["SET_SHOWPANEL", "SET_FEATURE_INFO"]),
+    ...mapActions("app", ["updateLoading"]),
     async exportPDF(data) {
       const myPromise = new Promise((resolve, reject) => {
         if (data) resolve(data);
@@ -321,13 +338,16 @@ export default {
     cancelInfo() {
       this.clearInfo();
       this.setDisplay();
+    },
+    mapLoading(e) {
+      this.updateLoading(e);
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 .webgis {
-  max-height: calc(100vh - 156px);
+  max-height: calc(100vh - 164px);
   // background-color: #da7033;
 }
 .layerstreeWrapper {
@@ -344,7 +364,6 @@ export default {
     width: 100%;
   }
   .vuemap {
-    background-color: cyan;
     flex: 1;
     width: 100%;
   }

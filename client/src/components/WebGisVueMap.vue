@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap align-center fill-height align-content-center pa-0>
-    <v-flex xs12 d-flex fill-height pa-0 ma-0 class="mapWrapper">
+    <v-flex xs12 d-flex fill-height pa-0 ma-0>
       <vl-map
         id="mymap"
         ref="map"
@@ -113,6 +113,20 @@
             :features.sync="measuredFeatures"
           ></vl-source-vector>
         </vl-layer-vector>
+        <vl-layer-vector
+          v-if="nomimatimResults.length > 0"
+          :id="utilityLayers[2].id"
+          :ref="utilityLayers[2].ref"
+          :visible="utilityLayers[2].visible"
+          :z-index="utilityLayers[2].zIndex"
+        >
+          <vl-source-vector
+            :ident="utilityLayers[2].source.ident"
+            :features.sync="nomimatimResults"
+          >
+            <vl-style-func :factory="nomimatimStyleFactory"> </vl-style-func>
+          </vl-source-vector>
+        </vl-layer-vector>
         <!-- INFO POPOUP -->
         <!-- <vl-layer-vector
           v-if="mapStatus === 'info' && selectedFeatures !== 'undefined'"
@@ -200,7 +214,7 @@
             </vl-feature>
           </template>
         </vl-geoloc>
-        <vl-layer-vector ref="featureInfo" key="9000001" :z-index="9000003">
+        <vl-layer-vector ref="featureInfo" key="9900001" :z-index="9900003">
           <vl-source-vector
             v-if="featureInfo.crs"
             :features="featureInfo.features"
@@ -537,23 +551,21 @@
                       <v-list-tile
                         :key="i"
                         @click="
-                          zoomToNomimatimResult({
-                            extent: result.boundingbox
-                          })
+                          zoomToNomimatimResult(result.geometry.coordinates)
                         "
                       >
                         <v-list-tile-content>
                           <v-list-tile-title>
-                            {{ result.class.toUpperCase() }}
+                            {{ i }} {{ result.properties.type.toUpperCase() }}
                           </v-list-tile-title>
                           <v-list-tile-sub-title>
                             {{
-                              result.display_name.trim()
+                              result.properties.display_name.trim()
                             }}</v-list-tile-sub-title
                           >
                         </v-list-tile-content>
                       </v-list-tile>
-                      <v-divider :key="i"></v-divider>
+                      <v-divider :key="result.id"></v-divider>
                     </template>
                   </v-list>
                   <!-- <ul>
@@ -653,7 +665,7 @@ export default {
   data() {
     return {
       center: [22.525, 40.65],
-      minZoom: 3,
+      minZoom: 6,
       zoom: 8,
       maxzoom: 15,
       rotation: 0,
@@ -877,8 +889,21 @@ export default {
       // console.log(selectedExtent);
     }
   },
+  mounted() {
+    this.$emit("map:loading", true);
+    const map = this.$refs.map.$map;
+    if (map) {
+      map.updateSize();
+    }
+  },
 
   methods: {
+    waitFix() {
+      setTimeout(() => {
+        this.$refs.map.$map.updateSize();
+        this.$emit("map:loading", false);
+      }, 5000);
+    },
     pointOnSurface: findPointOnSurface,
     onMapMounted() {
       // now ol.Map instance is ready and we can work with it directly
@@ -901,6 +926,8 @@ export default {
         new DragAndDropControl(),
         new NomimatimControl()
       ]);
+
+      this.waitFix();
     },
     print() {
       const map = this.$refs.map.$map;
@@ -1219,7 +1246,7 @@ export default {
           url: "https://nominatim.openstreetmap.org/search",
           params: {
             q: this.nomimatimInput,
-            format: "json",
+            format: "geojson",
             viewbox:
               this.extent[0] +
               "," +
@@ -1233,29 +1260,48 @@ export default {
           },
           responseType: "json"
         });
-
-        this.nomimatimResults = response.data;
+        this.nomimatimResults = response.data.features;
       } catch (error) {
         console.log(error);
       }
     },
-    zoomToNomimatimResult({ extent }) {
-      const e = [
-        parseFloat(extent[2]),
-        parseFloat(extent[0]),
-        parseFloat(extent[3]),
-        parseFloat(extent[1])
-      ];
-      this.$refs.map.$map.getView().fit(e, this.$refs.map.$map.getSize());
-      // this.$refs.map.$map.getView().animate({
-      //   center: [lon, lat],
-      //   zoom: this.$refs.map.$map.getView().getZoom() + 12
-      // });
+    zoomToNomimatimResult(coordinates) {
+      //   parseFloat(extent[2]),
+      //   parseFloat(extent[0]),
+      //   parseFloat(extent[3]),
+      //   parseFloat(extent[1])
+      // ];
+      // this.$refs.map.$map.getView().fit(e, this.$refs.map.$map.getSize());
+      this.$refs.map.$map.getView().animate({
+        center: coordinates,
+        zoom: this.$refs.map.$map.getView().getZoom() + 12
+      });
     },
     cancelNomimatimSearch() {
       this.nomimatimResults = [];
       this.nomimatimInput = "";
       this.$emit("nomimatim:cancel");
+    },
+    nomimatimStyleFactory() {
+      return feature => {
+        const graf = [
+          createStyle({
+            imageRadius: 10,
+            strokeColor: "#fff",
+            fillColor: "#3399cc"
+          })
+        ];
+
+        if (feature && feature.getProperties().icon) {
+          const icon = [
+            createStyle({
+              imageSrc: feature.getProperties().icon
+            })
+          ];
+          return icon;
+        }
+        return graf;
+      };
     }
   }
 };
@@ -1266,10 +1312,10 @@ export default {
   position: relative;
 }
 .mymap {
-  position: absolute;
+  position: relative;
   top: 0em;
   right: 0em;
-  height: 100%;
+  height: calc(100vh - 160px);
 }
 .map-panel {
   position: absolute;
