@@ -615,8 +615,8 @@ import {
   PrintControl,
   MeasureControl,
   DrawControl,
-  DragAndDropControl,
-  NomimatimControl
+  DragAndDropControl
+  // NomimatimControl
 } from "../extra/ol-custom-controls.js";
 import { Polygon, LineString, Point } from "ol/geom.js";
 
@@ -923,8 +923,8 @@ export default {
         new PrintControl(),
         new MeasureControl(),
         new DrawControl(),
-        new DragAndDropControl(),
-        new NomimatimControl()
+        new DragAndDropControl()
+        // new NomimatimControl()
       ]);
 
       this.waitFix();
