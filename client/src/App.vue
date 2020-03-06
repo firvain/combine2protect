@@ -1,6 +1,11 @@
 <template>
   <v-app>
-    <Ribbon text="Site is in BETA Version" color="#009688" fixed></Ribbon>
+    <Ribbon
+      text="Site is in BETA Version"
+      color="#009688"
+      fixed
+      position="left-top"
+    ></Ribbon>
     <!-- <ToolBar :show="showToolbar"></ToolBar> -->
     <TheLoader></TheLoader>
     <cookie-consent

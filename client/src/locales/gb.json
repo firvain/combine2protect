@@ -92,6 +92,7 @@
             "areaUnit": "Area Unit",
             "clear": "clear",
             "cancel": "cancel",
+            "search": "search",
             "clearUploaded": "clear file",
             "panelTitle": {
               "general": "general Info",
@@ -100,7 +101,8 @@
               "draw": "draw",
               "print": "print",
               "geolocation": "geolocation",
-              "draganddrop": "visualize file"
+              "draganddrop": "visualize file",
+              "nomimatim": "search place"
             },
             "drawTypes": {
               "point": "Point",

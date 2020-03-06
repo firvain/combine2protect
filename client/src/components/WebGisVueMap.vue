@@ -1,120 +1,130 @@
 <template>
-  <v-layout row wrap align-center fill-height align-content-center pa-0>
-    <v-flex xs12 d-flex fill-height pa-0 ma-0 class="mapWrapper">
-      <vl-map
-        id="mymap"
-        ref="map"
-        class="mymap"
-        :load-tiles-while-animating="false"
-        :load-tiles-while-interacting="false"
-        :default-controls="{ attribution: true, rotate: false, zoom: true }"
-        @mounted="onMapMounted"
-        @postcompose="onMapPostCompose"
+  <v-flex xs12 d-flex fill-height pa-0>
+    <vl-map
+      id="mymap"
+      ref="map"
+      class="mymap"
+      :load-tiles-while-animating="false"
+      :load-tiles-while-interacting="false"
+      :default-controls="{ attribution: true, rotate: false, zoom: true }"
+      @mounted="onMapMounted"
+      @postcompose="onMapPostCompose"
+    >
+      <vl-view
+        :zoom.sync="zoom"
+        :min-zoom="minZoom"
+        :max-zoom="maxzoom"
+        :center.sync="center"
+        :rotation.sync="rotation"
+        :extent="extent"
+        projection="EPSG:4326"
+      ></vl-view>
+
+      <!-- BASE LAYERS -->
+      <vl-layer-tile
+        v-for="(layer, key) in baseLayers"
+        :id="key"
+        :key="layer.id"
+        :visible="layer.visible"
+        :preload="layer.preload"
+        :z-index="layer.zIndex"
       >
-        <vl-view
-          :zoom.sync="zoom"
-          :min-zoom="minZoom"
-          :max-zoom="maxzoom"
-          :center.sync="center"
-          :rotation.sync="rotation"
-          :extent="extent"
-          projection="EPSG:4326"
-        ></vl-view>
+        <component :is="'vl-source-' + layer.name" v-bind="layer"></component>
+      </vl-layer-tile>
 
-        <!-- BASE LAYERS -->
-        <vl-layer-tile
-          v-for="(layer, key) in baseLayers"
-          :id="key"
-          :key="layer.id"
-          :visible="layer.visible"
-          :preload="layer.preload"
-          :z-index="layer.zIndex"
-        >
-          <component :is="'vl-source-' + layer.name" v-bind="layer"></component>
-        </vl-layer-tile>
+      <!-- VECTOR LAYERS -->
+      <component
+        :is="layer.cmp"
+        v-for="(layer, index) in vectorLayers"
+        :id="layer.id"
+        :key="index"
+        :visible="layer.visible"
+        v-bind="layer"
+        :z-index="layer.zIndex"
+      >
+        <!-- add vl-source-* -->
+        <component :is="layer.source.cmp" v-bind="layer.source"></component>
+        <!--// vl-source-* -->
 
-        <!-- VECTOR LAYERS -->
-        <component
-          :is="layer.cmp"
-          v-for="(layer, index) in vectorLayers"
-          :id="layer.id"
-          :key="index"
-          :visible="layer.visible"
-          v-bind="layer"
-          :z-index="layer.zIndex"
-        >
-          <!-- add vl-source-* -->
-          <component :is="layer.source.cmp" v-bind="layer.source"></component>
-          <!--// vl-source-* -->
-
-          <!-- add style components if provided -->
-          <!-- create vl-style-box or vl-style-func -->
-          <div v-if="layer.style">
-            <component
-              :is="style.cmp"
-              v-for="(style, i) in layer.style"
-              :key="i"
-              v-bind="style"
-            >
-              <!-- create inner style components: vl-style-circle, vl-style-icon, vl-style-fill, vl-style-stroke & etc -->
-              <div v-if="style.styles">
-                <component
-                  :is="cmp"
-                  v-for="(st, cmp) in style.styles"
-                  :key="cmp"
-                  v-bind="st"
-                >
-                  <!-- vl-style-fill, vl-style-stroke if provided -->
-                  <vl-style-fill
-                    v-if="st.fill"
-                    v-bind="st.fill"
-                  ></vl-style-fill>
-                  <vl-style-stroke
-                    v-if="st.stroke"
-                    v-bind="st.stroke"
-                  ></vl-style-stroke>
-                </component>
-              </div>
-            </component>
-          </div>
-          <!--// style -->
-        </component>
-
-        <!-- UTILITY LAYERS -->
-        <vl-layer-vector
-          :id="utilityLayers[0].id"
-          :ref="utilityLayers[0].ref"
-          :visible="utilityLayers[0].visible"
-          :z-index="utilityLayers[0].zIndex"
-        >
-          <vl-source-vector
-            :ident="utilityLayers[0].source.ident"
-            :features.sync="drawnFeatures"
+        <!-- add style components if provided -->
+        <!-- create vl-style-box or vl-style-func -->
+        <div v-if="layer.style">
+          <component
+            :is="style.cmp"
+            v-for="(style, i) in layer.style"
+            :key="i"
+            v-bind="style"
           >
-            <vl-style-box>
+            <!-- create inner style components: vl-style-circle, vl-style-icon, vl-style-fill, vl-style-stroke & etc -->
+            <div v-if="style.styles">
+              <component
+                :is="cmp"
+                v-for="(st, cmp) in style.styles"
+                :key="cmp"
+                v-bind="st"
+              >
+                <!-- vl-style-fill, vl-style-stroke if provided -->
+                <vl-style-fill v-if="st.fill" v-bind="st.fill"></vl-style-fill>
+                <vl-style-stroke
+                  v-if="st.stroke"
+                  v-bind="st.stroke"
+                ></vl-style-stroke>
+              </component>
+            </div>
+          </component>
+        </div>
+        <!--// style -->
+      </component>
+
+      <!-- UTILITY LAYERS -->
+      <vl-layer-vector
+        :id="utilityLayers[0].id"
+        :ref="utilityLayers[0].ref"
+        :visible="utilityLayers[0].visible"
+        :z-index="utilityLayers[0].zIndex"
+      >
+        <vl-source-vector
+          :ident="utilityLayers[0].source.ident"
+          :features.sync="drawnFeatures"
+        >
+          <vl-style-box>
+            <vl-style-fill :color="[255, 204, 51, 0.2]"></vl-style-fill>
+            <vl-style-stroke color="#ffcc33" :width="2"></vl-style-stroke>
+            <vl-style-circle :radius="4">
               <vl-style-fill :color="[255, 204, 51, 0.2]"></vl-style-fill>
               <vl-style-stroke color="#ffcc33" :width="2"></vl-style-stroke>
-              <vl-style-circle :radius="4">
-                <vl-style-fill :color="[255, 204, 51, 0.2]"></vl-style-fill>
-                <vl-style-stroke color="#ffcc33" :width="2"></vl-style-stroke>
-              </vl-style-circle>
-            </vl-style-box>
-          </vl-source-vector>
-        </vl-layer-vector>
+            </vl-style-circle>
+          </vl-style-box>
+        </vl-source-vector>
+      </vl-layer-vector>
 
-        <vl-layer-vector
-          :id="utilityLayers[1].id"
-          :ref="utilityLayers[1].ref"
-          :visible="utilityLayers[1].visible"
-          :z-index="utilityLayers[1].zIndex"
+      <vl-layer-vector
+        :id="utilityLayers[1].id"
+        :ref="utilityLayers[1].ref"
+        :visible="utilityLayers[1].visible"
+        :z-index="utilityLayers[1].zIndex"
+      >
+        <vl-source-vector
+          :ident="utilityLayers[1].source.ident"
+          :features.sync="measuredFeatures"
+        ></vl-source-vector>
+      </vl-layer-vector>
+      <vl-layer-vector
+        v-if="nomimatimResults.length > 0"
+        :id="utilityLayers[2].id"
+        :ref="utilityLayers[2].ref"
+        :visible="utilityLayers[2].visible"
+        :z-index="utilityLayers[2].zIndex"
+      >
+        <vl-source-vector
+          :ident="utilityLayers[2].source.ident"
+          :features.sync="nomimatimResults"
         >
-          <vl-source-vector
-            :ident="utilityLayers[1].source.ident"
-            :features.sync="measuredFeatures"
-          ></vl-source-vector>
-        </vl-layer-vector>
-        <!-- INFO POPOUP -->
-        <!-- <vl-layer-vector
+          <vl-style-func :factory="nomimatimStyleFactory"> </vl-style-func>
+        </vl-source-vector>
+      </vl-layer-vector>
+      <!-- INFO POPOUP -->
+      <!-- <vl-layer-vector
           v-if="mapStatus === 'info' && selectedFeatures !== 'undefined'"
         >
           <vl-source-vector ref="infoVectorSource">
@@ -143,389 +153,443 @@
           </vl-source-vector>
         </vl-layer-vector> -->
 
-        <!-- DRAW INTERACTION -->
-        <vl-interaction-draw
-          v-if="mapStatus === 'draw'"
-          ref="drawInteraction"
-          source="draw-target"
-          :type="drawType"
-          :stop-click="true"
-        >
-          <vl-style-box>
+      <!-- DRAW INTERACTION -->
+      <vl-interaction-draw
+        v-if="mapStatus === 'draw'"
+        ref="drawInteraction"
+        source="draw-target"
+        :type="drawType"
+        :stop-click="true"
+      >
+        <vl-style-box>
+          <vl-style-fill :color="[255, 255, 255, 0.2]"></vl-style-fill>
+          <vl-style-stroke
+            :color="[0, 0, 0, 0.5]"
+            :width="2"
+            :line-dash="[10, 10]"
+          ></vl-style-stroke>
+          <vl-style-circle :radius="4">
             <vl-style-fill :color="[255, 255, 255, 0.2]"></vl-style-fill>
             <vl-style-stroke
-              :color="[0, 0, 0, 0.5]"
+              color="[0, 0, 0, 0.7]"
               :width="2"
-              :line-dash="[10, 10]"
             ></vl-style-stroke>
-            <vl-style-circle :radius="4">
-              <vl-style-fill :color="[255, 255, 255, 0.2]"></vl-style-fill>
-              <vl-style-stroke
-                color="[0, 0, 0, 0.7]"
-                :width="2"
-              ></vl-style-stroke>
-            </vl-style-circle>
-          </vl-style-box>
-        </vl-interaction-draw>
-        <!-- MEASURE INTERACTION -->
-        <vl-interaction-draw
-          v-if="mapStatus === 'measure' && measureType"
-          ref="measureInteraction"
-          source="measure-target"
-          :type="measureType"
-          :stop-click="true"
-          @drawstart="measureDrawStart"
-          @drawend="measureDrawEnd"
-        ></vl-interaction-draw>
+          </vl-style-circle>
+        </vl-style-box>
+      </vl-interaction-draw>
+      <!-- MEASURE INTERACTION -->
+      <vl-interaction-draw
+        v-if="mapStatus === 'measure' && measureType"
+        ref="measureInteraction"
+        source="measure-target"
+        :type="measureType"
+        :stop-click="true"
+        @drawstart="measureDrawStart"
+        @drawend="measureDrawEnd"
+      ></vl-interaction-draw>
 
-        <vl-geoloc
-          v-if="mapStatus === 'geolocation'"
-          ref="geoloc"
-          @update:position="onUpdatePosition"
+      <vl-geoloc
+        v-if="mapStatus === 'geolocation'"
+        ref="geoloc"
+        @update:position="onUpdatePosition"
+      >
+        <template slot-scope="geoloc">
+          <vl-feature
+            v-if="geoloc.position"
+            id="marker"
+            ref="marker"
+            :properties="{ start: Date.now(), duration: 2500 }"
+          >
+            <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
+            <vl-style-box>
+              <vl-style-circle :radius="4">
+                <vl-style-fill color="red"></vl-style-fill>
+                <vl-style-stroke :color="[234, 53, 53]"></vl-style-stroke>
+              </vl-style-circle>
+            </vl-style-box>
+          </vl-feature>
+        </template>
+      </vl-geoloc>
+      <vl-layer-vector ref="featureInfo" key="9900001" :z-index="9900003">
+        <vl-source-vector
+          v-if="featureInfo.crs"
+          :features="featureInfo.features"
+          @update:features="onFeatureInfoUpdate"
         >
-          <template slot-scope="geoloc">
-            <vl-feature
-              v-if="geoloc.position"
-              id="marker"
-              ref="marker"
-              :properties="{ start: Date.now(), duration: 2500 }"
-            >
-              <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
-              <vl-style-box>
-                <vl-style-circle :radius="4">
-                  <vl-style-fill color="red"></vl-style-fill>
-                  <vl-style-stroke :color="[234, 53, 53]"></vl-style-stroke>
-                </vl-style-circle>
-              </vl-style-box>
-            </vl-feature>
+        </vl-source-vector>
+      </vl-layer-vector>
+      <vl-layer-vector
+        ref="uploadedFeatures"
+        render-mode="image"
+        :z-index="lastZindex"
+      >
+        <vl-source-vector
+          ref="uploadedFeaturesSource"
+          :features.sync="uploadedFeatures"
+        >
+        </vl-source-vector>
+      </vl-layer-vector>
+    </vl-map>
+    <div class="map-panel">
+      <v-card class="mx-auto elevation-10" height="100%" width="300">
+        <v-toolbar color="secondary darken-2 white--text" flat
+          ><v-toolbar-title>{{ panelInfo.toUpperCase() }}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items class="hidden-sm-and-down">
+            <v-btn icon small @click="$emit('change:showpanel', !showPanel)"
+              ><v-icon
+                color="white"
+                v-text="
+                  `mdi-${
+                    showPanel === false ? 'arrow-expand' : 'arrow-collapse'
+                  }`
+                "
+              ></v-icon
+            ></v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+        <template v-if="showPanel">
+          <template v-if="mapStatus === 'display'">
+            <v-card-text class="full">
+              {{ $t("pages[4].content[0].panelText.display") }}
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                small
+                href="https://res.cloudinary.com/firvain/image/upload/v1574936982/Combine2Protect_GIS_Platform_End-User_Manual_v1.1.0.pdf"
+                target="_blank"
+              >
+                {{ $t("pages[4].content[1].labels.manual") }}</v-btn
+              >
+            </v-card-actions>
           </template>
-        </vl-geoloc>
-        <vl-layer-vector ref="featureInfo" key="9000001" :z-index="9000003">
-          <vl-source-vector
-            v-if="featureInfo.crs"
-            :features="featureInfo.features"
-            @update:features="onFeatureInfoUpdate"
-          >
-          </vl-source-vector>
-        </vl-layer-vector>
-        <vl-layer-vector
-          ref="uploadedFeatures"
-          render-mode="image"
-          :z-index="lastZindex"
-        >
-          <vl-source-vector
-            ref="uploadedFeaturesSource"
-            :features.sync="uploadedFeatures"
-          >
-          </vl-source-vector>
-        </vl-layer-vector>
-      </vl-map>
-      <div class="map-panel">
-        <v-card class="mx-auto elevation-10" height="100%" width="300">
-          <v-toolbar color="secondary darken-2 white--text" flat
-            ><v-toolbar-title>{{ panelInfo.toUpperCase() }}</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-toolbar-items class="hidden-sm-and-down">
-              <v-btn icon small @click="$emit('change:showpanel', !showPanel)"
-                ><v-icon
-                  color="white"
-                  v-text="
-                    `mdi-${
-                      showPanel === false ? 'arrow-expand' : 'arrow-collapse'
-                    }`
-                  "
-                ></v-icon
-              ></v-btn>
-            </v-toolbar-items>
-          </v-toolbar>
-          <template v-if="showPanel">
-            <template v-if="mapStatus === 'display'">
-              <v-card-text class="full">
-                {{ $t("pages[4].content[0].panelText.display") }}
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  small
-                  href="https://res.cloudinary.com/firvain/image/upload/v1574936982/Combine2Protect_GIS_Platform_End-User_Manual_v1.1.0.pdf"
-                  target="_blank"
-                >
-                  {{ $t("pages[4].content[1].labels.manual") }}</v-btn
-                >
-              </v-card-actions>
-            </template>
-            <template v-if="mapStatus === 'geolocation'">
-              <v-card-text v-if="!deviceCoordinate" class="full">{{
-                $t("pages[4].content[0].panelText.geolocation")
-              }}</v-card-text>
-              <v-card-text v-else class="subheading text-xs-center">
-                {{ Number(Math.round(deviceCoordinate[0] + "e3") + "e-3") }}
-                {{ Number(Math.round(deviceCoordinate[1] + "e3") + "e-3") }}
+          <template v-if="mapStatus === 'geolocation'">
+            <v-card-text v-if="!deviceCoordinate" class="full">{{
+              $t("pages[4].content[0].panelText.geolocation")
+            }}</v-card-text>
+            <v-card-text v-else class="subheading text-xs-center">
+              {{ Number(Math.round(deviceCoordinate[0] + "e3") + "e-3") }}
+              {{ Number(Math.round(deviceCoordinate[1] + "e3") + "e-3") }}
 
+              {{
+                this.$refs.map.$map
+                  .getView()
+                  .getProjection()
+                  .getCode()
+              }}</v-card-text
+            >
+
+            <v-card-actions
+              ><v-spacer></v-spacer
+              ><v-btn
+                v-if="deviceCoordinate"
+                small
+                flat
+                @click="clearGeolocation"
+                >cancel</v-btn
+              >
+            </v-card-actions>
+          </template>
+          <template v-if="mapStatus === 'info'">
+            <v-card-text>
+              <div
+                v-if="
+                  Object.keys(featureInfo).length !== 0 &&
+                    featureInfo.constructor === Object
+                "
+                :class="
+                  $vuetify.breakpoint.xs === true
+                    ? 'overlayWrapper-xs'
+                    : 'overlayWrapper'
+                "
+              >
+                <Strong>{{ featureInfo.features[0].id }}</Strong>
+
+                <ul>
+                  <li
+                    v-for="k in Object.keys(featureInfo.features[0].properties)"
+                    :key="k"
+                  >
+                    {{ k }} : {{ featureInfo.features[0].properties[k] }}
+                  </li>
+                </ul>
+              </div>
+              <div v-else>
+                <div class="full">
+                  {{ $t("pages[4].content[0].panelText.info") }}
+                </div>
+                <v-select
+                  v-model="selectedLayer"
+                  :items="availableForSelectionLayers"
+                  item-text="title"
+                  item-value="id"
+                  :label="$t('pages[4].content[1].labels.selectToQuety')"
+                  dense
+                  flat
+                ></v-select>
+              </div>
+            </v-card-text>
+            <v-divider
+              v-if="
+                Object.keys(featureInfo).length !== 0 &&
+                  featureInfo.constructor === Object &&
+                  featureInfo.crs
+              "
+            ></v-divider>
+            <v-card-actions>
+              <v-layout row wrap justify-center>
+                <v-flex
+                  v-if="
+                    Object.keys(featureInfo).length !== 0 &&
+                      featureInfo.constructor === Object &&
+                      featureInfo.crs
+                  "
+                  d-flex
+                  xs12
+                >
+                  <v-layout row wrap justify-center>
+                    <v-flex d-flex xs12 md6>
+                      <v-btn small flat @click="downloadKml">
+                        <v-icon left small>mdi-cloud-download-outline</v-icon>
+                        kml</v-btn
+                      ></v-flex
+                    >
+                    <v-flex d-flex xs12 md6>
+                      <v-btn small flat @click="downloadGeojson">
+                        <v-icon left small>mdi-cloud-download-outline</v-icon
+                        >geojson
+                      </v-btn>
+                    </v-flex>
+                    <v-flex d-flex xs12 md6>
+                      <v-btn small flat @click="downloadTopoJSON">
+                        <v-icon left small>mdi-cloud-download-outline</v-icon
+                        >topojson
+                      </v-btn>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+
+                <v-flex d-flex xs6>
+                  <v-btn
+                    v-if="
+                      Object.keys(featureInfo).length !== 0 &&
+                        featureInfo.constructor === Object
+                    "
+                    small
+                    flat
+                    @click="clearInfo"
+                    >{{ $t("pages[4].content[1].labels.clear") }}</v-btn
+                  >
+                </v-flex>
+                <v-flex d-flex xs6>
+                  <v-btn small flat @click="cancelInfo">{{
+                    $t("pages[4].content[1].labels.cancel")
+                  }}</v-btn>
+                </v-flex>
+              </v-layout>
+            </v-card-actions>
+          </template>
+          <template v-if="mapStatus === 'print'">
+            <v-card-text>{{
+              $t("pages[4].content[0].panelText.print")
+            }}</v-card-text>
+          </template>
+          <template v-if="mapStatus === 'measure'">
+            <v-card-actions>
+              <v-btn
+                flat
+                icon
+                :color="measureType === 'LineString' ? 'primary' : 'secondary'"
+                @click="setMeasureType('LineString')"
+                ><v-icon>mdi-tape-measure</v-icon></v-btn
+              >
+              <v-btn
+                :color="measureType === 'Polygon' ? 'primary' : 'secondary'"
+                flat
+                icon
+                @click="setMeasureType('Polygon')"
+                ><v-icon>mdi-texture-box</v-icon></v-btn
+              >
+              <v-btn
+                :color="measureType === 'Point' ? 'primary' : 'secondary'"
+                flat
+                icon
+                @click="setMeasureType('Point')"
+                ><v-icon>mdi-target</v-icon></v-btn
+              >
+              <v-select
+                v-if="measureType === 'LineString'"
+                v-model="lengthUnit"
+                :items="lengthUnits"
+                :label="$t('pages[4].content[1].labels.lengthUnit')"
+                dense
+                flat
+              ></v-select>
+              <v-select
+                v-if="measureType === 'Polygon'"
+                v-model="areaUnit"
+                :items="areaUnits"
+                :label="$t('pages[4].content[1].labels.areaUnit')"
+                dense
+                flat
+              ></v-select>
+            </v-card-actions>
+            <v-card-text
+              v-if="measureOutput !== '' && measureType === 'LineString'"
+              class="subheading text-xs-center"
+              ><p>
+                {{ measureOutput + " " + lengthUnit }}
+              </p></v-card-text
+            >
+            <v-card-text
+              v-if="measureOutput !== '' && measureType === 'Polygon'"
+              class="subheading text-xs-center"
+              ><p>
+                {{ measureOutput + " " + areaUnit }}
+              </p></v-card-text
+            >
+            <v-card-text
+              v-if="measureOutput !== '' && measureType === 'Point'"
+              class="subheading text-xs-center"
+              ><p>
+                {{ measureOutput[0] }} , {{ measureOutput[1] }}
                 {{
                   this.$refs.map.$map
                     .getView()
                     .getProjection()
                     .getCode()
-                }}</v-card-text
-              >
-
-              <v-card-actions
-                ><v-spacer></v-spacer
-                ><v-btn
-                  v-if="deviceCoordinate"
-                  small
-                  flat
-                  @click="clearGeolocation"
-                  >cancel</v-btn
-                >
-              </v-card-actions>
-            </template>
-            <template v-if="mapStatus === 'info'">
-              <v-card-text>
-                <div
-                  v-if="
-                    Object.keys(featureInfo).length !== 0 &&
-                      featureInfo.constructor === Object
-                  "
-                  :class="
-                    $vuetify.breakpoint.xs === true
-                      ? 'overlayWrapper-xs'
-                      : 'overlayWrapper'
-                  "
-                >
-                  <Strong>{{ featureInfo.features[0].id }}</Strong>
-
-                  <ul>
-                    <li
-                      v-for="k in Object.keys(
-                        featureInfo.features[0].properties
-                      )"
-                      :key="k"
-                    >
-                      {{ k }} : {{ featureInfo.features[0].properties[k] }}
-                    </li>
-                  </ul>
-                </div>
-                <div v-else>
-                  <div class="full">
-                    {{ $t("pages[4].content[0].panelText.info") }}
-                  </div>
-                  <v-select
-                    v-model="selectedLayer"
-                    :items="availableForSelectionLayers"
-                    item-text="title"
-                    item-value="id"
-                    :label="$t('pages[4].content[1].labels.selectToQuety')"
-                    dense
-                    flat
-                  ></v-select>
-                </div>
-              </v-card-text>
-              <v-divider
-                v-if="
-                  Object.keys(featureInfo).length !== 0 &&
-                    featureInfo.constructor === Object &&
-                    featureInfo.crs
-                "
-              ></v-divider>
-              <v-card-actions>
-                <v-layout row wrap justify-center>
-                  <v-flex
-                    v-if="
-                      Object.keys(featureInfo).length !== 0 &&
-                        featureInfo.constructor === Object &&
-                        featureInfo.crs
-                    "
-                    d-flex
-                    xs12
-                  >
-                    <v-layout row wrap justify-center>
-                      <v-flex d-flex xs12 md6>
-                        <v-btn small flat @click="downloadKml">
-                          <v-icon left small>mdi-cloud-download-outline</v-icon>
-                          kml</v-btn
-                        ></v-flex
-                      >
-                      <v-flex d-flex xs12 md6>
-                        <v-btn small flat @click="downloadGeojson">
-                          <v-icon left small>mdi-cloud-download-outline</v-icon
-                          >geojson
-                        </v-btn>
-                      </v-flex>
-                      <v-flex d-flex xs12 md6>
-                        <v-btn small flat @click="downloadTopoJSON">
-                          <v-icon left small>mdi-cloud-download-outline</v-icon
-                          >topojson
-                        </v-btn>
-                      </v-flex>
-                    </v-layout>
-                  </v-flex>
-
-                  <v-flex d-flex xs6>
-                    <v-btn
-                      v-if="
-                        Object.keys(featureInfo).length !== 0 &&
-                          featureInfo.constructor === Object
-                      "
-                      small
-                      flat
-                      @click="clearInfo"
-                      >{{ $t("pages[4].content[1].labels.clear") }}</v-btn
-                    >
-                  </v-flex>
-                  <v-flex d-flex xs6>
-                    <v-btn small flat @click="cancelInfo">{{
-                      $t("pages[4].content[1].labels.cancel")
-                    }}</v-btn>
-                  </v-flex>
-                </v-layout>
-              </v-card-actions>
-            </template>
-            <template v-if="mapStatus === 'print'">
-              <v-card-text>{{
-                $t("pages[4].content[0].panelText.print")
-              }}</v-card-text>
-            </template>
-            <template v-if="mapStatus === 'measure'">
-              <v-card-actions>
-                <v-btn
-                  flat
-                  icon
-                  :color="
-                    measureType === 'LineString' ? 'primary' : 'secondary'
-                  "
-                  @click="setMeasureType('LineString')"
-                  ><v-icon>mdi-tape-measure</v-icon></v-btn
-                >
-                <v-btn
-                  :color="measureType === 'Polygon' ? 'primary' : 'secondary'"
-                  flat
-                  icon
-                  @click="setMeasureType('Polygon')"
-                  ><v-icon>mdi-texture-box</v-icon></v-btn
-                >
-                <v-btn
-                  :color="measureType === 'Point' ? 'primary' : 'secondary'"
-                  flat
-                  icon
-                  @click="setMeasureType('Point')"
-                  ><v-icon>mdi-target</v-icon></v-btn
-                >
-                <v-select
-                  v-if="measureType === 'LineString'"
-                  v-model="lengthUnit"
-                  :items="lengthUnits"
-                  :label="$t('pages[4].content[1].labels.lengthUnit')"
-                  dense
-                  flat
-                ></v-select>
-                <v-select
-                  v-if="measureType === 'Polygon'"
-                  v-model="areaUnit"
-                  :items="areaUnits"
-                  :label="$t('pages[4].content[1].labels.areaUnit')"
-                  dense
-                  flat
-                ></v-select>
-              </v-card-actions>
-              <v-card-text
-                v-if="measureOutput !== '' && measureType === 'LineString'"
-                class="subheading text-xs-center"
-                ><p>
-                  {{ measureOutput + " " + lengthUnit }}
-                </p></v-card-text
-              >
-              <v-card-text
-                v-if="measureOutput !== '' && measureType === 'Polygon'"
-                class="subheading text-xs-center"
-                ><p>
-                  {{ measureOutput + " " + areaUnit }}
-                </p></v-card-text
-              >
-              <v-card-text
-                v-if="measureOutput !== '' && measureType === 'Point'"
-                class="subheading text-xs-center"
-                ><p>
-                  {{ measureOutput[0] }} , {{ measureOutput[1] }}
-                  {{
-                    this.$refs.map.$map
-                      .getView()
-                      .getProjection()
-                      .getCode()
-                  }}
-                </p></v-card-text
-              >
-              <v-card-actions v-if="measureOutput !== ''">
-                <v-spacer></v-spacer>
-                <v-btn small flat @click="clearMeasure">{{
-                  $t("pages[4].content[1].labels.cancel")
-                }}</v-btn>
-              </v-card-actions>
-            </template>
-            <template v-if="mapStatus === 'draw'">
-              <v-card-text>
-                <!-- <div class="full">{{ panelText.draw }}</div> -->
-                <v-select
-                  v-model="drawType"
-                  :items="drawTypes"
-                  item-text="label"
-                  item-value="value"
-                  :label="$t('pages[4].content[0].panelText.draw')"
-                  dense
-                  flat
-                ></v-select
-              ></v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn small flat @click="clearDraw">{{
-                  $t("pages[4].content[1].labels.clear")
-                }}</v-btn>
-                <v-btn small flat @click="cancelDraw">{{
-                  $t("pages[4].content[1].labels.cancel")
-                }}</v-btn>
-              </v-card-actions>
-            </template>
-            <template v-if="mapStatus === 'dragdrop'">
-              <v-card-text
-                v-if="
-                  Object.keys(selectedFeature).length === 0 &&
-                    selectedFeature.constructor === Object
-                "
-              >
-                {{ $t("pages[4].content[0].panelText.dragdrop") }}
-              </v-card-text>
-              <v-card-text v-else>
-                <div v-if="selectedFeature.valid" class="overlayWrapper">
-                  <Strong>{{ selectedFeature.id }}</Strong>
-                  <ul>
-                    <li
-                      v-for="k in Object.keys(selectedFeature.properties)"
-                      :key="k"
-                    >
-                      {{ k }} : {{ selectedFeature.properties[k] }}
-                    </li>
-                  </ul>
-                </div>
-                <div v-else>
-                  <p>{{ $t("pages[4].content[0].panelText.invalid") }}</p>
-                </div>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn small flat @click="clearUploaded">{{
-                  $t("pages[4].content[1].labels.clearUploaded")
-                }}</v-btn>
-                <v-btn small flat @click="cancelUploaded">{{
-                  $t("pages[4].content[1].labels.cancel")
-                }}</v-btn>
-              </v-card-actions>
-            </template>
+                }}
+              </p></v-card-text
+            >
+            <v-card-actions v-if="measureOutput !== ''">
+              <v-spacer></v-spacer>
+              <v-btn small flat @click="clearMeasure">{{
+                $t("pages[4].content[1].labels.cancel")
+              }}</v-btn>
+            </v-card-actions>
           </template>
-        </v-card>
-      </div>
-    </v-flex>
-  </v-layout>
+          <template v-if="mapStatus === 'draw'">
+            <v-card-text>
+              <!-- <div class="full">{{ panelText.draw }}</div> -->
+              <v-select
+                v-model="drawType"
+                :items="drawTypes"
+                item-text="label"
+                item-value="value"
+                :label="$t('pages[4].content[0].panelText.draw')"
+                dense
+                flat
+              ></v-select
+            ></v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn small flat @click="clearDraw">{{
+                $t("pages[4].content[1].labels.clear")
+              }}</v-btn>
+              <v-btn small flat @click="cancelDraw">{{
+                $t("pages[4].content[1].labels.cancel")
+              }}</v-btn>
+            </v-card-actions>
+          </template>
+          <template v-if="mapStatus === 'dragdrop'">
+            <v-card-text
+              v-if="
+                Object.keys(selectedFeature).length === 0 &&
+                  selectedFeature.constructor === Object
+              "
+            >
+              {{ $t("pages[4].content[0].panelText.dragdrop") }}
+            </v-card-text>
+            <v-card-text v-else>
+              <div v-if="selectedFeature.valid" class="overlayWrapper">
+                <Strong>{{ selectedFeature.id }}</Strong>
+                <ul>
+                  <li
+                    v-for="k in Object.keys(selectedFeature.properties)"
+                    :key="k"
+                  >
+                    {{ k }} : {{ selectedFeature.properties[k] }}
+                  </li>
+                </ul>
+              </div>
+              <div v-else>
+                <p>{{ $t("pages[4].content[0].panelText.invalid") }}</p>
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn small flat @click="clearUploaded">{{
+                $t("pages[4].content[1].labels.clearUploaded")
+              }}</v-btn>
+              <v-btn small flat @click="cancelUploaded">{{
+                $t("pages[4].content[1].labels.cancel")
+              }}</v-btn>
+            </v-card-actions>
+          </template>
+          <template v-if="mapStatus === 'nomimatim'">
+            <v-card-text>
+              <v-text-field
+                v-model="nomimatimInput"
+                label="Powered by Nomimatim"
+                placeholder="e.g. Florina"
+              ></v-text-field>
+              <div
+                v-if="nomimatimResults.length > 0 && nomimatimInput"
+                class="overlayWrapper"
+              >
+                <v-list two-line dense>
+                  <template v-for="(result, i) in nomimatimResults">
+                    <v-list-tile
+                      :key="i"
+                      @click="
+                        zoomToNomimatimResult(result.geometry.coordinates)
+                      "
+                    >
+                      <v-list-tile-content>
+                        <v-list-tile-title>
+                          {{ i }} {{ result.properties.type.toUpperCase() }}
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                          {{
+                            result.properties.display_name.trim()
+                          }}</v-list-tile-sub-title
+                        >
+                      </v-list-tile-content>
+                    </v-list-tile>
+                    <v-divider :key="result.id"></v-divider>
+                  </template>
+                </v-list>
+                <!-- <ul>
+                    <li
+                      v-for="(result, i) in nomimatimResults"
+                      :key="i"
+                      class="nomimatimList"
+                      @click="
+                        zoomToNomimatimResult({
+                          extent: result.boundingbox
+                        })
+                      "
+                    >
+                      {{ result.display_name.trim() }}
+                    </li>
+                  </ul> -->
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn v-if="nomimatimInput" small flat @click="searchNomimatim"
+                >{{ $t("pages[4].content[1].labels.search") }}
+              </v-btn>
+              <v-btn small flat @click="cancelNomimatimSearch">
+                {{ $t("pages[4].content[1].labels.cancel") }}
+              </v-btn>
+            </v-card-actions>
+          </template>
+        </template>
+      </v-card>
+    </div>
+  </v-flex>
 </template>
 <script>
 import ScaleLine from "ol/control/ScaleLine";
@@ -543,6 +607,7 @@ import {
   MeasureControl,
   DrawControl,
   DragAndDropControl
+  // NomimatimControl
 } from "../extra/ol-custom-controls.js";
 import { Polygon, LineString, Point } from "ol/geom.js";
 
@@ -552,6 +617,7 @@ import { saveAs } from "file-saver";
 import { omit } from "../extra/utils";
 
 import { topology } from "topojson-server";
+
 import axios from "axios";
 
 export default {
@@ -590,7 +656,7 @@ export default {
   data() {
     return {
       center: [22.525, 40.65],
-      minZoom: 3,
+      minZoom: 6,
       zoom: 8,
       maxzoom: 15,
       rotation: 0,
@@ -659,7 +725,9 @@ export default {
       measureOutput: "",
       evtKey: {},
       selectedLayer: null,
-      selectedFeature: {}
+      selectedFeature: {},
+      nomimatimInput: "",
+      nomimatimResults: []
     };
   },
   computed: {
@@ -696,6 +764,9 @@ export default {
           break;
         case "dragdrop":
           msg = this.$t("pages[4].content[1].labels.panelTitle.draganddrop");
+          break;
+        case "nomimatim":
+          msg = this.$t("pages[4].content[1].labels.panelTitle.nomimatim");
           break;
         default:
           msg = this.$t("pages[4].content[1].labels.panelTitle.general");
@@ -747,6 +818,9 @@ export default {
         case "dragdrop":
           unByKey(this.evtKey);
           this.dragAndDrop();
+          break;
+        case "nomimatim":
+          unByKey(this.evtKey);
           break;
         default:
           unByKey(this.evtKey);
@@ -806,8 +880,21 @@ export default {
       // console.log(selectedExtent);
     }
   },
+  mounted() {
+    this.$emit("map:loading", true);
+    const map = this.$refs.map.$map;
+    if (map) {
+      map.updateSize();
+    }
+  },
 
   methods: {
+    waitFix() {
+      setTimeout(() => {
+        this.$refs.map.$map.updateSize();
+        this.$emit("map:loading", false);
+      }, 5000);
+    },
     pointOnSurface: findPointOnSurface,
     onMapMounted() {
       // now ol.Map instance is ready and we can work with it directly
@@ -828,7 +915,10 @@ export default {
         new MeasureControl(),
         new DrawControl(),
         new DragAndDropControl()
+        // new NomimatimControl()
       ]);
+
+      this.waitFix();
     },
     print() {
       const map = this.$refs.map.$map;
@@ -1139,6 +1229,70 @@ export default {
         if (int instanceof DragAndDrop) map.removeInteraction(int);
       });
       this.clearUploaded();
+    },
+    async searchNomimatim() {
+      try {
+        const response = await axios({
+          type: "GET",
+          url: "https://nominatim.openstreetmap.org/search",
+          params: {
+            q: this.nomimatimInput,
+            format: "geojson",
+            viewbox:
+              this.extent[0] +
+              "," +
+              this.extent[1] +
+              "," +
+              this.extent[2] +
+              "," +
+              this.extent[3],
+            bounded: 1,
+            countrycodes: "gr,mk"
+          },
+          responseType: "json"
+        });
+        this.nomimatimResults = response.data.features;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    zoomToNomimatimResult(coordinates) {
+      //   parseFloat(extent[2]),
+      //   parseFloat(extent[0]),
+      //   parseFloat(extent[3]),
+      //   parseFloat(extent[1])
+      // ];
+      // this.$refs.map.$map.getView().fit(e, this.$refs.map.$map.getSize());
+      this.$refs.map.$map.getView().animate({
+        center: coordinates,
+        zoom: this.$refs.map.$map.getView().getZoom() + 12
+      });
+    },
+    cancelNomimatimSearch() {
+      this.nomimatimResults = [];
+      this.nomimatimInput = "";
+      this.$emit("nomimatim:cancel");
+    },
+    nomimatimStyleFactory() {
+      return feature => {
+        const graf = [
+          createStyle({
+            imageRadius: 10,
+            strokeColor: "#fff",
+            fillColor: "#3399cc"
+          })
+        ];
+
+        if (feature && feature.getProperties().icon) {
+          const icon = [
+            createStyle({
+              imageSrc: feature.getProperties().icon
+            })
+          ];
+          return icon;
+        }
+        return graf;
+      };
     }
   }
 };
@@ -1149,7 +1303,7 @@ export default {
   position: relative;
 }
 .mymap {
-  position: absolute;
+  position: relative;
   top: 0em;
   right: 0em;
   height: 100%;
@@ -1267,6 +1421,18 @@ export default {
 ::v-deep .ol-touch .dragAndDropBtn {
   top: 15.21em;
 }
+
+::v-deep .nomimatimBtn {
+  top: 22em;
+  left: 0.5em;
+  .v-icon {
+    line-height: 0.5em;
+    width: 0.5em;
+  }
+}
+::v-deep .ol-touch .dragAndDropBtn {
+  top: 16.71em;
+}
 .here {
   background-color: white;
   font-size: 1em;
@@ -1278,5 +1444,10 @@ export default {
 .full {
   text-align: justify;
   text-justify: inter-word;
+}
+.nomimatimList:hover {
+  background-color: #454545;
+  color: white;
+  cursor: zoom-in;
 }
 </style>

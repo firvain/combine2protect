@@ -1,76 +1,37 @@
 <template>
-  <v-container fluid fill-height pa-0 ma-0>
-    <v-layout column>
-      <v-flex d-flex class="webgis">
-        <v-layout row wrap>
-          <v-flex
-            xs4
-            d-flex
-            class="layerstreeWrapper"
-            align-start
-            justify-center
-            pa-1
-          >
-            <LayersTree
-              :base-layers="baseLayers"
-              :vector-layers="vectorLayers"
-              @change:visible="setVisibility"
-              @change:moveUp="moveUp"
-              @change:moveDown="moveDown"
-              @change:activeTreeItem="activeTreeItem"
-            ></LayersTree>
-          </v-flex>
-          <v-flex xs8 d-flex class="mapview">
-            <v-layout
-              align-center
-              justify-center
-              column
-              fill-height
-              align-items-start
-              pt-1
-              pl-1p
-              pr-1
-              pb-0
-            >
-              <!-- <v-flex
-                d-flex
-                class="maptools"
-                align-center
-                justify-center
-                white--text
-                pa-1
-              >
-                <MapTools></MapTools>
-              </v-flex> -->
-              <v-flex
-                d-flex
-                class="vuemap"
-                align-center
-                justify-center
-                white--text
-              >
-                <VueMap
-                  :base-layers="baseLayers"
-                  :vector-layers="vectorLayers"
-                  :utility-layers="utilityLayers"
-                  :feature-info="featureInfo"
-                  :show-panel="showPanel"
-                  :map-status="mapStatus"
-                  :active-tree-item="selectedLayer"
-                  @export:pdf="exportPDF"
-                  @change:showpanel="changeShowPanel"
-                  @geolocation:clear="setDisplay"
-                  @measure:clear="setDisplay"
-                  @info:clear="clearInfo"
-                  @info:cancel="cancelInfo"
-                  @info:get="getFeatureFromGeoserver"
-                  @draw:cancel="setDisplay"
-                  @upload:cancel="setDisplay"
-                ></VueMap>
-              </v-flex>
-            </v-layout>
-          </v-flex>
-        </v-layout>
+  <v-container fluid pa-1 ma-0 grid-list-sm>
+    <v-layout row wrap>
+      <v-flex xs4 class="cl-lg" align-start justify-center>
+        <LayersTree
+          :base-layers="baseLayers"
+          :vector-layers="vectorLayers"
+          @change:visible="setVisibility"
+          @change:moveUp="moveUp"
+          @change:moveDown="moveDown"
+          @change:activeTreeItem="activeTreeItem"
+        ></LayersTree>
+      </v-flex>
+      <v-flex xs8 class="mapview">
+        <VueMap
+          :base-layers="baseLayers"
+          :vector-layers="vectorLayers"
+          :utility-layers="utilityLayers"
+          :feature-info="featureInfo"
+          :show-panel="showPanel"
+          :map-status="mapStatus"
+          :active-tree-item="selectedLayer"
+          @export:pdf="exportPDF"
+          @change:showpanel="changeShowPanel"
+          @geolocation:clear="setDisplay"
+          @measure:clear="setDisplay"
+          @info:clear="clearInfo"
+          @info:cancel="cancelInfo"
+          @info:get="getFeatureFromGeoserver"
+          @draw:cancel="setDisplay"
+          @upload:cancel="setDisplay"
+          @nomimatim:cancel="setDisplay"
+          @map:loading="mapLoading"
+        ></VueMap>
       </v-flex>
     </v-layout>
   </v-container>
@@ -174,6 +135,20 @@ export default {
             features: "measuredFeatures"
           },
           zIndex: 9000002
+        },
+        {
+          id: 9000003,
+          ref: "nomimatim",
+          title: "Nomimatim",
+          cmp: "vl-layer-vector",
+          target: "momimatim-target",
+          visible: true,
+          source: {
+            cmp: "vl-source-vector",
+            ident: "momimatim-target",
+            features: "momimatimResults"
+          },
+          zIndex: 9000003
         }
       ],
       pdfOptions: {
@@ -194,6 +169,7 @@ export default {
   },
   computed: {
     ...mapGetters("webgis", ["mapStatus", "featureInfo", "showPanel"]),
+    ...mapGetters("app", ["loading", "pages"]),
     currentDate: {
       get() {
         return this.date;
@@ -216,6 +192,7 @@ export default {
   methods: {
     ...mapActions("webgis", ["updateMapStatus", "getFeatureInfo"]),
     ...mapMutations("webgis", ["SET_SHOWPANEL", "SET_FEATURE_INFO"]),
+    ...mapActions("app", ["updateLoading"]),
     async exportPDF(data) {
       const myPromise = new Promise((resolve, reject) => {
         if (data) resolve(data);
@@ -320,31 +297,35 @@ export default {
     cancelInfo() {
       this.clearInfo();
       this.setDisplay();
+    },
+    mapLoading(e) {
+      this.updateLoading(e);
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.webgis {
-  max-height: calc(100vh - 156px);
-  // background-color: #da7033;
+.cl-lg {
+  height: calc(100vh - 164px);
+}
+.cl-md {
+  height: calc(100vh - 116px);
 }
 .layerstreeWrapper {
-  // background-color: red;
-  flex: 1;
+  height: 100%;
 }
 .mapview {
   // background-color: green;
-  flex: 1 1 auto;
+  // flex: 1 1 auto;
+  height: calc(100vh - 164px);
   .maptools {
     background-color: #454545;
     min-height: 56px;
-    flex: 0 1 auto;
+    // flex: 0 1 auto;
     width: 100%;
   }
   .vuemap {
-    background-color: cyan;
-    flex: 1;
+    // flex: 1;
     width: 100%;
   }
 }

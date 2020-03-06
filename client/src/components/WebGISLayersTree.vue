@@ -1,5 +1,5 @@
 <template>
-  <v-layout class="layersTree" fill-height>
+  <v-layout class="layersTree" pa-0 ma-0>
     <v-card id="mycard" class="mx-auto" width="100%">
       <v-sheet class="pa-3 secondary darken-2">
         <v-text-field
@@ -183,10 +183,10 @@ export default {
     }
   },
   mounted() {
-    const height1 = document.getElementById("mycard").clientHeight;
-    const height2 = document.getElementById("mysearch").clientHeight;
-    document.getElementById("mylayers").style.height =
-      height1 - height2 - 92 + "px";
+    // const height1 = document.getElementById("mycard").clientHeight;
+    // const height2 = document.getElementById("mysearch").clientHeight;
+    // document.getElementById("mylayers").style.height =
+    //   height1 - height2 - 92 + "px";
   },
   methods: {
     ...mapActions("webgis", ["downloadLayer"]),
@@ -283,10 +283,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.layersTree {
+  height: 100%;
+}
 /* fix for overflowing text in v-treeview */
 .scroll {
   overflow-y: auto;
-  // height: 500px;
+  height: calc(100% - 164px);
 }
 ::v-deep
   .v-treeview-node--leaf
