@@ -333,3 +333,37 @@ export const NomimatimControl = (function(Control) {
 
   return NomimatimControl;
 })(Control);
+
+export const SeachDataControl = (function(Control) {
+  function SeachDataControl(opt_options) {
+    const options = opt_options || {};
+
+    const button = document.createElement("button");
+    button.innerHTML = "<i class='mdi mdi-map-search' i>";
+
+    const element = document.createElement("div");
+    element.className = "searchDataBtn ol-unselectable ol-control";
+    element.appendChild(button);
+
+    Control.call(this, {
+      element: element,
+      target: options.target
+    });
+
+    button.addEventListener(
+      "click",
+      this.handleSeachDataControl.bind(this),
+      false
+    );
+  }
+
+  if (Control) SeachDataControl.__proto__ = Control;
+  SeachDataControl.prototype = Object.create(Control && Control.prototype);
+  SeachDataControl.prototype.constructor = SeachDataControl;
+
+  SeachDataControl.prototype.handleSeachDataControl = function handleSeachDataControl() {
+    store.dispatch("webgis/updateMapStatus", "searchData");
+  };
+
+  return SeachDataControl;
+})(Control);

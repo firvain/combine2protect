@@ -1,3 +1,20 @@
+import axios from "axios";
+async function getLayers() {
+  try {
+    const response = await axios({
+      // headers: {
+      //   headers: { "Access-Control-Allow-Origin": "*" }
+      // },
+      method: "GET",
+      url: `${process.env.VUE_APP_GEOSERVER_API}/workspaces/combine2protect//layers.json`
+    });
+
+    return response.data.layers.layer;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const layerConfig = {
   cmp: "vl-layer-tile",
   visible: false,
@@ -13,7 +30,7 @@ const sourceConfig = {
   projection: "EPSG:4326"
 };
 
-export const mapLayers = [
+let mapLayers = [
   {
     id: 200,
     title: "(A) Lime",
@@ -367,3 +384,15 @@ export const mapLayers = [
     zIndex: 228
   }
 ];
+async function getMapLayers() {
+  const geoserverLayers = await getLayers();
+  mapLayers.map(l => {
+    const found = geoserverLayers.find(
+      e => `combine2protect:${e.name}` === l.source.layers
+    );
+    l["href"] = found.href;
+  });
+  return mapLayers;
+}
+
+export { getMapLayers };

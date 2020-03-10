@@ -90,7 +90,8 @@
               "print": "печати",
               "geolocation": "геолокација",
               "draganddrop": "визуелизира датотека",
-              "nomimatim": "адреса за пребарување"
+              "nomimatim": "адреса за пребарување",
+              "searchData": "пребарување"
             },
             "drawTypes": {
               "point": "Точка",

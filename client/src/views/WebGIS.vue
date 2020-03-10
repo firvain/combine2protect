@@ -29,7 +29,7 @@
           @info:get="getFeatureFromGeoserver"
           @draw:cancel="setDisplay"
           @upload:cancel="setDisplay"
-          @nomimatim:cancel="setDisplay"
+          @searchData:cancel="setDisplay"
           @map:loading="mapLoading"
         ></VueMap>
       </v-flex>
@@ -47,7 +47,7 @@ import VueMap from "@/components/WebGisVueMap.vue";
 // import { loadingBBox } from "vuelayers/lib/ol-ext";
 // import { loaderFactory } from "../services/api.js";
 import * as jsPDF from "jspdf";
-import { mapLayers } from "../extra/layers.js";
+import { getMapLayers } from "../extra/layers.js";
 // import { fetchLayers } from "../services/api";
 export default {
   name: "WebGIS",
@@ -106,7 +106,7 @@ export default {
           zIndex: 3
         }
       ],
-      vectorLayers: mapLayers,
+      vectorLayers: [],
       utilityLayers: [
         {
           id: 9000001,
@@ -135,20 +135,6 @@ export default {
             features: "measuredFeatures"
           },
           zIndex: 9000002
-        },
-        {
-          id: 9000003,
-          ref: "nomimatim",
-          title: "Nomimatim",
-          cmp: "vl-layer-vector",
-          target: "momimatim-target",
-          visible: true,
-          source: {
-            cmp: "vl-source-vector",
-            ident: "momimatim-target",
-            features: "momimatimResults"
-          },
-          zIndex: 9000003
         }
       ],
       pdfOptions: {
@@ -185,9 +171,8 @@ export default {
       }
     }
   },
-  async mounted() {
-    // const a = await fetchLayers();
-    // console.log(a);
+  async created() {
+    this.vectorLayers = await getMapLayers();
   },
   methods: {
     ...mapActions("webgis", ["updateMapStatus", "getFeatureInfo"]),

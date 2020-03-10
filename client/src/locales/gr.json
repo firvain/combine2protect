@@ -82,7 +82,8 @@
               "print": "εκτυπωση",
               "geolocation": "γεωγραφικη θεση",
               "draganddrop": "απεικονιση αρχειου",
-              "nomimatim": "αναζητηση μερους"
+              "nomimatim": "αναζητηση μερους",
+              "searchData": "αναζητηση"
             },
             "drawTypes": {
               "point": "Σημείο",

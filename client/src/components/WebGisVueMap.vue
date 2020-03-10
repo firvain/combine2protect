@@ -109,8 +109,8 @@
           :features.sync="measuredFeatures"
         ></vl-source-vector>
       </vl-layer-vector>
-      <vl-layer-vector
-        v-if="nomimatimResults.length > 0"
+      <!-- <vl-layer-vector
+        v-if="searchDataResults.length > 0"
         :id="utilityLayers[2].id"
         :ref="utilityLayers[2].ref"
         :visible="utilityLayers[2].visible"
@@ -122,7 +122,7 @@
         >
           <vl-style-func :factory="nomimatimStyleFactory"> </vl-style-func>
         </vl-source-vector>
-      </vl-layer-vector>
+      </vl-layer-vector> -->
       <!-- INFO POPOUP -->
       <!-- <vl-layer-vector
           v-if="mapStatus === 'info' && selectedFeatures !== 'undefined'"
@@ -227,6 +227,21 @@
           ref="uploadedFeaturesSource"
           :features.sync="uploadedFeatures"
         >
+        </vl-source-vector>
+      </vl-layer-vector>
+      <vl-layer-vector
+        ref="zoomFeatures"
+        render-mode="image"
+        :z-index="lastZindex"
+      >
+        <vl-source-vector ref="zoomFeaturesSource" :features.sync="zoomFeature">
+          <vl-style-box>
+            <vl-style-stroke
+              color="blue"
+              :width="3"
+              :line-dash="[3, 5, 30, 5]"
+            ></vl-style-stroke>
+          </vl-style-box>
         </vl-source-vector>
       </vl-layer-vector>
     </vl-map>
@@ -527,61 +542,45 @@
               }}</v-btn>
             </v-card-actions>
           </template>
-          <template v-if="mapStatus === 'nomimatim'">
+          <template v-if="mapStatus === 'searchData'">
             <v-card-text>
-              <v-text-field
-                v-model="nomimatimInput"
-                label="Powered by Nomimatim"
-                placeholder="e.g. Florina"
-              ></v-text-field>
-              <div
-                v-if="nomimatimResults.length > 0 && nomimatimInput"
-                class="overlayWrapper"
+              <v-select
+                v-model="searchDataLayer"
+                :items="availableForSelectionLayers"
+                item-text="title"
+                item-value="id"
+                :label="$t('pages[4].content[1].labels.selectToQuety')"
+                dense
+                flat
+              ></v-select>
+              <v-layout
+                v-if="searchDataFeatures.length > 0"
+                column
+                style="height: 300px;"
               >
-                <v-list two-line dense>
-                  <template v-for="(result, i) in nomimatimResults">
-                    <v-list-tile
-                      :key="i"
-                      @click="
-                        zoomToNomimatimResult(result.geometry.coordinates)
-                      "
-                    >
-                      <v-list-tile-content>
-                        <v-list-tile-title>
-                          {{ i }} {{ result.properties.type.toUpperCase() }}
-                        </v-list-tile-title>
-                        <v-list-tile-sub-title>
-                          {{
-                            result.properties.display_name.trim()
-                          }}</v-list-tile-sub-title
-                        >
-                      </v-list-tile-content>
-                    </v-list-tile>
-                    <v-divider :key="result.id"></v-divider>
-                  </template>
-                </v-list>
-                <!-- <ul>
-                    <li
-                      v-for="(result, i) in nomimatimResults"
-                      :key="i"
-                      class="nomimatimList"
-                      @click="
-                        zoomToNomimatimResult({
-                          extent: result.boundingbox
-                        })
-                      "
-                    >
-                      {{ result.display_name.trim() }}
-                    </li>
-                  </ul> -->
-              </div>
+                <v-flex style="overflow: auto">
+                  <v-data-table
+                    :headers="searchDataHeaders"
+                    :items="searchDataFeatures"
+                    class="elevation-1"
+                  >
+                    <template v-slot:items="props">
+                      <!-- <td>{{ props.item.X }}</td> -->
+                      <td
+                        v-for="(i, idx) in props.item"
+                        :key="idx"
+                        @click="zoomToSearchData(props.item)"
+                      >
+                        {{ i }}
+                      </td>
+                    </template>
+                  </v-data-table>
+                </v-flex></v-layout
+              >
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn v-if="nomimatimInput" small flat @click="searchNomimatim"
-                >{{ $t("pages[4].content[1].labels.search") }}
-              </v-btn>
-              <v-btn small flat @click="cancelNomimatimSearch">
+              <v-btn small flat @click="cancelSearchData">
                 {{ $t("pages[4].content[1].labels.cancel") }}
               </v-btn>
             </v-card-actions>
@@ -606,11 +605,11 @@ import {
   PrintControl,
   MeasureControl,
   DrawControl,
-  DragAndDropControl
-  // NomimatimControl
+  DragAndDropControl,
+  SeachDataControl
 } from "../extra/ol-custom-controls.js";
-import { Polygon, LineString, Point } from "ol/geom.js";
-
+import { MultiPolygon, Polygon, LineString, Point } from "ol/geom.js";
+import Feature from "ol/Feature";
 import { findPointOnSurface, createStyle } from "vuelayers/lib/ol-ext";
 
 import { saveAs } from "file-saver";
@@ -726,8 +725,11 @@ export default {
       evtKey: {},
       selectedLayer: null,
       selectedFeature: {},
-      nomimatimInput: "",
-      nomimatimResults: []
+      searchDataLayer: null,
+      searchDataField: "",
+      searchDataFeatures: [],
+      searchDataHeaders: [],
+      zoomFeature: []
     };
   },
   computed: {
@@ -765,8 +767,8 @@ export default {
         case "dragdrop":
           msg = this.$t("pages[4].content[1].labels.panelTitle.draganddrop");
           break;
-        case "nomimatim":
-          msg = this.$t("pages[4].content[1].labels.panelTitle.nomimatim");
+        case "searchData":
+          msg = this.$t("pages[4].content[1].labels.panelTitle.searchData");
           break;
         default:
           msg = this.$t("pages[4].content[1].labels.panelTitle.general");
@@ -819,7 +821,7 @@ export default {
           unByKey(this.evtKey);
           this.dragAndDrop();
           break;
-        case "nomimatim":
+        case "searchData":
           unByKey(this.evtKey);
           break;
         default:
@@ -850,6 +852,43 @@ export default {
           ) / 100;
       },
       deep: true
+    },
+    searchDataLayer(newValue) {
+      if (newValue) {
+        this.searchDataFeatures = [];
+        this.searchDataHeaders = [];
+        this.searchDataFeaturesAll = [];
+      }
+      const l = this.vectorLayers.find(e => e.id === newValue);
+      try {
+        axios({
+          method: "GET",
+          url:
+            process.env.VUE_APP_GEOSERVER_URL +
+            "/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" +
+            l.source.layers +
+            "&outputFormat=application/json"
+        }).then(response => {
+          // console.log(response.data.features);
+          response.data.features.map(item => {
+            this.searchDataFeaturesAll = response.data;
+            this.searchDataFeatures.push(item.properties);
+          });
+
+          Object.keys(response.data.features[0].properties).forEach(key => {
+            this.searchDataHeaders.push({
+              text: key,
+              value: key
+            });
+          });
+          // console.log(this.searchDataHeaders);
+        });
+      } catch (error) {
+        this.searchDataFeatures = [];
+        this.searchDataFeaturesAll = [];
+        this.zoomFeature = [];
+        console.log(error);
+      }
     },
     selectedLayer(newValue) {
       const map = this.$refs.map.$map;
@@ -914,7 +953,8 @@ export default {
         new PrintControl(),
         new MeasureControl(),
         new DrawControl(),
-        new DragAndDropControl()
+        new DragAndDropControl(),
+        new SeachDataControl()
         // new NomimatimControl()
       ]);
 
@@ -1230,48 +1270,40 @@ export default {
       });
       this.clearUploaded();
     },
-    async searchNomimatim() {
-      try {
-        const response = await axios({
-          type: "GET",
-          url: "https://nominatim.openstreetmap.org/search",
-          params: {
-            q: this.nomimatimInput,
-            format: "geojson",
-            viewbox:
-              this.extent[0] +
-              "," +
-              this.extent[1] +
-              "," +
-              this.extent[2] +
-              "," +
-              this.extent[3],
-            bounded: 1,
-            countrycodes: "gr,mk"
-          },
-          responseType: "json"
-        });
-        this.nomimatimResults = response.data.features;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    zoomToNomimatimResult(coordinates) {
-      //   parseFloat(extent[2]),
-      //   parseFloat(extent[0]),
-      //   parseFloat(extent[3]),
-      //   parseFloat(extent[1])
-      // ];
-      // this.$refs.map.$map.getView().fit(e, this.$refs.map.$map.getSize());
-      this.$refs.map.$map.getView().animate({
-        center: coordinates,
-        zoom: this.$refs.map.$map.getView().getZoom() + 12
+
+    zoomToSearchData(e) {
+      this.searchDataFeaturesAll.features.filter(f => {
+        if (f.properties === e) {
+          if (f.geometry.type === "Point") {
+            this.$refs.map.$map.getView().animate({
+              center: f.geometry.coordinates,
+              zoom: this.$refs.map.$map.getView().getZoom() + 12
+            });
+          } else if (f.geometry.type === "MultiPolygon") {
+            const g = [];
+            for (let a of f.geometry.coordinates[0][0]) {
+              let b = [];
+              a.map(e => b.push(parseFloat(e)));
+              g.push(b);
+            }
+            const geom = new MultiPolygon([[g]], "XYZ");
+            const ext = geom.getExtent();
+            const feature = new Feature({ geometry: geom });
+            this.$refs.zoomFeaturesSource.$source.clear();
+            this.$refs.zoomFeaturesSource.$source.addFeature(feature);
+            this.$refs.map.$map
+              .getView()
+              .fit(ext, this.$refs.map.$map.getSize());
+          }
+        }
       });
     },
-    cancelNomimatimSearch() {
-      this.nomimatimResults = [];
-      this.nomimatimInput = "";
-      this.$emit("nomimatim:cancel");
+    cancelSearchData() {
+      this.searchDataFeatures = [];
+      this.searchDataHeaders = [];
+      this.searchDataFeaturesAll = [];
+      this.zoomFeature = [];
+      this.$emit("searchData:cancel");
     },
     nomimatimStyleFactory() {
       return feature => {
@@ -1422,7 +1454,7 @@ export default {
   top: 15.21em;
 }
 
-::v-deep .nomimatimBtn {
+::v-deep .searchDataBtn {
   top: 22em;
   left: 0.5em;
   .v-icon {
@@ -1445,9 +1477,9 @@ export default {
   text-align: justify;
   text-justify: inter-word;
 }
-.nomimatimList:hover {
-  background-color: #454545;
-  color: white;
-  cursor: zoom-in;
-}
+// .nomimatimList:hover {
+//   background-color: #454545;
+//   color: white;
+//   cursor: zoom-in;
+// }
 </style>
