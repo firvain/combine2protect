@@ -1,19 +1,19 @@
 import axios from "axios";
-async function getLayers() {
-  try {
-    const response = await axios({
-      // headers: {
-      //   headers: { "Access-Control-Allow-Origin": "*" }
-      // },
-      method: "GET",
-      url: `${process.env.VUE_APP_GEOSERVER_API}/workspaces/combine2protect//layers.json`
-    });
+// async function getLayers() {
+//   try {
+//     const response = await axios({
+//       // headers: {
+//       //   headers: { "Access-Control-Allow-Origin": "*" }
+//       // },
+//       method: "GET",
+//       url: `${process.env.VUE_APP_GEOSERVER_API}/workspaces/combine2protect/layers.json`
+//     });
 
-    return response.data.layers.layer;
-  } catch (error) {
-    console.log(error);
-  }
-}
+//     return response.data.layers.layer;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 const layerConfig = {
   cmp: "vl-layer-tile",
@@ -385,12 +385,23 @@ let mapLayers = [
   }
 ];
 async function getMapLayers() {
-  const geoserverLayers = await getLayers();
   mapLayers.map(l => {
-    const found = geoserverLayers.find(
-      e => `combine2protect:${e.name}` === l.source.layers
-    );
-    l["href"] = found.href;
+    (async () => {
+      try {
+        const response2 = await axios({
+          method: "GET",
+          url: `${
+            process.env.VUE_APP_GEOSERVER_API
+          }/workspaces/combine2protect/layers/${
+            l.source.layers.split(":")[1]
+          }.json`
+        });
+        l["TYPE"] = response2.data.layer.type;
+        return;
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   });
   return mapLayers;
 }

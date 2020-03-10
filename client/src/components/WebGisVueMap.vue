@@ -503,7 +503,7 @@
             <v-card-text>
               <v-select
                 v-model="searchDataLayer"
-                :items="availableForSelectionLayers"
+                :items="availableForDataSearchLayers"
                 item-text="title"
                 item-value="id"
                 :label="$t('pages[4].content[1].labels.selectToQuety')"
@@ -697,6 +697,18 @@ export default {
         }
       });
     },
+    availableForDataSearchLayers() {
+      return this.vectorLayers.filter(x => {
+        if (
+          x.cmp === "vl-layer-tile" &&
+          x.quearable &&
+          x.visible &&
+          x.TYPE === "VECTOR"
+        ) {
+          return true;
+        }
+      });
+    },
     lastZindex() {
       return 200 + this.vectorLayers.length + 1;
     },
@@ -810,7 +822,7 @@ export default {
       },
       deep: true
     },
-    searchDataLayer(newValue) {
+    async searchDataLayer(newValue) {
       if (newValue) {
         this.searchDataFeatures = [];
         this.searchDataHeaders = [];
@@ -818,7 +830,7 @@ export default {
       }
       const l = this.vectorLayers.find(e => e.id === newValue);
       try {
-        axios({
+        await axios({
           method: "GET",
           url:
             process.env.VUE_APP_GEOSERVER_URL +
@@ -826,7 +838,6 @@ export default {
             l.source.layers +
             "&outputFormat=application/json"
         }).then(response => {
-          // console.log(response.data.features);
           response.data.features.map(item => {
             this.searchDataFeaturesAll = response.data;
             this.searchDataFeatures.push(item.properties);
