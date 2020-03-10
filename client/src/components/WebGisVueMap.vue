@@ -109,49 +109,6 @@
           :features.sync="measuredFeatures"
         ></vl-source-vector>
       </vl-layer-vector>
-      <!-- <vl-layer-vector
-        v-if="searchDataResults.length > 0"
-        :id="utilityLayers[2].id"
-        :ref="utilityLayers[2].ref"
-        :visible="utilityLayers[2].visible"
-        :z-index="utilityLayers[2].zIndex"
-      >
-        <vl-source-vector
-          :ident="utilityLayers[2].source.ident"
-          :features.sync="nomimatimResults"
-        >
-          <vl-style-func :factory="nomimatimStyleFactory"> </vl-style-func>
-        </vl-source-vector>
-      </vl-layer-vector> -->
-      <!-- INFO POPOUP -->
-      <!-- <vl-layer-vector
-          v-if="mapStatus === 'info' && selectedFeatures !== 'undefined'"
-        >
-          <vl-source-vector ref="infoVectorSource">
-            <vl-feature
-              v-for="feature in selectedFeatures"
-              :id="feature.id"
-              :key="feature.id"
-              :properties="feature.properties"
-            >
-              <vl-overlay
-                :position="pointOnSurface(feature.geometry)"
-                positioning="center-left"
-                auto-pan
-                stop-event
-                :insert-first="false"
-              >
-                <div class="overlayWrapper">
-                  <ul>
-                    <li v-for="k in Object.keys(feature.properties)" :key="k">
-                      {{ k }} : {{ feature.properties[k] }}
-                    </li>
-                  </ul>
-                </div>
-              </vl-overlay>
-            </vl-feature>
-          </vl-source-vector>
-        </vl-layer-vector> -->
 
       <!-- DRAW INTERACTION -->
       <vl-interaction-draw
@@ -955,7 +912,6 @@ export default {
         new DrawControl(),
         new DragAndDropControl(),
         new SeachDataControl()
-        // new NomimatimControl()
       ]);
 
       this.waitFix();
@@ -1304,27 +1260,6 @@ export default {
       this.searchDataFeaturesAll = [];
       this.zoomFeature = [];
       this.$emit("searchData:cancel");
-    },
-    nomimatimStyleFactory() {
-      return feature => {
-        const graf = [
-          createStyle({
-            imageRadius: 10,
-            strokeColor: "#fff",
-            fillColor: "#3399cc"
-          })
-        ];
-
-        if (feature && feature.getProperties().icon) {
-          const icon = [
-            createStyle({
-              imageSrc: feature.getProperties().icon
-            })
-          ];
-          return icon;
-        }
-        return graf;
-      };
     }
   }
 };
@@ -1477,9 +1412,4 @@ export default {
   text-align: justify;
   text-justify: inter-word;
 }
-// .nomimatimList:hover {
-//   background-color: #454545;
-//   color: white;
-//   cursor: zoom-in;
-// }
 </style>
