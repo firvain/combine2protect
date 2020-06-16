@@ -49,6 +49,14 @@
           ></template>
           <template v-slot:append="{ item, activeTreeItem }">
             <v-icon
+              v-if="hasInfo(item)"
+              small
+              color="purple"
+              @click="showInfo(item)"
+            >
+              mdi-information
+            </v-icon>
+            <v-icon
               v-if="showOpacity(item)"
               small
               :color="item.opacity === 1 ? 'primary' : 'secondary'"
@@ -270,6 +278,24 @@ export default {
       } else if (!item.children && item.visible) {
         return true;
       }
+    },
+    hasInfo(item) {
+      const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
+      if (isBaselayer > -1) {
+        return false;
+      } else if (!item.children && item.visible && item.group === "AUTH") {
+        return true;
+      }
+    },
+    showInfo(item) {
+      console.log(item.source.layers);
+      window.open(
+        `https://res.cloudinary.com/firvain/image/upload/combine2protect/references/${item.source.layers.replace(
+          "combine2protect:",
+          ""
+        )}.jpg`,
+        "_blank"
+      );
     },
 
     changeOpacity(item) {
