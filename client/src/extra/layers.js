@@ -341,13 +341,13 @@ export const mapLayers = [
   },
   {
     id: 227,
-    title: "Image Example (AUTH)",
+    title: "Flood_Hazard_500",
     ...layerConfig,
     group: "AUTH",
     source: {
       url: process.env.VUE_APP_GEOSERVER_URL,
       ...sourceConfig,
-      layers: "combine2protect:Acip_brev",
+      layers: "combine2protect:35_Flood_Hazard_500y",
       extParams: { TILED: true },
       serverType: "geoserver",
       crossOrigin: "anonymous"
@@ -356,14 +356,403 @@ export const mapLayers = [
   },
   {
     id: 228,
-    title: "Shapefile Example (AUTH)",
+    title: "Flood_Hazard_200",
     ...layerConfig,
     group: "AUTH",
     source: {
       url: process.env.VUE_APP_GEOSERVER_URL,
       ...sourceConfig,
-      layers: "combine2protect:WDPA_cleaning"
+      layers: "combine2protect:34_Flood_Hazard_200y",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
     },
     zIndex: 228
+  },
+  {
+    id: 229,
+    title: "Flood_Hazard_50",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:33_Flood_Hazard_50y",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 229
+  },
+  {
+    id: 230,
+    title: "Flood_Hazard_20",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:32_Flood_Hazard_20y",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 230
+  },
+  {
+    id: 231,
+    title: "Flood_Hazard_10",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:31_Flood_Hazard_10y",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 231
+  },
+  {
+    id: 232,
+    title: "Precipitation Seasonality_BIO15(future)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:30_Precipitation Seasonality_BIO15_future",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 232
+  },
+  {
+    id: 233,
+    title: "Precipitation Seasonality BIO15(current)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:29_Precipitation Seasonality_BIO15_current",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 233
+  },
+  {
+    id: 234,
+    title: "Annual Precipitation-BIO12(future)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:28_Annual Precipitation-BIO12_future",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 234
+  },
+  {
+    id: 235,
+    title: "Annual Precipitation-BIO12(current)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:27_Annual Precipitation-BIO12_current",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 235
+  },
+  {
+    id: 236,
+    title: "Min Temperature of Coldest Month–BIO6(future)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers:
+        "combine2protect:26_Minimum Temperature of Coldest Month–BIO6_future",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 236
+  },
+  {
+    id: 237,
+    title: "Min Temperature of Coldest Month–BIO6(current)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers:
+        "combine2protect:25_Minimum Temperature of Coldest Month–BIO6_current",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 237
+  },
+  {
+    id: 238,
+    title: "Max Temperature of Warmest Month-BIO5_future",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers:
+        "combine2protect:24_Maximum Temperature of Warmest Month-BIO5_future",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 238
+  },
+  {
+    id: 239,
+    title: "Max Temperature of Warmest Month-BIO5(current)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers:
+        "combine2protect:23_Maximum Temperature of Warmest Month-BIO5_current",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 239
+  },
+  {
+    id: 240,
+    title: "Mean Diurnal Range-BIO2(future)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:22_Mean Diurnal Range-BIO2_future",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 240
+  },
+  {
+    id: 241,
+    title: "Mean Diurnal Range-BIO2(current)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:21_Mean Diurnal Range-BIO2_current",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 241
+  },
+  {
+    id: 242,
+    title: "Annual Mean Temperature-BIO1(future)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:20_Annual Mean Temperature-BIO1_future",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 242
+  },
+  {
+    id: 243,
+    title: "Annual Mean Temperature-BIO1(current)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:19_Annual Mean Temperature-BIO1_current",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 243
+  },
+  {
+    id: 244,
+    title: "Annual Mean Temperature-BIO1(current)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:19_Annual Mean Temperature-BIO1_current",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 244
+  },
+  {
+    id: 245,
+    title: "Nightlights",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:18_Nightlights",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 245
+  },
+  {
+    id: 246,
+    title: "CORINE Land Cover 2018",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:13_CORINE_Land_Cover_2018",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 246
+  },
+  {
+    id: 247,
+    title: "Ecosystem types",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:12_Ecosystem_types",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 247
+  },
+  {
+    id: 248,
+    title: "Administrative Statistical Units(NUTS)",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:01_Administrative_Statistical_Units_NUTS"
+    },
+    zIndex: 248
+  },
+
+  {
+    id: 249,
+    title: "Roads",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:02_Roads"
+    },
+    zIndex: 249
+  },
+  {
+    id: 250,
+    title: "Railways",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:03_Railways"
+    },
+    zIndex: 250
+  },
+  {
+    id: 251,
+    title: "Waterways",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:04_Waterways"
+    },
+    zIndex: 251
+  },
+  {
+    id: 252,
+    title: "Lakes",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:05_Lakes"
+    },
+    zIndex: 252
+  },
+  {
+    id: 253,
+    title: "River Catchments",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:07_River_Catchments"
+    },
+    zIndex: 253
+  },
+  {
+    id: 254,
+    title: "Natura 2000 network",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:11_Natura_2000_network"
+    },
+    zIndex: 254
+  },
+  {
+    id: 255,
+    title: "Land Cover - Land Use riparian zone",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:15_Land_Cover_Land_Use_riparian_zones"
+    },
+    zIndex: 255
   }
 ];
