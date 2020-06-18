@@ -33,7 +33,6 @@
           active-class="accent lighten-4 accent--text"
           selected-color="accent"
           open-on-click
-          :open-all="true"
         >
           <template v-slot:prepend="{ item, activeTreeItem }">
             <v-icon
@@ -48,6 +47,14 @@
             ></v-icon
           ></template>
           <template v-slot:append="{ item, activeTreeItem }">
+            <v-icon
+              v-if="hasTable(item)"
+              small
+              color="green"
+              @click="fetchTable(item)"
+            >
+              mdi-table
+            </v-icon>
             <v-icon
               v-if="hasInfo(item)"
               small
@@ -112,6 +119,7 @@
 </template>
 <script>
 import { mapActions } from "vuex";
+import axios from "axios";
 export default {
   name: "LayersTree",
   props: {
@@ -126,7 +134,7 @@ export default {
   },
   data() {
     return {
-      open: [],
+      open: [2],
       search: null,
       caseSensitive: false,
       activeTreeItem: []
@@ -286,6 +294,39 @@ export default {
       } else if (!item.children && item.visible && item.group === "AUTH") {
         return true;
       }
+    },
+    fetchTable(item) {
+      console.log(item.source.layers);
+      axios
+        .get(
+          `https://raw.githubusercontent.com/firvain/c2b_data/master/${item.source.layers.replace(
+            "combine2protect:",
+            ""
+          )}.csv`
+        )
+        .then(r => console.log(r.data));
+    },
+    hasTable(item) {
+      let gitID;
+      if (item.source && item.source.layers) {
+        gitID = item.source.layers.replace("combine2protect:", "").slice(0, 2);
+      }
+      const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
+      if (isBaselayer > -1) {
+        return false;
+      } else if (
+        !item.children &&
+        item.visible &&
+        item.group === "AUTH" &&
+        this.isShapeFile(gitID)
+      ) {
+        return true;
+      }
+    },
+    isShapeFile(id) {
+      const shapeFiles = ["01", "02", "03", "04", "05", "07", "11", "14", "15"];
+      if (shapeFiles.includes(id)) return true;
+      return false;
     },
     showInfo(item) {
       console.log(item.source.layers);

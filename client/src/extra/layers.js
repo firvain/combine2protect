@@ -233,7 +233,7 @@ export const mapLayers = [
   },
   {
     id: 218,
-    title: " Coarse to Medium Fine Soil",
+    title: "Coarse to Medium Fine Soil",
     ...layerConfig,
     group: "1990 Soil Study of Prespa Lake",
     source: {
@@ -245,7 +245,7 @@ export const mapLayers = [
   },
   {
     id: 219,
-    title: " Fine Grained Soil",
+    title: "Fine Grained Soil",
     ...layerConfig,
     group: "1990 Soil Study of Prespa Lake",
     source: {
@@ -257,7 +257,7 @@ export const mapLayers = [
   },
   {
     id: 220,
-    title: " Old Alluvium Deposits",
+    title: "Old Alluvium Deposits",
     ...layerConfig,
     group: "1990 Soil Study of Prespa Lake",
     source: {
@@ -269,7 +269,7 @@ export const mapLayers = [
   },
   {
     id: 221,
-    title: " Organic Soil",
+    title: "Organic Soil",
     ...layerConfig,
     group: "1990 Soil Study of Prespa Lake",
     source: {
@@ -341,7 +341,7 @@ export const mapLayers = [
   },
   {
     id: 227,
-    title: "Flood_Hazard_500",
+    title: "Flood Hazard 500y",
     ...layerConfig,
     group: "AUTH",
     source: {
@@ -356,7 +356,7 @@ export const mapLayers = [
   },
   {
     id: 228,
-    title: "Flood_Hazard_200",
+    title: "Flood Hazard 200y",
     ...layerConfig,
     group: "AUTH",
     source: {
@@ -371,7 +371,7 @@ export const mapLayers = [
   },
   {
     id: 229,
-    title: "Flood_Hazard_50",
+    title: "Flood Hazard 50y",
     ...layerConfig,
     group: "AUTH",
     source: {
@@ -386,7 +386,7 @@ export const mapLayers = [
   },
   {
     id: 230,
-    title: "Flood_Hazard_20",
+    title: "Flood Hazard 20y",
     ...layerConfig,
     group: "AUTH",
     source: {
@@ -401,7 +401,7 @@ export const mapLayers = [
   },
   {
     id: 231,
-    title: "Flood_Hazard_10",
+    title: "Flood Hazard 10y",
     ...layerConfig,
     group: "AUTH",
     source: {
@@ -508,7 +508,7 @@ export const mapLayers = [
   },
   {
     id: 238,
-    title: "Max Temperature of Warmest Month-BIO5_future",
+    title: "Max Temperature of Warmest Month-BIO5(future)",
     ...layerConfig,
     group: "AUTH",
     source: {
@@ -600,21 +600,6 @@ export const mapLayers = [
   },
   {
     id: 244,
-    title: "Annual Mean Temperature-BIO1(current)",
-    ...layerConfig,
-    group: "AUTH",
-    source: {
-      url: process.env.VUE_APP_GEOSERVER_URL,
-      ...sourceConfig,
-      layers: "combine2protect:19_Annual Mean Temperature-BIO1_current",
-      extParams: { TILED: true },
-      serverType: "geoserver",
-      crossOrigin: "anonymous"
-    },
-    zIndex: 244
-  },
-  {
-    id: 245,
     title: "Nightlights",
     ...layerConfig,
     group: "AUTH",
@@ -626,10 +611,10 @@ export const mapLayers = [
       serverType: "geoserver",
       crossOrigin: "anonymous"
     },
-    zIndex: 245
+    zIndex: 244
   },
   {
-    id: 246,
+    id: 245,
     title: "CORINE Land Cover 2018",
     ...layerConfig,
     group: "AUTH",
@@ -641,10 +626,10 @@ export const mapLayers = [
       serverType: "geoserver",
       crossOrigin: "anonymous"
     },
-    zIndex: 246
+    zIndex: 245
   },
   {
-    id: 247,
+    id: 246,
     title: "Ecosystem types",
     ...layerConfig,
     group: "AUTH",
@@ -656,10 +641,10 @@ export const mapLayers = [
       serverType: "geoserver",
       crossOrigin: "anonymous"
     },
-    zIndex: 247
+    zIndex: 246
   },
   {
-    id: 248,
+    id: 247,
     title: "Administrative Statistical Units(NUTS)",
     ...layerConfig,
     group: "AUTH",
@@ -668,11 +653,11 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:01_Administrative_Statistical_Units_NUTS"
     },
-    zIndex: 248
+    zIndex: 247
   },
 
   {
-    id: 249,
+    id: 248,
     title: "Roads",
     ...layerConfig,
     group: "AUTH",
@@ -681,10 +666,10 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:02_Roads"
     },
-    zIndex: 249
+    zIndex: 248
   },
   {
-    id: 250,
+    id: 249,
     title: "Railways",
     ...layerConfig,
     group: "AUTH",
@@ -693,10 +678,10 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:03_Railways"
     },
-    zIndex: 250
+    zIndex: 249
   },
   {
-    id: 251,
+    id: 250,
     title: "Waterways",
     ...layerConfig,
     group: "AUTH",
@@ -705,10 +690,10 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:04_Waterways"
     },
-    zIndex: 251
+    zIndex: 250
   },
   {
-    id: 252,
+    id: 251,
     title: "Lakes",
     ...layerConfig,
     group: "AUTH",
@@ -717,10 +702,10 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:05_Lakes"
     },
-    zIndex: 252
+    zIndex: 251
   },
   {
-    id: 253,
+    id: 252,
     title: "River Catchments",
     ...layerConfig,
     group: "AUTH",
@@ -729,10 +714,10 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:07_River_Catchments"
     },
-    zIndex: 253
+    zIndex: 252
   },
   {
-    id: 254,
+    id: 253,
     title: "Natura 2000 network",
     ...layerConfig,
     group: "AUTH",
@@ -740,6 +725,18 @@ export const mapLayers = [
       url: process.env.VUE_APP_GEOSERVER_URL,
       ...sourceConfig,
       layers: "combine2protect:11_Natura_2000_network"
+    },
+    zIndex: 253
+  },
+  {
+    id: 254,
+    title: "CORINE Land Cover Change 2012-2018",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:14_CORINE_Land_Cover_Change_2012_2018"
     },
     zIndex: 254
   },
