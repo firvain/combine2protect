@@ -4,16 +4,20 @@ import {
   SET_DRAW_TYPE,
   SET_MEASURE_TYPE,
   SET_FEATURE_INFO,
-  SET_SHOWPANEL
+  SET_SHOWPANEL,
+  SET_TABLE_HEADERS,
+  SET_TABLE_ITEMS
 } from "../../mutation-types";
-import { fetchFeatureInfo, fetchLayerKml } from "../../../api";
+import { fetchFeatureInfo, fetchLayerKml, fetchTableData } from "../../../api";
 const state = {
   mapStatus: "display",
   drawType: "Point",
   measureType: "LineString",
   featureInfo: {},
   featureInfoTable: "",
-  showPanel: true
+  showPanel: true,
+  tableHeaders: [],
+  tableItems: []
 };
 const getters = {
   ...mapGettersFromStates({
@@ -33,9 +37,14 @@ const mutations = {
   [SET_FEATURE_INFO]: (state, payload) => {
     state.featureInfo = payload;
   },
-
   [SET_SHOWPANEL]: (state, payload) => {
     state.showPanel = payload;
+  },
+  [SET_TABLE_HEADERS]: (state, payload) => {
+    state.tableHeaders = payload;
+  },
+  [SET_TABLE_ITEMS]: (state, payload) => {
+    state.tableItems = payload;
   }
 };
 
@@ -57,6 +66,11 @@ const actions = {
   async downloadLayer({ commit }, { type, layerName, baseUrl }) {
     commit("app/SET_LOADING", true, { root: true });
     if (type === "kml") await fetchLayerKml({ layerName, baseUrl });
+  },
+  async getTableData({ commit }, url) {
+    const data = await fetchTableData(url);
+    commit("SET_TABLE_HEADERS", data.meta.fields);
+    commit("SET_TABLE_ITEMS", data.data);
   }
 };
 export default {

@@ -119,7 +119,6 @@
 </template>
 <script>
 import { mapActions } from "vuex";
-import axios from "axios";
 export default {
   name: "LayersTree",
   props: {
@@ -205,7 +204,7 @@ export default {
     //   height1 - height2 - 92 + "px";
   },
   methods: {
-    ...mapActions("webgis", ["downloadLayer"]),
+    ...mapActions("webgis", ["downloadLayer", "getTableData"]),
     changeVisibility(item) {
       const isBaselayer = this.baseLayers.findIndex(x => x.id === item.id);
       if (isBaselayer !== -1) {
@@ -295,16 +294,22 @@ export default {
         return true;
       }
     },
-    fetchTable(item) {
-      console.log(item.source.layers);
-      axios
-        .get(
-          `https://raw.githubusercontent.com/firvain/c2b_data/master/${item.source.layers.replace(
-            "combine2protect:",
-            ""
-          )}.csv`
-        )
-        .then(r => console.log(r.data));
+    async fetchTable(item) {
+      let url;
+      if (item.source && item.source.layers) {
+        url = `https://raw.githubusercontent.com/firvain/c2b_data/master/${item.source.layers.replace(
+          "combine2protect:",
+          ""
+        )}.csv`;
+      }
+
+      try {
+        await this.getTableData(url);
+        // let routeData = this.$router.resolve({ name: "table" });
+        this.$router.push("/table");
+      } catch (error) {
+        console.log(error);
+      }
     },
     hasTable(item) {
       let gitID;
@@ -329,7 +334,6 @@ export default {
       return false;
     },
     showInfo(item) {
-      console.log(item.source.layers);
       window.open(
         `https://res.cloudinary.com/firvain/image/upload/combine2protect/references/${item.source.layers.replace(
           "combine2protect:",

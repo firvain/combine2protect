@@ -161,7 +161,13 @@ export default new Router({
           path: "/news",
           name: "news",
           component: () =>
-            import(/* webpackChunkName: "capacity" */ "./views/News.vue")
+            import(/* webpackChunkName: "news" */ "./views/News.vue")
+        },
+        {
+          path: "/table",
+          name: "table",
+          component: () =>
+            import(/* webpackChunkName: "table" */ "./views/Table.vue")
         }
       ]
     }

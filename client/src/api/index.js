@@ -1,6 +1,7 @@
 // import jsonp from "jsonp";
 import axios from "axios";
 import { saveAs } from "file-saver";
+import Papa from "papaparse";
 export async function fetchFeatureInfo({ url }) {
   console.log(url);
   const info = await axios({
@@ -21,6 +22,15 @@ export async function fetchLayerKml({ layerName, baseUrl }) {
     new Blob([info.data], { type: "application/vnd.google-earth.kml+xml" }),
     layerName
   );
+}
+
+export async function fetchTableData(url) {
+  const response = await axios.get(url);
+  const data = Papa.parse(response.data, {
+    header: true,
+    skipEmptyLines: true
+  });
+  return new Promise(resolve => resolve(data));
 }
 // export function fetchFeatureInfo({ url }) {
 //   return new Promise(resolve => {
