@@ -1,0 +1,49 @@
+{
+  "name": "combine2protect",
+  "version": "1.1.6",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Evangelos Tsipis",
+    "email": "etsipis@terracognita.eu"
+  },
+  "repostory": "https://github.com/firvain/combine2protect.git",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "devclient": "cd ./client && yarn serve",
+    "buildclient": "cd ./client && yarn build",
+    "devserver": "nodemon server.js",
+    "postinstall": "cd ./client && yarn"
+  },
+  "dependencies": {
+    "body-parser": "1.19.0",
+    "compression": "1.7.4",
+    "connect-history-api-fallback": "1.6.0",
+    "cors": "2.8.5",
+    "dotenv-flow": "3.1.0",
+    "express": "4.17.1",
+    "morgan": "1.9.1",
+    "papaparse": "5.2.0",
+    "pg-promise": "8.7.5",
+    "serve-static": "1.14.1"
+  },
+  "devDependencies": {
+    "eslint": "5.16.0",
+    "eslint-config-prettier": "4.3.0",
+    "eslint-plugin-node": "9.2.0",
+    "eslint-plugin-prettier": "3.1.1",
+    "nodemon": "1.19.4",
+    "prettier": "1.18.2"
+  },
+  "cacheDirectories": [
+    "client/node_modules",
+    "server/node_modules",
+    "node_modules"
+  ],
+  "engines": {
+    "node": "10.16.0",
+    "npm": "6.9.0",
+    "yarn": ">1.16.0"
+  }
+}
