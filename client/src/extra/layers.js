@@ -615,7 +615,7 @@ export const mapLayers = [
   },
   {
     id: 245,
-    title: "Human Population Density",
+    title: "Human Footprint",
     ...layerConfig,
     group: "AUTH",
     source: {
@@ -630,6 +630,21 @@ export const mapLayers = [
   },
   {
     id: 246,
+    title: "Human Population Density",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:16_HumanPopDensity",
+      extParams: { TILED: true },
+      serverType: "geoserver",
+      crossOrigin: "anonymous"
+    },
+    zIndex: 246
+  },
+  {
+    id: 247,
     title: "CORINE Land Cover 2018",
     ...layerConfig,
     group: "AUTH",
@@ -641,10 +656,10 @@ export const mapLayers = [
       serverType: "geoserver",
       crossOrigin: "anonymous"
     },
-    zIndex: 246
+    zIndex: 247
   },
   {
-    id: 247,
+    id: 248,
     title: "Ecosystem types",
     ...layerConfig,
     group: "AUTH",
@@ -656,10 +671,58 @@ export const mapLayers = [
       serverType: "geoserver",
       crossOrigin: "anonymous"
     },
-    zIndex: 247
+    zIndex: 248
   },
   {
-    id: 248,
+    id: 249,
+    title: "Elevation",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:08_Elevation"
+    },
+    zIndex: 249
+  },
+  {
+    id: 250,
+    title: "Slope",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:09_Slope"
+    },
+    zIndex: 250
+  },
+  {
+    id: 251,
+    title: "Aspect",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:10_aspect"
+    },
+    zIndex: 251
+  },
+  {
+    id: 252,
+    title: "Water and wetness",
+    ...layerConfig,
+    group: "AUTH",
+    source: {
+      url: process.env.VUE_APP_GEOSERVER_URL,
+      ...sourceConfig,
+      layers: "combine2protect:06_Water_and_wetness"
+    },
+    zIndex: 252
+  },
+  {
+    id: 253,
     title: "Administrative Statistical Units(NUTS)",
     ...layerConfig,
     group: "AUTH",
@@ -668,11 +731,11 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:01_Administrative_Statistical_Units_NUTS"
     },
-    zIndex: 248
+    zIndex: 253
   },
 
   {
-    id: 249,
+    id: 254,
     title: "Roads",
     ...layerConfig,
     group: "AUTH",
@@ -681,10 +744,10 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:02_Roads"
     },
-    zIndex: 249
+    zIndex: 254
   },
   {
-    id: 250,
+    id: 255,
     title: "Railways",
     ...layerConfig,
     group: "AUTH",
@@ -693,10 +756,10 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:03_Railways"
     },
-    zIndex: 250
+    zIndex: 255
   },
   {
-    id: 251,
+    id: 256,
     title: "Waterways",
     ...layerConfig,
     group: "AUTH",
@@ -705,10 +768,10 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:04_Waterways"
     },
-    zIndex: 251
+    zIndex: 256
   },
   {
-    id: 252,
+    id: 257,
     title: "Lakes",
     ...layerConfig,
     group: "AUTH",
@@ -717,10 +780,11 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:05_Lakes"
     },
-    zIndex: 252
+    zIndex: 257
   },
+
   {
-    id: 253,
+    id: 258,
     title: "River Catchments",
     ...layerConfig,
     group: "AUTH",
@@ -729,10 +793,11 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:07_River_Catchments"
     },
-    zIndex: 253
+    zIndex: 258
   },
+
   {
-    id: 254,
+    id: 259,
     title: "Natura 2000 network",
     ...layerConfig,
     group: "AUTH",
@@ -741,10 +806,10 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:11_Natura_2000_network"
     },
-    zIndex: 254
+    zIndex: 259
   },
   {
-    id: 255,
+    id: 260,
     title: "CORINE Land Cover Change 2012-2018",
     ...layerConfig,
     group: "AUTH",
@@ -753,10 +818,10 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:14_CORINE_Land_Cover_Change_2012_2018"
     },
-    zIndex: 255
+    zIndex: 260
   },
   {
-    id: 256,
+    id: 261,
     title: "Land Cover - Land Use riparian zone",
     ...layerConfig,
     group: "AUTH",
@@ -765,6 +830,6 @@ export const mapLayers = [
       ...sourceConfig,
       layers: "combine2protect:15_Land_Cover_Land_Use_riparian_zones"
     },
-    zIndex: 256
+    zIndex: 261
   }
 ];
