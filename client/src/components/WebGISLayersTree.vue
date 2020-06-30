@@ -335,10 +335,9 @@ export default {
     },
     showInfo(item) {
       window.open(
-        `https://res.cloudinary.com/firvain/image/upload/combine2protect/references/${item.source.layers.replace(
-          "combine2protect:",
-          ""
-        )}.jpg`,
+        `https://res.cloudinary.com/firvain/image/upload/combine2protect/references/${item.source.layers
+          .replace("combine2protect:", "")
+          .substring(0, 2)}.jpg`,
         "_blank"
       );
     },
