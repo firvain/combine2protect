@@ -663,7 +663,7 @@ export default {
       drawnFeatures: [],
       measuredFeatures: [],
       uploadedFeatures: [],
-      extent: [21.4, 39.5, 23.65, 41.8],
+      extent: [20, 38, 25, 44],
       printSize: [(297 * 72) / 25.4, (210 * 72) / 25.4],
       deviceCoordinate: undefined,
       measureType: undefined,
