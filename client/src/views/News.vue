@@ -41,7 +41,7 @@
         <v-card>
           <v-toolbar color="cyan" dark>
             <v-toolbar-title>{{
-              $t("pages[7].content[0].latest")
+              $t("pages[7].content[0].title")
             }}</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>

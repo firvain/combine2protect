@@ -21,7 +21,7 @@ function loadLocaleMessages() {
 }
 console.log(localStorage.getItem("lang"));
 export default new VueI18n({
-  locale: localStorage.getItem("lang") || "gr",
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "gr",
+  locale: localStorage.getItem("lang") || "gb",
+  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "gb",
   messages: loadLocaleMessages()
 });
