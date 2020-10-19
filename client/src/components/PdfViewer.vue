@@ -191,11 +191,11 @@ export default {
 .cpdf {
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
-  height: 480px;
+  height: 78vh;
 }
 .canvasWrapper {
   overflow-y: scroll;
-  height: 400px;
+  height: 65vh;
   align-items: center;
 
   flex-direction: column;

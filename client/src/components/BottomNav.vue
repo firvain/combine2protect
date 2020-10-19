@@ -24,13 +24,13 @@
             </v-list-tile>
           </v-list>
         </v-menu>
-        <v-btn color="accent" to="/home">
+        <v-btn color="accent" to="/home#program">
           {{ $t("pages[0].content[0].title") }}
         </v-btn>
-        <v-btn color="accent" to="/home">
+        <v-btn color="accent" to="/home#objectives">
           {{ $t("pages[0].content[1].title") }}
         </v-btn>
-        <v-btn color="accent" to="/home">
+        <v-btn color="accent" to="/home#partnership">
           {{ $t("pages[0].content[2].title") }}
         </v-btn>
         <v-spacer></v-spacer>

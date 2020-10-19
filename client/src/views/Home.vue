@@ -31,7 +31,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
-        <v-list-tile href="#">
+        <v-list-tile href="#program" @click.stop="$vuetify.goTo('#program')">
           <v-list-tile-content>
             <v-list-tile-title>
               {{ $t(`pages[0].content[0].title`) }}</v-list-tile-title
@@ -39,7 +39,10 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile href="#objectives">
+        <v-list-tile
+          href="#objectives"
+          @click.stop="$vuetify.goTo('#objectives')"
+        >
           <v-list-tile-content>
             <v-list-tile-title>
               {{ $t(`pages[0].content[1].title`) }}</v-list-tile-title
@@ -59,10 +62,15 @@
 
     <v-container fluid grid-list-lg fill-height>
       <v-layout row wrap align-start justify-center fill-height>
-        <v-flex d-flex xs12 md10>
-          <v-layout row wrap>
+        <v-flex d-flex xs12 md10 class="gridcontainer">
+          <v-layout row wrap class="scrollcontainer">
+            <v-flex x12>
+              <h2 style="text-align: center;text-decoration: underline;">
+                COMBINE2PROTECT
+              </h2>
+            </v-flex>
             <v-flex d-flex xs12>
-              <v-card id="partnership" flat>
+              <v-card id="program" flat>
                 <v-card-title primary-title class="justify-center">
                   <div class="headline font-weight-medium">
                     {{ $t(`pages[0].content[0].title`) }}
@@ -81,7 +89,7 @@
             </v-flex>
 
             <v-flex d-flex xs12>
-              <v-card id="partnership" flat>
+              <v-card id="objectives" flat>
                 <v-card-title primary-title class="justify-center">
                   <div class="headline font-weight-medium">
                     {{ $t(`pages[0].content[1].title`) }}
@@ -90,7 +98,7 @@
                 <v-card-text class="full">
                   <read-more
                     :more-str="$t(`comps.readmore.more`)"
-                    :text="$t(`pages[0].content[0].msg`)"
+                    :text="$t(`pages[0].content[1].msg`)"
                     link="#"
                     :less-str="$t('comps.readmore.less')"
                     :max-chars="maxChars"
@@ -98,7 +106,7 @@
                 </v-card-text>
               </v-card>
             </v-flex>
-            <v-flex d-flex xs12>
+            <v-flex xs12>
               <v-card id="partnership" flat>
                 <v-card-title primary-title class="justify-center">
                   <div class="headline font-weight-medium">
@@ -145,12 +153,23 @@ export default {
       return this.pages.slice(1);
     }
   },
-  mounted() {}
+  mounted() {},
+  methods: {
+    alert(f) {
+      alert(f);
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
 .full {
   text-align: justify;
   text-justify: inter-word;
+}
+.gridcontainer {
+  height: 76vh;
+}
+.scrollcontainer {
+  overflow-y: scroll;
 }
 </style>
