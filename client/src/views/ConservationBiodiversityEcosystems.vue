@@ -13,21 +13,19 @@
           <template v-slot:activator>
             <v-list-tile>
               <v-list-tile-content>
-                <v-list-tile-title>{{
-                  $t("pages[2].title")
-                }}</v-list-tile-title></v-list-tile-content
+                {{ $t("pages[2].content[0].title") }}</v-list-tile-content
               >
             </v-list-tile>
           </template>
           <v-list-tile
             v-for="(subpage, i) in subPages"
             :key="i"
+            two-line
+            class="my-tile"
             :to="subpage.route"
           >
             <v-list-tile-content>
-              <v-list-tile-title>{{
-                $t(`pages[2].subpages[${i}].title`)
-              }}</v-list-tile-title>
+              {{ $t(`pages[2].subpages[${i}].title`) }}
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
@@ -61,4 +59,8 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+::v-deep .v-list__group__items--no-action .v-list__tile {
+  padding-left: 2em;
+}
+</style>

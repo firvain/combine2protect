@@ -6,7 +6,9 @@ export const pages = [
     subpages: [
       { route: "conservation" },
       { route: "biodiversity" },
-      { route: "ecosystems" }
+      { route: "ecosystems" },
+      { route: "farming" },
+      { route: "ias" }
     ]
   },
   { route: "promon", subpages: [] },

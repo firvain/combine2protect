@@ -1,62 +1,104 @@
 <template>
   <v-layout row wrap align-start justify-center>
     <v-flex xs12>
-      <v-card elevetion="0">
-        <v-card-title primary-title>
-          <div class="full">{{ $t(`pages[2].content[0].msg`) }}</div>
+      <v-card elevetion="6">
+        <v-card-title class="headline primary--text">
+          {{ $t(`pages[2].content[0].msg`) }}
         </v-card-title>
       </v-card>
     </v-flex>
     <v-flex xs12>
       <v-container fluid grid-list-md
-        ><v-layout wrow wrap align-start justify-center fill-height>
-          <v-flex xs12 md4>
-            <v-card height="300px">
-              <v-img
-                src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                height="250px"
-              ></v-img>
-              <v-card-actions d-flex style="justify-content: center;">
-                <v-btn
-                  color="primary"
-                  flat
-                  to="/conservation"
-                  class="text-none"
-                  >{{ $t("pages[2].subpages[0].title") }}</v-btn
+        ><v-layout wrow wrap align-center justify-center>
+          <v-flex xs12 md6>
+            <v-hover>
+              <v-card
+                slot-scope="{ hover }"
+                :class="`elevation-${hover ? 12 : 0}`"
+                height="100%"
+                class="primary mx-auto"
+                @click="$router.push('conservation')"
+              >
+                <v-card-title
+                  primary-title
+                  class="headline white--text text-xs-center"
                 >
-              </v-card-actions>
-            </v-card>
+                  {{ $t("pages[2].subpages[0].title") }}
+                </v-card-title>
+              </v-card>
+            </v-hover>
           </v-flex>
-          <v-flex xs12 md4>
-            <v-card height="300">
-              <v-img
-                src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                height="250px"
-              ></v-img>
-              <v-card-actions d-flex style="justify-content: center;">
-                <v-btn
-                  color="primary"
-                  flat
-                  to="/biodiversity"
-                  class="text-none"
+          <v-flex xs12 md6>
+            <v-hover>
+              <v-card
+                slot-scope="{ hover }"
+                :class="`elevation-${hover ? 12 : 0}`"
+                height="100%"
+                class="primary lighten-3 mx-auto"
+                @click="$router.push('biodiversity')"
+              >
+                <v-card-title
+                  primary-title
+                  class="headline white--text text-xs-center"
                 >
-                  {{ $t("pages[2].subpages[1].title") }}</v-btn
-                >
-              </v-card-actions>
-            </v-card>
+                  {{ $t("pages[2].subpages[1].title") }}
+                </v-card-title>
+              </v-card>
+            </v-hover>
           </v-flex>
-          <v-flex xs12 md4>
-            <v-card>
-              <v-img
-                src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                height="250px"
-              ></v-img>
-              <v-card-actions d-flex style="justify-content: center;">
-                <v-btn color="primary" flat to="/ecosystems" class="text-none">
-                  {{ $t("pages[2].subpages[2].title") }}</v-btn
+          <v-flex xs12 md6>
+            <v-hover>
+              <v-card
+                slot-scope="{ hover }"
+                :class="`elevation-${hover ? 12 : 0}`"
+                height="100%"
+                class="primary lighten-1 mx-auto"
+                @click="$router.push('ecosystems')"
+              >
+                <v-card-title
+                  primary-title
+                  class="headline white--text text-xs-center"
                 >
-              </v-card-actions>
-            </v-card>
+                  {{ $t("pages[2].subpages[2].title") }}
+                </v-card-title>
+              </v-card>
+            </v-hover>
+          </v-flex>
+          <v-flex xs12 md6>
+            <v-hover>
+              <v-card
+                slot-scope="{ hover }"
+                :class="`elevation-${hover ? 12 : 0}`"
+                height="100%"
+                class="primary darken-1 mx-auto"
+                @click="$router.push('farming')"
+              >
+                <v-card-title
+                  primary-title
+                  class="headline white--text text-xs-center"
+                >
+                  {{ $t("pages[2].subpages[3].title") }}
+                </v-card-title>
+              </v-card>
+            </v-hover>
+          </v-flex>
+          <v-flex xs12 md6>
+            <v-hover>
+              <v-card
+                slot-scope="{ hover }"
+                :class="`elevation-${hover ? 12 : 0}`"
+                height="100%"
+                class="primary lighten-3 mx-auto"
+                @click="$router.push('ias')"
+              >
+                <v-card-title
+                  primary-title
+                  class="headline white--text text-xs-center"
+                >
+                  {{ $t("pages[2].subpages[4].title") }}
+                </v-card-title>
+              </v-card>
+            </v-hover>
           </v-flex>
         </v-layout></v-container
       >

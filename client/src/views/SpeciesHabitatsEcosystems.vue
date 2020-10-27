@@ -4,7 +4,7 @@
       <v-flex v-show="!isshowpdf" xs12 md10>
         <v-card>
           <v-card-title primary-title>
-            <div class="full">{{ $t(`pages[1].content[0].msg`) }}</div>
+            <div class="full" v-html="$t(`pages[1].content[0].msg`)"></div>
           </v-card-title>
         </v-card>
       </v-flex>
@@ -25,12 +25,7 @@
         ></pdfViewer>
       </v-flex>
 
-      <v-flex
-        v-if="(hasInfo === 0 || hasInfo === 1) && !isshowpdf"
-        xs12
-        md4
-        d-flex
-      >
+      <v-flex v-if="hasInfo === 0 && !isshowpdf" xs12 md4 d-flex>
         <v-card>
           <v-img
             src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
@@ -48,12 +43,7 @@
           </v-card-actions>
         </v-card>
       </v-flex>
-      <v-flex
-        v-if="(hasInfo === 0 || hasInfo === 2) && !isshowpdf"
-        xs12
-        md4
-        d-flex
-      >
+      <v-flex v-if="hasInfo === 0 && !isshowpdf" xs12 md4 d-flex>
         <v-card>
           <v-img
             src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
@@ -71,12 +61,7 @@
           </v-card-actions>
         </v-card>
       </v-flex>
-      <v-flex
-        v-if="(hasInfo === 0 || hasInfo === 3) && !isshowpdf"
-        xs12
-        md4
-        d-flex
-      >
+      <v-flex v-if="hasInfo === 0 && !isshowpdf" xs12 md4 d-flex>
         <v-card>
           <v-img
             src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
@@ -97,8 +82,8 @@
 
       <v-flex v-if="hasInfo > 0" xs12 md8>
         <v-card height="100%">
-          <v-card-text style="height:80%">
-            {{ info }}
+          <v-card-text style="height:80%" class="full" v-html="info">
+            <!-- {{ info }} -->
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -144,15 +129,15 @@ export default {
     },
     showInfoSpecies() {
       this.hasInfo = 1;
-      this.info = "Species Info";
+      this.info = this.$t(`pages[1].subpages[0].msg`);
     },
     showInfoHabitats() {
       this.hasInfo = 2;
-      this.info = "Habitats Info";
+      this.info = this.$t(`pages[1].subpages[1].msg`);
     },
     showInfoEcosystems() {
       this.hasInfo = 3;
-      this.info = "Ecosystems Info";
+      this.info = this.$t(`pages[1].subpages[2].msg`);
     },
     goBack() {
       this.hasInfo = 0;

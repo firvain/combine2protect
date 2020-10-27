@@ -1,52 +1,76 @@
 <template>
-  <v-layout row wrap align-center justify-center fill-height>
-    <v-flex xs12>
-      <v-card>
-        <v-img
-          :height="300"
-          src="https://via.placeholder.com/600/?text=Wetland"
-        ></v-img>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn flat @click="makeVisibleReports">Show more</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-    <v-flex
-      v-for="report in reports"
-      v-show="showReports"
-      :key="report.title"
-      xs12
-    >
-      <v-container grid-list-md>
-        <v-layout row wrap justify-start align-center>
-          <v-flex xs12 class="text-xs-center">
-            <div class="title font-weight-medium">
-              {{ report.title }}
-            </div>
-          </v-flex>
-          <v-flex v-if="report.summary" xs12 md8>
-            <read-more
-              :more-str="$t(`comps.readmore.more`)"
-              :text="report.summary"
-              link="#"
-              :less-str="$t('comps.readmore.less')"
-              :max-chars="200"
-            ></read-more>
-          </v-flex>
-          <v-flex v-if="report.image" xs12 md2>
-            <v-img :src="report.image" contain> </v-img>
-          </v-flex>
-          <v-flex v-if="report.link" xs12 md2 class="text-xs-center">
-            <v-btn color="primary" :href="report.link" target="_blank"
-              >Link</v-btn
-            >
-          </v-flex>
-        </v-layout>
-      </v-container>
-      <v-divider></v-divider>
-    </v-flex>
-  </v-layout>
+  <v-container grid-list-lg fill-height pa-0>
+    <v-layout row wrap align-center justify-center fill-height>
+      <v-flex xs12>
+        <v-card height="100%" class="mx-auto" flat>
+          <v-card-title
+            primary-title
+            class="primary--text font-weight-medium font-italic title text--lighten-1"
+          >
+            {{ $t(`pages[2].subpages[0].content[0].title`) }}
+          </v-card-title>
+          <v-card-text
+            class="full"
+            v-html="$t(`pages[2].subpages[0].content[0].msg`)"
+          >
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12>
+        <v-card height="100%" class="mx-auto" flat>
+          <v-card-title
+            primary-title
+            class="primary--text font-weight-medium font-italic title text--lighten-1"
+          >
+            {{ $t(`pages[2].subpages[0].content[1].title`) }}
+          </v-card-title>
+          <v-card-text
+            class="full"
+            v-html="$t(`pages[2].subpages[0].content[1].msg`)"
+          >
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12>
+        <v-card height="100%" class="mx-auto" flat>
+          <v-card-title
+            primary-title
+            class="primary--text font-weight-medium font-italic title text--lighten-1"
+          >
+            {{ $t(`pages[2].subpages[0].content[2].title`) }}
+          </v-card-title>
+          <v-card-text
+            class="full"
+            v-html="$t(`pages[2].subpages[0].content[2].msg`)"
+          >
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12>
+        <v-card height="100%" class="mx-auto" flat>
+          <v-card-title
+            primary-title
+            class="primary--text font-weight-medium font-italic title text--lighten-1"
+          >
+            {{ $t(`pages[2].subpages[0].content[3].title`) }}
+          </v-card-title>
+          <v-card-text
+            class="full"
+            v-html="$t(`pages[2].subpages[0].content[3].msg`)"
+          >
+          </v-card-text>
+          <v-card-title secondary-title class="primary--text text--lighten-2">
+            {{ $t(`pages[2].subpages[0].content[3].title`) }}
+          </v-card-title>
+          <v-card-text
+            class="full"
+            v-html="$t(`pages[2].subpages[0].content[3].tableMsg`)"
+          >
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 <script>
 export default {
@@ -91,3 +115,9 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.full {
+  text-align: justify;
+  text-justify: inter-word;
+}
+</style>

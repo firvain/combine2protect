@@ -1,7 +1,20 @@
 <template>
   <v-layout row wrap align-center justify-center fill-height>
     <v-flex xs12>
-      <v-card>
+      <v-card height="100%" class="mx-auto" elevation="6">
+        <v-card-title
+          primary-title
+          class="primary--text font-weight-medium font-italic title text--lighten-1"
+        >
+          {{ $t(`pages[2].subpages[1].content[0].title`) }}
+        </v-card-title>
+        <v-card-text
+          class="full"
+          v-html="$t(`pages[2].subpages[1].content[0].msg`)"
+        >
+        </v-card-text>
+      </v-card>
+      <!-- <v-card>
         <v-img
           height="300"
           src="https://via.placeholder.com/600/?text=The South East Panning Region"
@@ -44,7 +57,7 @@
           </v-flex>
         </v-layout>
       </v-container>
-      <v-divider></v-divider>
+      <v-divider></v-divider> -->
     </v-flex>
   </v-layout>
 </template>

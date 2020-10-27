@@ -77,6 +77,22 @@ export default new Router({
                 import(
                   /* webpackChunkName: "ecosystems" */ "./components/ConservationBiodiversityEcosystemsEcosystems.vue"
                 )
+            },
+            {
+              path: "/farming",
+              name: "farming",
+              component: () =>
+                import(
+                  /* webpackChunkName: "ecosystems" */ "./components/ConservationBiodiversityEcosystemsFarming.vue"
+                )
+            },
+            {
+              path: "/ias",
+              name: "ias",
+              component: () =>
+                import(
+                  /* webpackChunkName: "ecosystems" */ "./components/ConservationBiodiversityEcosystemsIAS.vue"
+                )
             }
           ]
         },
