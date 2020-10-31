@@ -8,7 +8,7 @@
       width="400"
       :value="showNav"
     >
-      <v-list class="pt-0">
+      <v-list class="pt-0" two-line>
         <v-list-group value="true" no-action>
           <template v-slot:activator>
             <v-list-tile>
@@ -20,8 +20,7 @@
           <v-list-tile
             v-for="(subpage, i) in subPages"
             :key="i"
-            two-line
-            class="my-tile"
+            three-line
             :to="subpage.route"
           >
             <v-list-tile-content>

@@ -35,7 +35,7 @@
                 :class="`elevation-${hover ? 12 : 0}`"
                 height="100%"
                 class="primary lighten-3 mx-auto"
-                @click="$router.push('biodiversity')"
+                @click="$router.push('energy')"
               >
                 <v-card-title
                   primary-title
@@ -53,7 +53,7 @@
                 :class="`elevation-${hover ? 12 : 0}`"
                 height="100%"
                 class="primary lighten-1 mx-auto"
-                @click="$router.push('ecosystems')"
+                @click="$router.push('water')"
               >
                 <v-card-title
                   primary-title

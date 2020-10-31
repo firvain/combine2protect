@@ -63,19 +63,19 @@ export default new Router({
                 )
             },
             {
-              path: "/biodiversity",
-              name: "biodiversity",
+              path: "/energy",
+              name: "Energy",
               component: () =>
                 import(
-                  /* webpackChunkName: "biodiversity" */ "./components/ConservationBiodiversityEcosystemsBiodiversity.vue"
+                  /* webpackChunkName: "biodiversity" */ "./components/ConservationBiodiversityEcosystemsEnergy.vue"
                 )
             },
             {
-              path: "/ecosystems",
-              name: "ecosystems",
+              path: "/water",
+              name: "water",
               component: () =>
                 import(
-                  /* webpackChunkName: "ecosystems" */ "./components/ConservationBiodiversityEcosystemsEcosystems.vue"
+                  /* webpackChunkName: "ecosystems" */ "./components/ConservationBiodiversityEcosystemsWater.vue"
                 )
             },
             {
@@ -97,12 +97,10 @@ export default new Router({
           ]
         },
         {
-          path: "/promon",
-          name: "promon",
+          path: "/trans",
+          name: "trans",
           component: () =>
-            import(
-              /* webpackChunkName: "promon" */ "./views/ProtectionMonitoring.vue"
-            )
+            import(/* webpackChunkName: "promon" */ "./views/TransBorder.vue")
         },
         {
           path: "/webgis",

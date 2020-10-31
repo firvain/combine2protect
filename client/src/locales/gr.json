@@ -30,16 +30,13 @@
 
       "subpages": [
         {
-          "title": "Φυσική Ιστορία",
-          "msg": "<h3>Natural History</h3><p>The natural history of the Southern Balkans started at the bottom of the ancient sea of Tethys 40-50 million years ago (Eocene) as a huge gulf between the “pre-European” and “pre-African geological plaques was joined in the west and opened to the global ocean to the west. Fossils show that during the Jurassic and Cretaceous periods and the dinosaurs’ era of 100 million years (150-65 million years) the fauna consisted of sea shells and sharks. After the era of the dinosaurs, geological changes that lasted a long time, led to the conflict of the European and African plaques, creating the Alps and the Balkan Peninsula. In the last 20 million years (periods of Miocene and Pliocene), slow and constant reshape of the relief of the landscape created long ridges as the Pelagonia and the Axios River valleys. Large lakes were shaped surrounded by rich ecosystems before 2-5 million years ago (Pliocene) which gave the main plant material of the creation of the underground coal deposits of the Pelagonia zone and the modern network of the lakes in the south-west Balkans. The level of Prespes lakes during Pliocene was 80 m higher. The parallel evolution of geology and biodiversity can be seen at the underground “dead” ecosystems in the form of coal and fossils. Fossils of the Grevena area and coal extraction in the Region of Western Macedonia permanently discovered show that when the coal was alive as large tree species of the local flora close to the lakes, the prehistoric fauna of the area consisted of ancient elephant species as mastodons and mammoths, rhinoceroses, tapirs, prehistoric horses, deer and bovid species and carnivores like machairodonts and ancient bears.<p>"
+          "title": "Φυσική Ιστορία"
         },
         {
-          "title": "Είδη",
-          "msg": "<h3>Species</h3><p>Today the South-Western Balkans are the host area of important species like, the Bear (Ursus arctos) and Wolf (Canis lupus) in mountain areas, waterbirds like the emblematic Dalmatian and White Pelicans (Pelecanus crispus and Pelecanus onocrotalus) and the Pygmy cormorant (Microcarbo pygmaeus), birds of prey like Golden Eagle (Aquila chrysaetos), the Kestrel (Falco naumanni) and Montagu’s Harrier (Circus pygagrus), fishes like the trout of Pelagonia (Salmo pelagonicus) and Prespes (Salmo peristericus) and invertebrates like the Stone Crayfish (Austpopotamobius torrentium) and rare species of butterflies</p><p>Towards shaping the biodiversity status in the south-western Balkans, it is necessary to mention that there are species that have recently been extinct, like the white tailed eagle (Haliaeetus albicilla), the Spoonbill (Platalea leucorodia), the Red Deer (Cervus elaphus) and the Lynx (Lynx lynx) which is the historically emblematic symbol of the area of Florina owing to the ancient name of Lyngistis. The distribution of alien or invasive species, species that are not native or indigenous to the local ecosystems is an additional negative aspect of biodiversity that has to be taken into consideration.  The main field for changes on the synthesis of the biodiversity of the local habitat is the lakes with the illegal introduction of exotic species while over the last 10 years there is a problematic status with the presence of the American Mink (Neovison vison) in the area of Kastoria. Both the extinction of the native species and the introduction of alien species has to be of primary importance for biodiversity conservation. Throughout the last years, some species started giving signs of recovery but an appropriate and effective management is required.  Reproduction efforts of the Glossy Ibis (Plegadis falcinellus) in the lakes of Prespes and Petres (in the area of Amyntaio) were successful but similar efforts of the White-tailed eagle in Cheimaditida lake (in the area of Amyntaio as well) were unsuccessful due to human interference.</p>"
+          "title": "Είδη"
         },
         {
-          "title": "Οικοσυστήματα",
-          "msg": "<h3>Ecosystems</h3><p>Today in the Greek – North Macedonian cross-border zone four general categories of ecosystems can be defined:</p><ol><li>Mountain ecosystems that include three zones of vegetation, the lower zone of oak, the higher zone of beech above the evaluation of about 800 meters and the alpine zone at the tops above 1.800 meters.  Mountain ecosystems are habitats of important species of the Balkans especially at the alpine zones which form isolated habitats as a system of high level “islands” for several species of flora but also for species which need available space with minimum human disturbance.  At the same time mountain ecosystems are the main providers of water and the regulators of weather conditions and local micro climate.</li><li>Wetlands in different elevation at Prespes 800 m and the 4 lakes of the Amyntaio area at 500-600 meters above the sea level. Wetlands offer habitat for a lot of plants and animals and especially for water birds and at the same time are suppliers of water and natural sources like fishing but they are also flood regulators.</li><li>Riparian ecosystems including the largest rivers in the Balkans such as the Aliakmon and Axios Rivers, but also much smaller rivers and creeks that host important habitats as the galleries of Alder (Alnus glutinosa) and rare protected species like the Stone Crayfish (Austropotamobius torrentium) or mountain streams hosting the three endemic trout species (Salmo macedonicus, Salmo peristericus, Salmo pelagonicus).</li><li>Agricultural ecosystems that give the main power for local rural economies but at the same time host important species such as the Montagu’s Harrier (Circus pygagrus) and globally threatened species like the Lesser Kestrel (Falco naumanni). Especially in the zone of Bitola-Florina-Kozani in the last 50 years agricultural ecosystems and semi-natural habitats give place to coal mines due to the needs of lignite exploitation.</li></ol>"
+          "title": "Οικοσυστήματα"
         }
       ]
     },
@@ -64,18 +61,33 @@
         {
           "title": "Χρήση και διαχείριση νερού, ειδικά στη γεωργία υπό καθεστώς κλιματικής αλλαγής",
           "route": "ecosystems"
+        },
+        {
+          "title": "Η καλλιέργεια ως βασική κοινωνική οικονομία και η βόσκηση ως χρήσιμο εργαλείο διαχείρισης φυσικών περιοχών",
+          "route": "farming"
+        },
+        {
+          "title": "Η πρόκληση για αντιδράση στην απειλή των επεμβατικών ειδών στην Ευρώπη",
+          "route": "ias"
         }
       ]
     },
     {
-      "title": "Προστασια και Παρακολουθηση",
-      "subpages": []
-    },
+      "title": "ΔΙΑΣΥΝΟΡΙΑΚΑ ΣΗΜΕΙΑ ΒΙΟΠΟΙΚΙΛΟΤΗΤΑΣ",
+      "route": "trans",
+      "content": [
+        {
+          "title": "Διασυνοριακά Σημεία Βιοποικιλότητας",
+          "msg": ""
+        }
+      ],"subpages": []},
     {
       "title": "Πλατφορμα Gis",
       "subpages": [],
       "content": [
         {
+          "title": "Πλατφορμα Gis",
+          "msg": "",
           "panelText": {
             "display": "Combine2Protect GIS Platform",
             "geolocation": "Περιμένετε προσπαθούμε να σας εντοπίσουμε. Το  γεωγραφικό σας στίγμα παρέχεται από τον Διαδυκτιακό σας Παροχο.",
@@ -117,6 +129,8 @@
     },
     {
       "title": "Επωνυμια και βραβεια",
+      "route": "branding",
+      "content": [{ "title": "Επωνυμια και βραβεια" }],
       "subpages": [
         {
           "title": "Προϊόντα Συστήματος επωνυμίας"
@@ -130,18 +144,13 @@
         {
           "title": "Το Πράσινο Δίκτυο"
         }
-      ],
-      "content": [
-        { "title": "", "msg": "" },
-        { "title": "", "msg": "" },
-        { "title": "", "msg": "" },
-        { "title": "", "msg": "" }
       ]
     },
     {
       "title": "Αναπτυξη Ικανοτητων",
-      "subpages": [],
-      "content": [{ "title": "", "msg": "" }]
+      "route": "capacity",
+      "content": [{ "title": "Αναπτυξη Ικανοτητων", "msg": "" }],
+      "subpages": []
     },
     {
       "title": "Νεα",

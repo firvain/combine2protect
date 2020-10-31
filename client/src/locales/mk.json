@@ -6,55 +6,78 @@
       "subpages": [],
       "content": [
         {
-          "title": "Информации за проектот",
-          "msg": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant. Dui sapien eget mi proin. Facilisis mauris sit amet massa vitae tortor condimentum. Magnis dis parturient montes nascetur ridiculus. Dictum sit amet justo donec enim diam vulputate. Justo nec ultrices dui sapien eget mi proin sed. Dignissim cras tincidunt lobortis feugiat vivamus at. A pellentesque sit amet porttitor eget dolor morbi non arcu. Eget dolor morbi non arcu risus quis. Viverra nam libero justo laoreet sit amet cursus sit amet. Iaculis eu non diam phasellus. Molestie a iaculis at erat pellentesque adipiscing commodo elit. Nulla malesuada pellentesque elit eget. Turpis cursus in hac habitasse. Fusce ut placerat orci nulla pellentesque dignissim. Neque aliquam vestibulum morbi blandit cursus risus. Neque gravida in fermentum et sollicitudin. Est lorem ipsum dolor sit amet consectetur adipiscing elit. Nisl condimentum id venenatis a condimentum vitae sapien pellentesque habitant.Ut aliquam purus sit amet luctus. Arcu risus quis varius quam quisque id. Eget sit amet tellus cras. Sagittis orci a scelerisque purus semper eget duis at. Netus et malesuada fames ac turpis egestas integer eget aliquet. Facilisis mauris sit amet massa vitae. Dui nunc mattis enim ut tellus. Sed odio morbi quis commodo odio aenean. Ultrices sagittis orci a scelerisque purus semper. Turpis tincidunt id aliquet risus feugiat in. Vestibulum mattis ullamcorper velit sed ullamcorper."
+          "title": "Информации за проектот"
         },
         {
-          "title": "Цели",
-          "msg": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant. Dui sapien eget mi proin. Facilisis mauris sit amet massa vitae tortor condimentum. Magnis dis parturient montes nascetur ridiculus. Dictum sit amet justo donec enim diam vulputate. Justo nec ultrices dui sapien eget mi proin sed. Dignissim cras tincidunt lobortis feugiat vivamus at. A pellentesque sit amet porttitor eget dolor morbi non arcu. Eget dolor morbi non arcu risus quis. Viverra nam libero justo laoreet sit amet cursus sit amet. Iaculis eu non diam phasellus. Molestie a iaculis at erat pellentesque adipiscing commodo elit. Nulla malesuada pellentesque elit eget. Turpis cursus in hac habitasse. Fusce ut placerat orci nulla pellentesque dignissim. Neque aliquam vestibulum morbi blandit cursus risus. Neque gravida in fermentum et sollicitudin. Est lorem ipsum dolor sit amet consectetur adipiscing elit. Nisl condimentum id venenatis a condimentum vitae sapien pellentesque habitant.Ut aliquam purus sit amet luctus. Arcu risus quis varius quam quisque id. Eget sit amet tellus cras. Sagittis orci a scelerisque purus semper eget duis at. Netus et malesuada fames ac turpis egestas integer eget aliquet. Facilisis mauris sit amet massa vitae. Dui nunc mattis enim ut tellus. Sed odio morbi quis commodo odio aenean. Ultrices sagittis orci a scelerisque purus semper. Turpis tincidunt id aliquet risus feugiat in. Vestibulum mattis ullamcorper velit sed ullamcorper."
+          "title": "Цели"
         },
         {
-          "title": "Партнерство",
-          "msg": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant. Dui sapien eget mi proin. Facilisis mauris sit amet massa vitae tortor condimentum. Magnis dis parturient montes nascetur ridiculus. Dictum sit amet justo donec enim diam vulputate. Justo nec ultrices dui sapien eget mi proin sed. Dignissim cras tincidunt lobortis feugiat vivamus at. A pellentesque sit amet porttitor eget dolor morbi non arcu. Eget dolor morbi non arcu risus quis. Viverra nam libero justo laoreet sit amet cursus sit amet. Iaculis eu non diam phasellus. Molestie a iaculis at erat pellentesque adipiscing commodo elit. Nulla malesuada pellentesque elit eget. Turpis cursus in hac habitasse. Fusce ut placerat orci nulla pellentesque dignissim. Neque aliquam vestibulum morbi blandit cursus risus. Neque gravida in fermentum et sollicitudin. Est lorem ipsum dolor sit amet consectetur adipiscing elit. Nisl condimentum id venenatis a condimentum vitae sapien pellentesque habitant.Ut aliquam purus sit amet luctus. Arcu risus quis varius quam quisque id. Eget sit amet tellus cras. Sagittis orci a scelerisque purus semper eget duis at. Netus et malesuada fames ac turpis egestas integer eget aliquet. Facilisis mauris sit amet massa vitae. Dui nunc mattis enim ut tellus. Sed odio morbi quis commodo odio aenean. Ultrices sagittis orci a scelerisque purus semper. Turpis tincidunt id aliquet risus feugiat in. Vestibulum mattis ullamcorper velit sed ullamcorper."
+          "title": "Партнерство"
         }
       ]
     },
     {
-      "title": "Конзервација, Биодиверзитетот & Екосистеми",
-      "route": "",
+      "title": "Природна историја, видови и екосистеми",
+      "route": "specieshabitalsecosystems",
+      "content": [{ "title": "Конзервација, Биодиверзитетот & Екосистеми" }],
       "subpages": [
         {
-          "title": "Конзервација"
+          "title": "Природна историја"
         },
         {
-          "title": "Биодиверзитетот"
+          "title": "Видови"
         },
         {
           "title": "Екосистеми"
         }
       ]
     },
+
     {
-      "title": "Конзервација на Биодиверзитетот & Екосистеми",
-      "route": "",
+      "title": "Предизвици за зачувување на биодиверзитетот и екосистемите",
+      "route": "consvbio",
+      "content": [
+        {
+          "title": "Предизвици за зачувување на биодиверзитетот и екосистемите"
+        }
+      ],
       "subpages": [
         {
-          "title": "Мочуриште",
-          "route": ""
+          "title": "Еколошка поврзаност под побарувачка за развој на транспорт и друга инфраструктура",
+          "route": "conservation",
+          "content": []
         },
         {
-          "title": "Југоисточниот плански регион",
-          "route": ""
+          "title": "Производство на енергија со фокус на обновливи извори на енергија во природни области",
+          "route": "biodiversity",
+          "content": []
         },
         {
-          "title": "Заедничка мрежа за зачувување",
-          "route": ""
+          "title": "Употреба и управување со вода, особено за земјоделство под статус на климатски промени",
+          "route": "ecosystems",
+          "content": []
+        },
+        {
+          "title": "Земјоделството како основна социјална економија и пасењето како корисна алатка за управување со природните области",
+          "route": "farming",
+          "content": []
+        },
+        {
+          "title": "Предизвик да се одговори на заканата од инвазивни видови во Европа",
+          "route": "ias",
+          "content": []
         }
       ]
     },
     {
-      "title": "Заштита и мониторинг",
+      "title": "TRANS-BORDER BIODIVERSITY HOTSPOTS",
       "route": "",
+      "content": [
+        {
+          "title": "Trans-Border Biodiversity Hotspots",
+          "msg": ""
+        }
+      ],
       "subpages": []
     },
     {
@@ -63,6 +86,8 @@
       "subpages": [],
       "content": [
         {
+          "title": "Гис Платформа",
+          "msg": "",
           "panelText": {
             "display": "Combine2Protect GIS Platform",
             "geolocation": "Ве молиме почекајте обид за локација. Бидете информирани дека страницата е обезбедена од вашиот интернет провајдер.",
@@ -104,7 +129,8 @@
     },
     {
       "title": "Услуги за Брендирање Шема",
-      "route": "",
+      "route": "branding",
+      "content": [{ "title": "Услуги за Брендирање Шема" }],
       "subpages": [
         {
           "title": "Услуги за Брендирање Шема",
@@ -126,7 +152,8 @@
     },
     {
       "title": "Градење на капацитети",
-      "route": "",
+      "route": "capacity",
+      "content": [{ "title": "Градење на капацитети" }],
       "subpages": []
     },
     {

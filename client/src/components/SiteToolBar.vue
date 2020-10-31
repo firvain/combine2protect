@@ -11,9 +11,6 @@
           <v-list-tile v-for="(page, i) in pages" :key="i" :to="page.route">
             {{ $t("pages[" + i + "].title") }}
           </v-list-tile>
-          <!-- <v-list-tile>
-            {{ $t("pages[1].title") }}
-          </v-list-tile> -->
         </v-list>
       </v-menu>
     </div>

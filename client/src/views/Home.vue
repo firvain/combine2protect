@@ -25,12 +25,12 @@
             :to="subPage.route"
           >
             <v-list-tile-content>
-              <v-list-tile-title>
-                {{ $t(`pages[${i + 1}].title`) }}
-              </v-list-tile-title>
+              {{ $t(`pages[${i + 1}].content[0].title`) }}
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
+      </v-list>
+      <v-list>
         <v-list-tile href="#program" @click.stop="$vuetify.goTo('#program')">
           <v-list-tile-content>
             <v-list-tile-title>

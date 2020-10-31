@@ -5,13 +5,13 @@ export const pages = [
     route: "consvbio",
     subpages: [
       { route: "conservation" },
-      { route: "biodiversity" },
-      { route: "ecosystems" },
+      { route: "energy" },
+      { route: "water" },
       { route: "farming" },
       { route: "ias" }
     ]
   },
-  { route: "promon", subpages: [] },
+  { route: "trans", subpages: [] },
   { route: "webgis", subpages: [] },
   {
     route: "branding",

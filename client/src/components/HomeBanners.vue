@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap justify-start align-content-start>
-    <v-flex xs12>
+    <!-- <v-flex xs12>
       <v-img
         src="https://via.placeholder.com/120x90/0000FF/808080/?text=NEWS"
         class="hoverImage"
@@ -12,7 +12,7 @@
         class="hoverImage"
         src="https://via.placeholder.com/120x90/0000FF/808080/?text=Documentary"
       />
-    </v-flex>
+    </v-flex> -->
     <v-flex xs12>
       <v-img
         class="hoverImage"
