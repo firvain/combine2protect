@@ -13,7 +13,7 @@
                   reverse-transition="fade"
                   transition="fade"
                 >
-                  <v-sheet
+                  <!-- <v-sheet
                     height="100%"
                     tile
                     color="transparent"
@@ -27,7 +27,7 @@
                         {{ slide.title }}
                       </div>
                     </v-layout>
-                  </v-sheet>
+                  </v-sheet> -->
                 </v-carousel-item>
               </v-carousel>
             </v-flex>
@@ -58,17 +58,17 @@ export default {
         {
           title: "first image",
           content: "1st content",
-          src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg"
+          src: require("../../public/photo_3.24.jpg")
         },
         {
           title: "second image",
           content: "2nd content",
-          src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg"
+          src: require("../../public/photo_2.17.jpg")
         },
         {
           title: "third image",
           content: "3rd content",
-          src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg"
+          src: require("../../public/photo_2.25.jpg")
         }
       ],
       carouselHeight: 300
