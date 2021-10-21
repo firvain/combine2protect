@@ -1,11 +1,11 @@
 <template>
   <v-app>
-    <Ribbon
+    <!-- <Ribbon
       text="Site is in BETA Version"
       color="#009688"
       fixed
       position="left-top"
-    ></Ribbon>
+    ></Ribbon> -->
     <!-- <ToolBar :show="showToolbar"></ToolBar> -->
     <TheLoader></TheLoader>
     <cookie-consent
@@ -18,7 +18,7 @@
   </v-app>
 </template>
 <script>
-import Ribbon from "vue-ribbon";
+// import Ribbon from "vue-ribbon";
 import CookieConsent from "vue-cookieconsent-component";
 import TheLoader from "@/components/TheLoader.vue";
 import { mapActions } from "vuex";
@@ -27,7 +27,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "App",
   components: {
-    Ribbon,
+    // Ribbon,
     TheLoader,
     CookieConsent
   },
